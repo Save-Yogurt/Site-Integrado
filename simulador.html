@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/css/simulador.css">
+    <title>Document</title>
+
+    <!-- Link FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <div id="div_logo">
+            <a href="index.html">
+            <img src="public/assets/imgs/saveyogurt-logo.png">
+            <p id="logo_titulo">Save Yogurt</p>
+            </a>
+        </div>
+        <div id="div_links">
+            <a href="index.html">
+            <p>Página Inicial</p>
+            </a>
+            <a href="sobre_nos.html">
+            <p>Sobre Nós</p>
+            </a>
+            <a href="simulador.html">
+            <p>Simulador</p>
+            </a>
+        </div>
+        <div id="div_botoes">
+            <a href="login.html">
+            <Button class="botoes">Login</Button>
+            </a>
+            <a href="cadastro.html">
+            <Button class="botoes">Cadastro</Button>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div id="div_header_main">
+            <p id="header_main_titulo">Entenda o Problema</p>
+            <p class="texto">O transporte de lácteos no Brasil é uma corrida contra o tempo e a infraestrutura. Longas jornadas em estradas severas não apenas desgastam a frota, mas são os principais causadores de perdas térmicas e estruturais no produto. Nossa tecnologia nasce para mitigar os danos causados pelo asfalto precário, garantindo que o frescor de cada gota supere os desafios do território nacional.</p>
+        </div>
+        <div id="div_market_insights">
+            <h2>Tamanho do Mercado</h2>
+            <div id="div_projecao">
+                <div class="projecao">
+                    <p class="texto_titulo"><i class="fa-solid fa-earth-americas"></i>Mercado Global de Laticínios</p>
+                    <h1>US$ 125B a 189B </h1>
+                    <p class="texto">Valor projetado com crescimento robusto em mercados emergentes e novas tecnologias
+                        de conservação.</p>
+                </div>
+                <div class="projecao">
+                    <p class="texto_titulo"><i class="fa-solid fa-arrow-trend-up"></i>Projeções Brasil</p>
+                    <h1>8.9B US$ A 12.8B US$</h1>
+                    <p class="texto">O Brasil consolida sua posição como líder produtor, exigindo modernização urgente
+                        na infraestrutura de frio.</p>
+                </div>
+            </div>
+        </div>
+        <div id="logistica">
+            <div id="logistica1">
+                <h4>Desafios Logísticos em Território Nacional</h4>
+                <p>A volatilidade das estradas brasileiras representa o maior gargalo para a indústria de perecíveis.
+                    Nossa
+                    tecnologia atua onde a infraestrutura falha.</p><br>
+                <h4>Dependência absoluta do modal rodoviário</h4>
+                <p>Mais de 65% de todo transporte é feito por caminhões, evidenciando a dependencia no modelo rodoviario.</p><br>
+                <h4>Estradas não pavimentadas ou em condições críticas</h4>
+                <p>No Brasil menos de 22% das estradas são corretamente pavimentadas, assim danificando caminhões e meio de transporte.</p><br>
+            </div>
+            <div id="logistica2">
+                <div id="dados_logistica">
+                    <div class="container_logistica">
+                        <i class="fa-solid fa-truck"></i>
+                        <h4>65.6%</h4>
+                        <p class="texto">Carga Rodoviária</p>
+                    </div>
+                    <div class="container_logistica">
+                        <i class="fa-solid fa-road"></i>
+                        <h4>86%</h4>
+                        <p class="texto">Vias má pavimentadas </p>
+                    </div>
+                </div>
+                <div>
+                    <img id="caminhao" src="public/assets/imgs/caminhao-logistica.png">
+                </div>
+            </div>
+        </div>
+        <div id="missao">
+            <h2>Missão</h2>
+            <p>Vamos entregar um monitoramento inteligente para uma cadeia de suprimentos sem desperdícios. Entregamos métricas valiosas que permitem ações rápidas e eficazes, resultando em uma economia de 20% e um rigoroso controle de segurança alimentar para a indústria de laticínios.</p>
+        </div>
+
+        <div id="simulador">
+
+            <div id="simulador_form">
+
+            <label>Quantas toneladas são transportadas por ano?</label>
+            <input class="inputs" type="text" id="ipt_quantidade_cargas" placeholder="QUANTIDADE DE TONELADAS"><br>
+
+            <label>Porcentagem de perdas na cadeia fria(%):</label>
+            <input class="inputs" type="text" id="ipt_taxa_perda" placeholder="PORCENTAGEM QUE VOCÊ QUER TRABALHAR"><br>
+
+            <label>Valor médio do quilo(Kg) de iogurte:</label>
+            <input class="inputs" type="text" id="ipt_valor_medio" placeholder="PREÇO DO KG"><br>
+
+            <button id="botao_formulario" onclick="calcular()">Calcular Retorno</button>
+        </div>
+            <div id="resultado">
+                <img src="public/assets/imgs/saveyogurt-logo.png" alt="">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer_brand">
+        <img src="public/assets/imgs/saveyogurt-logo.png">
+        <h2>Save Yogurt</h2>
+        <p>© 2026 Save Yogurt<br>Todos os direitos reservados.</p>
+    </div>
+
+    <div class="footer_col">
+        <span>LINKS RÁPIDOS</span>
+        <a href="#">Entenda o Problema</a>
+        <a href="#div_market_insights">Tamanho do Mercado</a>
+        <a href="#simulador">Simulador</a>
+    </div>
+
+    <div class="footer_col">
+        <span>PÁGINAS</span>
+        <a href="index.html">Landing Page</a>
+        <a href="simulador.html">Simulador</a>
+        <a href="cadastro_login.html">Cadastrar</a>
+        <a href="login.html">Login</a>
+        <a href="sobre_nos.html">Sobre Nós</a>
+    </div>
+
+    <div class="footer_col">
+        <span>SOCIAL</span>
+        <a href="https://www.instagram.com/saveyogurt/"><i class="fa-brands fa-instagram"></i>Instagram</a>
+        <a href="https://x.com/saveyogurt"><i class="fa-brands fa-x-twitter"></i>X</a>
+        <a href="https://www.linkedin.com/in/save-yogurt-a3636540b "><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+    </div>
+    </footer>
+    <script>
+        function calcular() {
+
+    // Inputs do usuário
+    let volume = Number(ipt_quantidade_cargas.value);
+    let taxaPerda = Number(ipt_taxa_perda.value) / 100;
+    let valorCarga = Number(ipt_valor_medio.value);
+
+    // Cálculos base
+    let cargasPerdidas = (volume * 1000) * taxaPerda;
+    let perdaFinanceira = cargasPerdidas * valorCarga;
+
+    // Cenários reais de mercado
+    let Realista = 0.30;    // 30%
+    let Otimista = 0.55;  // 55%
+
+
+    // Economias por cenário
+    let economiaRealista = perdaFinanceira * Realista;
+    let economiaOtimista = perdaFinanceira * Otimista;
+
+    resultado.innerHTML = `
+        <h3 style="font-weight:800;">Resultados Baseados em Estudos Reais</h3>
+
+        <strong style="margin-top:10px;">Perdas totais (atuais):</strong><br>
+        R$ ${perdaFinanceira.toFixed(2)}
+        (R$ ${(perdaFinanceira / 1000000).toFixed(2)} milhões)
+
+        <strong style="margin-top:10px;">Cenário Realista (30% de redução):</strong><br>
+        Economia estimada: R$ ${economiaRealista.toFixed(2)}
+        (R$ ${(economiaRealista / 1000000).toFixed(2)} milhões)<br><br>
+
+        <strong style="margin-top:10px;">Cenário Otimista (55% de redução):</strong><br>
+        Economia estimada: R$ ${economiaOtimista.toFixed(2)}
+        (R$ ${(economiaOtimista / 1000000).toFixed(2)} milhões)<br><br>
+
+    `;
+}
+    </script>
+</body>
+</html>

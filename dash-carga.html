@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard Carga</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="public/css/dash-carga.css">
+    
+    <link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <img src="public/assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
+            <a href="dash-geral.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                    <span class="menu-text">Dashboard Geral</span>
+                </div>
+            </a>
+
+            <a href="dash-carga.html">
+                <div class="menu-item-selected">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Dashboard Cargas</span>
+                </div>
+            </a>
+
+            <a href="cadastro-do-lote.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Lote</span>
+                </div>
+            </a>
+
+            <a href="cadastro-carga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Carga</span>
+                </div>
+            </a>
+
+            <a href="cadastro_entrega.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Entregas</span>
+                </div>
+            </a>
+
+            <a href="status-carga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Atualizar Entrega</span>
+                </div>
+            </a>
+        </div>
+        <div class="logout-section">
+            <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                Sair do Sistema
+            </button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="header-cargas">
+            <h1 class="header-title">Dashboard Carga</h1>
+            <select class="select-carga">
+                <option>Carga001</option>
+                <option>Carga002</option>
+            </select>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-item">
+                <span class="kpi-label">Status da Última Medição</span>
+                <div class="kpi-main">
+                    <span class="status-text">Em conformidade</span>
+                    <i class="fa-solid fa-circle-check check-icon"></i>
+                </div>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Lote Associado da Carga</span>
+                <div class="kpi-main">
+                    <span class="lote-text">LOTE-7734</span>
+                </div>
+                <span class="kpi-subtext">Lote Associado</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Código do Sensor Acoplado</span>
+                <div class="kpi-main">
+                    <span class="sensor-text">SEN-A01</span>
+                    <i class="fa-solid fa-microchip sensor-icon"></i>
+                </div>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Início de Monitoramento</span>
+                <div class="kpi-main">
+                    <span class="data-text">15 de Out de 2024</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-row">
+            <div class="chart-section">
+                <div class="section-title">
+                    <span>Temperatura da Carga - Carga001 (Histórico Completo)</span>
+                    <i class="fa-solid fa-box-archive"></i>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="tempChart"></canvas>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <div class="section-title">
+                    <span>Resumo de Desvios (Mês Atual)</span>
+                </div>
+                <table class="desvios-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Desvio</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>22/10 10:00</td><td class="text-orange">5.7°C</td><td>Alerta</td></tr>
+                        <tr><td>24/10 12:00</td><td class="text-orange">6.8°C</td><td>Alerta</td></tr>
+                        <tr><td>26/10 16:00</td><td class="text-red">3.5°C</td><td>Crítico</td></tr>
+                        <tr><td>28/10 8:00</td><td class="text-orange">9.1°C</td><td>Alerta</td></tr>
+                        <tr><td>30/10 2:00</td><td class="text-orange">5.7°C</td><td>Alerta</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ctx = document.getElementById('tempChart').getContext('2d');
+        const tempChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00', '02:00', '04:00', '06:00'],
+                datasets: [{
+                    label: 'Temperatura (°C)',
+                    data: [5, 5.2, 5.1, 5.3, 5.8, 5.5, 5, 5.3, 5.4, 5.9, 5.1],
+                    borderColor: '#006876',
+                    backgroundColor: '#006876',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    tension: 0.1,
+                    z: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: -2,
+                        max: 10,
+                        ticks: { stepSize: 1 }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    // Plugin para desenhar as faixas coloridas de fundo
+                    beforeDraw: (chart) => {
+                        const { ctx, chartArea: { top, bottom, left, right }, scales: { y } } = chart;
+                        const drawZone = (min, max, color) => {
+                            ctx.fillStyle = color;
+                            ctx.fillRect(left, y.getPixelForValue(max), right - left, y.getPixelForValue(min) - y.getPixelForValue(max));
+                        };
+                        drawZone(0, 2, '#ffcdd2'); // Crítico inferior (vermelho claro)
+                        drawZone(2, 4, '#fff9c4'); // Alerta inferior (amarelo claro)
+                        drawZone(4, 7, '#c8e6c9'); // Ideal (verde claro)
+                        drawZone(7, 8.5, '#fff9c4'); // Alerta superior (amarelo claro)
+                        drawZone(8.5, 10, '#ffcdd2'); // Crítico superior (vermelho claro)
+                    }
+                }
+            },
+            plugins: [{
+                id: 'backgroundZones',
+                beforeDraw: (chart) => {
+                    const {ctx, chartArea, scales: {y}} = chart;
+                    const {left, right} = chartArea;
+                    const fillZone = (yStart, yEnd, color) => {
+                        ctx.fillStyle = color;
+                        ctx.fillRect(left, y.getPixelForValue(yEnd), right - left, y.getPixelForValue(yStart) - y.getPixelForValue(yEnd));
+                    };
+                    fillZone(-2, 0, '#f8d7da'); // Crítico
+                    fillZone(0, 2, '#fff3cd'); // Alerta
+                    fillZone(2,6, '#d4edda'); // Ideal
+                    fillZone(6, 8, '#fff3cd'); // Alerta
+                    fillZone(8,10, '#f8d7da'); // Crítico
+                }
+            }]
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Manrope', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+button:hover {
+    background-position: right center;
+}
+
+/* Começo Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    height: 69px;
+    display: flex;
+    min-width: max-content;
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+    border-style: solid;
+    border-width: 2px;
+    border-bottom-color: rgba(0,0,0,0.15);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+
+    z-index: 1000;
+}
+
+#div_logo a{
+    margin-left: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#div_logo img{
+    width: 60px;
+    margin-bottom: 5px;
+}
+
+#logo_titulo{
+    font-size: 24px;
+    font-weight: 800;
+    color: #0078d4;
+}
+
+#div_links{
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+#div_links a {
+    text-decoration: none;
+    color: black;
+}
+
+#div_links a:hover {
+    color: #0078d4;
+}
+
+#div_botoes{
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-right: 32px;
+}
+
+.botoes{
+    border-width: 0px;
+    border-color: transparent;
+    font-size: 14px;
+    font-weight: bold;
+    width: 130px;
+    height: 36px;
+    border-radius: 50px;
+    background-image: linear-gradient(to right, #004981 0%, #0078d4 50%, #0078d4 90%);
+    background-size: 200% auto;
+    transition: 0.5s;
+    color: white;
+    cursor: pointer;
+}
+@media (max-width: 900px) {
+    #div_links {
+        display: none;
+    }
+
+    #logo_titulo {
+        font-size: 20px;
+    }
+}
+@media (max-width: 600px) {
+    #div_botoes{
+    gap: 10px;
+    }
+    .botoes{
+    font-size: 12px;
+    width: 100px;
+    height: 30px;
+    }
+}
+/* Fim Header */
+
+/* Começo Sobre Nós */
+.sobreNos {
+    padding: 0% 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-top: 200px;
+}
+
+.sobreNos .titulo {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.sobreNos .titulo span {
+    color: #0078d4;
+}
+
+.sobreNos_identificacao img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.39);
+}
+
+.texto_sobreNos {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.sobreNos_conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.sobreNos_identificacao {
+    width: 40%;
+}
+
+.textos_sobreNos {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.textos_sobreNos .titulo {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: left;
+}
+@media (max-width: 1024px) {
+
+    .sobreNos {
+        padding: 0 6%;
+        margin-top: 150px;
+    }
+
+    .sobreNos_conteudo {
+        gap: 30px;
+    }
+
+    .sobreNos_identificacao,
+    .textos_sobreNos {
+        width: 50%;
+    }
+
+    .textos_sobreNos .titulo {
+        font-size: 1.8rem;
+        text-align: left;
+    }
+
+    .textos_sobreNos p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .sobreNos {
+        padding: 0 5%;
+        margin-top: 120px;
+        gap: 40px;
+    }
+
+    .sobreNos_conteudo {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sobreNos_identificacao,
+    .textos_sobreNos {
+        width: 100%;
+    }
+
+    .sobreNos_identificacao img {
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .textos_sobreNos {
+        align-items: center;
+    }
+
+    .textos_sobreNos .titulo {
+        text-align: center;
+        font-size: 1.7rem;
+    }
+
+    .textos_sobreNos p {
+        max-width: 600px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .sobreNos {
+        padding: 0 4%;
+        gap: 30px;
+    }
+
+    .sobreNos_identificacao img {
+        height: 220px;
+        border-radius: 12px;
+    }
+
+    .textos_sobreNos .titulo {
+        font-size: 1.5rem;
+    }
+
+    .textos_sobreNos p {
+        font-size: 0.95rem;
+        line-height: 1.45;
+    }
+}
+/* Fim Sobre Nós */
+
+
+
+/* Começo Equipe */
+.equipe {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+.equipe .titulo {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.equipe .titulo span {
+    color: #0078d4;
+}
+
+/* Grid dos cards */
+.cards_equipe {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    gap: 40px;
+
+    justify-content: center;
+    
+}
+
+/* Card individual */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    width: 245px;
+    height: 280px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.3s;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Foto do integrante */
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Texto */
+.card h3 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #0078d4;
+}
+
+.card .icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 1.5rem;
+}
+
+.fa-github{
+    color: #0078d4;
+}
+.fa-linkedin{
+    color: #0078d4;
+}
+
+.fa-instagram {
+    color: #0078d4;
+}
+@media (max-width: 900px) {
+
+    .cards_equipe {
+        grid-template-columns: repeat(2, 250px);
+        gap: 15px;
+    }
+
+    .card {
+        width: 200px;
+        height: 270px;
+    }
+
+    .card img {
+        height: 140px;
+    }
+
+    .card h3 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .equipe {
+        margin-top: 150px;
+        padding: 0 5%;
+    }
+
+    .cards_equipe {
+        grid-template-columns: repeat(2, 1fr); /* ocupa largura total */
+        gap: 30px;
+    }
+
+    .card {
+        width: 100%;
+        height: 260px;
+    }
+
+    .card img {
+        height: 130px;
+    }
+
+    .card h3 {
+        font-size: 1.05rem;
+    }
+
+    .card .icons {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .cards_equipe {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .equipe .titulo {
+        font-size: 1.6rem;
+    }
+
+    .card {
+        width: 100%;
+        height: 250px;
+        padding: 18px;
+    }
+
+    .card img {
+        height: 120px;
+        border-radius: 10px;
+    }
+
+    .card h3 {
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+
+    .card .icons {
+        font-size: 1.2rem;
+        margin-top: 8px;
+    }
+}
+/* Fim Equipe */
+
+/* Começo Footer */
+footer {
+    display: flex;
+    justify-content: space-between;
+    background: #F6FAFE;
+    padding: 3.5% 10%;
+
+    border-style: solid;
+    border-width: 2px;
+    border-bottom: none;
+    border-top-color: rgba(0,0,0,0.15);
+    border-left: none;
+    border-right: none;
+}
+
+.footer_brand {
+    max-width: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.footer_brand img{
+    width: 70px;
+}
+
+.footer_brand h2 { 
+    color: #0078d4; 
+    margin-bottom: 10px; 
+}
+
+.footer_brand p { 
+    color: #888; 
+    font-size: 13px; 
+}
+
+.footer_col { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin-right: 8%;
+}
+
+.footer_col span { 
+    color: #0078d4; 
+    font-size: 13px; 
+    font-weight: bold; 
+}
+
+.footer_col a { 
+    color: #666; 
+    text-decoration: none; 
+    font-size: 13px; 
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.footer_col a:hover { 
+    color: #0078d4;
+}
+
+.footer_col i { 
+    color: #666;
+    font-size: 18px;
+}
+
+@media (max-width: 900px) {
+    .footer_brand {
+    max-width: 25%;
+    }
+    .footer_brand img{
+        width: 50px;
+    }
+    .footer_brand h2{
+        font-size: 18px;
+    }
+    .footer_brand p{
+        font-size: 9px;
+    }
+    .footer_col { 
+    margin-right: 4%;
+    }
+
+    .footer_col span { 
+        font-size: 10px; 
+    }
+
+    .footer_col a { 
+        font-size: 10px; 
+    }
+}
+/* Fim Footer */

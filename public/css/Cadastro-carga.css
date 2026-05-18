@@ -1,0 +1,425 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, Roboto, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    background: #eee;
+    color: #201c19;
+    height: 100vh;
+    display: flex;
+}
+
+/* ========================================== */
+/* SIDEBAR */
+/* ========================================== */
+ .sidebar {
+     width: 250px;
+     background: linear-gradient(180deg, #201c19, #3a342f);
+     color: #eee;
+     padding: 25px 15px;
+     box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
+     z-index: 10;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+ }
+
+ .sidebar-content {
+     flex: 1;
+     align-items: center;
+     justify-content: center;
+     text-align: center;
+ }
+
+ .sidebar-content img {
+     width: 100px;
+ }
+
+ .sidebar-content h2 {
+     font-size: 1.4rem;
+     margin-bottom: 30px;
+     padding-bottom: 15px;
+     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+     text-align: center;
+     color: #0078d4;
+ }
+
+ .sidebar-content a {
+     text-decoration: none;
+     color: white;
+ }
+
+ .sidebar div.menu-item {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     width: 100%;
+     padding: 12px 15px;
+     border-radius: 8px;
+     margin-bottom: 8px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     font-weight: 600;
+ }
+
+ .sidebar div.menu-item:hover {
+     background: #004981;
+     transform: translateX(5px);
+ }
+
+ .sidebar div.menu-item-selected {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     width: 100%;
+     padding: 12px 15px;
+     border-radius: 8px;
+     margin-bottom: 8px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     font-weight: 600;
+     background: #004981;
+ }
+
+ .sidebar div.menu-item-selected:hover {
+     transform: translateX(5px);
+ }
+
+ .menu-text {
+     flex: 1;
+     text-align: center;
+ }
+
+ .logout-section {
+     margin-top: auto;
+     padding-top: 20px;
+     border-top: 1px solid rgba(255, 255, 255, 0.1);
+ }
+
+ .logout-btn {
+     width: 100%;
+     padding: 12px;
+     background-image: linear-gradient(to right, #004981 0%, #0078d4 50%, #0078d4 90%);
+    background-size: 200% auto;
+    transition: 0.5s;
+     color: white;
+     border: none;
+     border-radius: 8px;
+     cursor: pointer;
+     font-weight: 600;
+     font-size: 1rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     text-decoration: none;
+ }
+
+ a {
+     text-decoration: none;
+ }
+
+ .logout-btn:hover {
+     background-position: right center;
+ }
+
+ .logout-btn:active {
+     transform: translateY(0);
+ }
+
+/* ========================================== */
+/* CONTEÚDO PRINCIPAL */
+/* ========================================== */
+
+.main {
+    flex: 1;
+    padding: 20px 30px;
+    overflow: auto;
+    background-color: whitesmoke;
+    position: relative;
+}
+
+.header-pagina {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px
+}
+
+.header-pagina h1 {
+    font-size: 29px;
+    font-weight: bold;
+    color: black;
+    margin: 0;
+}
+
+.container-principal {
+    display: flex;
+    gap: 30px;
+    flex: 1;
+}
+
+/* ========================================== */
+/* FORMULÁRIO */
+/* ========================================== */
+
+.formulario-carga {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    height: fit-content;
+}
+
+.titulo-secao {
+    font-size: 18px;
+    font-weight: 700;
+    color: #201c19;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.linha-inputs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.grupo-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.grupo-input label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.obrigatorio {
+    color: #e74c3c;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.grupo-input input,
+.grupo-input select {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: inherit;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: white;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    transition: 0.3s;
+}
+
+.grupo-input input:focus,
+.grupo-input select:focus {
+    border-color: #00BCD4;
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+}
+
+.grupo-input select {
+    cursor: pointer;
+    background-color: white;
+    color: #666;
+}
+
+.botoes-acao {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-cadastrar {
+    flex: 2;
+    padding: 14px;
+    background-image: linear-gradient(to right, #004981 0%, #0078d4 50%, #0078d4 90%);
+    background-size: 200% auto;
+    transition: 0.5s;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-cadastrar:hover {
+    background-position: right center;
+}
+
+.btn-cancelar {
+    flex: 1;
+    padding: 14px;
+    background: #ddd;
+    color: #555;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-cancelar:hover {
+    background: #ccc;
+}
+
+/* ========================================== */
+/* TABELAS */
+/* ========================================== */
+
+.tabelas-info {
+    margin-top: 30px;
+    flex: 10;
+    display: flex;
+    flex-direction:row;
+    gap: 30px;
+    justify-content: center;
+    
+    
+}
+
+.tabela-container {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    width: 100%;
+    
+}
+
+.titulo-tabela {
+    font-size: 18px;
+    font-weight: 700;
+    color: #201c19;
+    padding: 20px;
+    background: #f8f8f8;
+    margin: 0;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tabela-scroll {
+    max-height: 280px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #00BCD4 #f0f0f0;
+}
+
+.tabela-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tabela-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.tabela-scroll::-webkit-scrollbar-thumb {
+    background: #00BCD4;
+    border-radius: 4px;
+}
+
+.tabela-dados {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-dados thead {
+    position: sticky;
+    top: 0;
+    background: #f8f8f8;
+    z-index: 1;
+}
+
+.tabela-dados th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tabela-dados td {
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tabela-dados tbody tr:hover {
+    background: #f8fcff;
+}
+
+/* ========================================== */
+/* FOOTER */
+/* ========================================== */
+
+.footer {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.footer i {
+    color: #006876;
+}
+
+/* ========================================== */
+/* RESPONSIVIDADE */
+/* ========================================== */
+
+@media (max-width: 1200px) {
+    .container-principal {
+        flex-direction: column;
+    }
+
+    .tabelas-info {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .linha-inputs {
+        flex-direction: column;
+    }
+
+    .tabelas-info {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Dashboard Geral</title>
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap"
+    rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="public/css/dashboard.css">
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <img src="public/assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
+            <a href="dash-geral.html">
+                <div class="menu-item-selected">
+                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                    <span class="menu-text">Dashboard Geral</span>
+                </div>
+            </a>
+
+            <a href="dash-carga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Dashboard Cargas</span>
+                </div>
+            </a>
+
+            <a href="cadastro-do-lote.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Lote</span>
+                </div>
+            </a>
+
+            <a href="cadastro-carga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Carga</span>
+                </div>
+            </a>
+
+            <a href="cadastro_entrega.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Entregas</span>
+                </div>
+            </a>
+
+            <a href="status-carga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Atualizar Entrega</span>
+                </div>
+            </a>
+        </div>
+        <div class="logout-section">
+            <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                Sair do Sistema
+            </button>
+        </div>
+    </div>
+
+    <main class="main-content">
+
+        <h1 class="header-title">Dashboard Geral</h1>
+
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <div class="kpi-title">Lotes em Alerta Crítico</div>
+                <div class="kpi-value">5</div>
+                <div class="kpi-subtitle">Lotes: L002, L005, L008, L010, L012</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Maior Temp. Registrada</div>
+                <div class="kpi-value">12.5°C</div>
+                <div class="kpi-subtitle">Lote: L010</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Menor Temp. Registrada</div>
+                <div class="kpi-value">-1.2°C</div>
+                <div class="kpi-subtitle">Lote: L008</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-title">
+                <i class="fa-solid fa-magnifying-glass"></i> Pesquisa de Lote
+            </div>
+            <form class="search-form">
+                <input type="text" placeholder="Digite o ID do Lote (ex: L002)">
+                <button type="submit" class="btn-pesquisar">Pesquisar</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">Monitoramento de Transporte & Entregas</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Lote</th>
+                        <th>Veículo</th>
+                        <th>Tipo do Veiculo</th>
+                        <th>Status de Transporte</th>
+                        <th class="text-center">Número de Alertas</th>
+                        <th>Código da Carga</th>
+                        <th>Destino</th>
+                        <th>Local da Última Atualização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>L001</td>
+                        <td>ABC-4353</td>
+                        <td>Caminhão</td>
+                        <td>
+                            <span class="status transporte">
+                                <i class="fa-solid fa-truck icon transporte"></i> em transporte
+                            </span>
+                        </td>
+                        <td class="text-center">0</td>
+                        <td class="text-bold">C001A</td>
+                        <td>São Paulo - CD Norte</td>
+                        <td>Rodovia SP-280, km 75</td>
+                    </tr>
+
+                    <tr>
+                        <td>L002</td>
+                        <td>PQR-9012</td>
+                        <td>Navio</td>
+                        <td>
+                            <span class="status transporte">
+                                <i class="fa-solid fa-truck icon transporte"></i> em transporte
+                            </span>
+                        </td>
+                        <td class="fundo-red">1</td>
+                        <td class="text-bold">C002B</td>
+                        <td>Belo Horizonte - CD Oeste</td>
+                        <td>Centro de Distribuição São Paulo</td>
+                    </tr>
+
+                    <tr>
+                        <td>L007</td>
+                        <td>PDT-2143</td>
+                        <td>Caminhão</td>
+                        <td>
+                            <span class="status liberados">
+                                <i class="fa-solid fa-boxes-stacked"></i>liberados
+                            </span>
+                        </td>
+                        <td class="fundo-yellow">1</td>
+                        <td class="text-bold">C008A</td>
+                        <td>Recife - CD Leste</td>
+                        <td>Avenida Paulista, SP</td>
+                    </tr>
+
+                    <tr>
+                        <td>L004</td>
+                        <td>MNO-3456</td>
+                        <td>Caminhão</td>
+                        <td>
+                            <span class="status entregue">
+                                <i class="fa-solid fa-check-circle"></i>entregue
+                            </span>
+                        </td>
+                        <td class="text-center">0</td>
+                        <td class="text-bold">C005A</td>
+                        <td>Fortaleza - CD Norte</td>
+                        <td>Porto de Santos, Terminal A</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>L007</td>
+                        <td>KSA-3754</td>
+                        <td>Avião</td>
+                        <td>
+                            <span class="status transporte">
+                                <i class="fa-solid fa-truck icon transporte"></i> em transporte
+                            </span>
+                        </td>
+                        <td class="fundo-red">2</td>
+                        <td class="text-bold">C008B</td>
+                        <td>Recife - CD Leste</td>
+                        <td>Centro de Distribuição Curitiba</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

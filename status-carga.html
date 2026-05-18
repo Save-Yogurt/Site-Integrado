@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status da carga</title>
+
+    <link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+    <link rel="stylesheet" href="public/css/status-carga.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+    <div class="sidebar">
+            <div class="sidebar-content">
+                <img src="public/assets/imgs/saveyogurt-logo.png">
+                <h2>Save Yogurt Admin</h2>
+                <a href="dash-geral.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                        <span class="menu-text">Dashboard Geral</span>
+                    </div>
+                </a>
+
+                <a href="dash-carga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Dashboard Cargas</span>
+                    </div>
+                </a>
+
+                <a href="cadastro-do-lote.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Cadastro Lote</span>
+                    </div>
+                </a>
+
+                <a href="cadastro-carga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Cadastro Carga</span>
+                    </div>
+                </a>
+
+                <a href="cadastro_entrega.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Entregas</span>
+                    </div>
+                </a>
+
+                <a href="status-carga.html">
+                    <div class="menu-item-selected">
+                        <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Atualizar Entrega</span>
+                    </div>
+                </a>
+            </div>
+            <div class="logout-section">
+                <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                    Sair do Sistema
+                </button>
+            </div>
+        </div>
+
+    <main>
+        <div id="bloco_titulo">
+            <div id="titulo">
+                <h1>Atualizar Localização e Status da Carga</h1>
+            </div>
+        </div>
+
+        <div id="bloco_maior">
+
+            <h3 class="titulo_secao">Dados da carga para atualização</h3>
+
+            <div class="grupo_input">
+                <label>Código da Carga</label>
+                <input type="text" id="id_numero_lote" placeholder="Ex: CARGA-XXXX">
+            </div>
+
+            <h3 class="titulo_secao">Informações de localização e status atual</h3>
+
+            <div class="inputs_lado_a_lado">
+                <div class="grupo_input">
+                    <label>Última localização registrada</label>
+                    <input type="text" id="id_ultima_localizacao" placeholder="CD São Paulo - Plataforma A">
+
+                    <label for="status">Novo status da carga</label>
+                    <select name="status_carga" id="status">
+                        <option value="em_transito">Em trânsito</option>
+                        <option value="entregue">Entregue</option>
+                    </select>
+                </div>
+
+                <div class="grupo_input">
+                    <label>Nova localização / Endereço</label>
+                    <input type="text" id="id_nova_localizacao" placeholder="Ex: Rodovia SP-101, Km 50">
+                </div>
+            </div>
+
+            <button class="botao_salvar" onclick="salvar_atualizacao()">Salvar atualização</button>
+            <button class="botao_cancelar" onclick="cancelar()">Cancelar</button>
+
+        </div>
+    </main>
+
+</body>
+
+</html>

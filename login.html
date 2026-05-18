@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/tela_login.css">
+    
+    <!-- Link FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <header>
+        <div id="div_logo">
+            <a href="index.html">
+            <img src="public/assets/imgs/saveyogurt-logo.png">
+            <p id="logo_titulo">Save Yogurt</p>
+            </a>
+        </div>
+        <div id="div_links">
+            <a href="index.html">
+            <p>Página Inicial</p>
+            </a>
+            <a href="sobre_nos.html">
+            <p>Sobre Nós</p>
+            </a>
+            <a href="simulador.html">
+            <p>Simulador</p>
+            </a>
+        </div>
+        <div id="div_botoes">
+            <a href="login.html">
+            <Button class="botoes">Login</Button>
+            </a>
+            <a href="cadastro.html">
+            <Button class="botoes">Cadastro</Button>
+            </a>
+        </div>
+    </header>
+
+    <main class="container_principal">
+        
+        <div id="pagina_login" class="card_auth">
+            <h1>Login</h1>
+            <div class="inputs_grupo">
+                <input type="email" id="ipt_email_login" placeholder="E-mail">
+                <input type="password" id="ipt_senha_login" placeholder="Senha">
+            </div>
+            <button class="botao_acao" onclick="login()" id = "botao_acao">Continuar</button>
+            <div class="links_auxiliares">
+                <a href="esqueceu_senha.html">
+                <button class="botao_link">Esqueceu a senha?</button>
+                </a>
+            </div>
+            <div id="div_resultado_login"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer_brand">
+        <img src="public/assets/imgs/saveyogurt-logo.png">
+        <h2>Save Yogurt</h2>
+        <p>© 2026 Save Yogurt<br>Todos os direitos reservados.</p>
+    </div>
+
+    <div class="footer_col">
+        <span>LINKS RÁPIDOS</span>
+        <a href="#">Login</a>
+    </div>
+
+    <div class="footer_col">
+        <span>PÁGINAS</span>
+        <a href="index.html">Landing Page</a>
+        <a href="simulador.html">Simulador</a>
+        <a href="cadastro_login.html">Cadastrar</a>
+        <a href="login.html">Login</a>
+        <a href="sobre_nos.html">Sobre Nós</a>
+    </div>
+
+    <div class="footer_col">
+        <span>SOCIAL</span>
+        <a href="https://www.instagram.com/saveyogurt/"><i class="fa-brands fa-instagram"></i>Instagram</a>
+        <a href="https://x.com/saveyogurt"><i class="fa-brands fa-x-twitter"></i>X</a>
+        <a href="https://www.linkedin.com/in/save-yogurt-a3636540b "><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+    </div>
+    </footer>
+</body>
+    <script src="public/js/login_cadastro.js"></script>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Entrega</title>
+
+    <link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+
+    <link rel="stylesheet" href="public/css/cadastro-entrega.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+            <div class="sidebar-content">
+                <img src="public/assets/imgs/saveyogurt-logo.png">
+                <h2>Save Yogurt Admin</h2>
+                <a href="dash-geral.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                        <span class="menu-text">Dashboard Geral</span>
+                    </div>
+                </a>
+
+                <a href="dash-carga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Dashboard Cargas</span>
+                    </div>
+                </a>
+
+                <a href="cadastro-do-lote.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Cadastro Lote</span>
+                    </div>
+                </a>
+
+                <a href="cadastro-carga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Cadastro Carga</span>
+                    </div>
+                </a>
+
+                <a href="cadastro_entrega.html">
+                    <div class="menu-item-selected">
+                        <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Entregas</span>
+                    </div>
+                </a>
+
+                <a href="status-carga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Atualizar Entrega</span>
+                    </div>
+                </a>
+            </div>
+            <div class="logout-section">
+                <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                    Sair do Sistema
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN -->
+        <main>
+
+            <!-- TÍTULO -->
+            <div id="bloco_titulo">
+
+                <h1>Cadastro de Nova Entrega</h1>
+
+            </div>
+
+            <!-- CONTAINER -->
+            <div id="container_entrega">
+
+                <!-- FORM -->
+                <div id="bloco_formulario">
+
+                    <h3 class="titulo_secao">
+                        Informações da Entrega
+                    </h3>
+
+                    <div class="grupo_input">
+
+                        <label>Placa do Veículo</label>
+
+                        <input type="text" placeholder="Ex: ABC-1234">
+
+                    </div>
+
+                    <div class="grupo_input">
+
+                        <label>Destino</label>
+
+                        <input type="text" placeholder="Ex: São Paulo - SP">
+
+                    </div>
+
+                    <div class="grupo_input">
+
+                        <label>Tipo de Veículo</label>
+
+                        <select>
+
+                            <option value="">
+                                Selecione...
+                            </option>
+
+                            <option>
+                                Caminhão Refrigerado
+                            </option>
+
+                            <option>
+                                Van Refrigerada
+                            </option>
+
+                            <option>
+                                Carreta
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- BOTÕES -->
+                    <div id="grupo_botoes">
+
+                        <button class="botao">
+                            Cadastrar Nova Entrega
+                        </button>
+
+                        <button class="botao_cancelar">
+                            Cancelar
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- TABELA -->
+                <div id="bloco_tabela">
+
+                    <h3 class="titulo_secao">
+                        Cargas Sem Entrega Vinculada
+                    </h3>
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Lote</th>
+                                <th>Sensor</th>
+                                <th>Temp. Min</th>
+                                <th>Temp. Max</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>301</td>
+                                <td>A123</td>
+                                <td>S1</td>
+                                <td>2°C</td>
+                                <td>8°C</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>302</td>
+                                <td>B456</td>
+                                <td>S2</td>
+                                <td>1°C</td>
+                                <td>7°C</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>303</td>
+                                <td>C789</td>
+                                <td>S3</td>
+                                <td>3°C</td>
+                                <td>9°C</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+
+</body>
+
+</html>
