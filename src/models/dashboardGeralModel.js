@@ -59,28 +59,85 @@ function menorTemperatura() {
     return database.executar(instrucaoSql);
 }
 
-function tabela (req,res){
+function tabela (id_empresa){
     console.log("ACESSEI graficosModel - tabela");
 
     var instrucaoSql = `
-    select
-    max(temperatura) as maiorTemp,
-    carga.codigo_Carga
-    from registro
-        join sensor on registro.fk_sensor = sensor.id_sensor
-        join monitoramento_sensor ms on sensor.id_sensor = ms.fk_sensor
-    join carga on ms.fk_carga = carga.id_carga
-    group by carga.codigo_Carga
-    order by maiorTemp asc
-    limit 1;
+    select l.codigo_lote,
+		e.veiculo_placa,
+        e.tipo_veiculo,
+        c.status_carga,
+        count(id_alerta) as total_alertas,
+        c.codigo_Carga,
+        e.destino,
+        e.ultima_loc
+        from lote l
+        join carga c on l.id_lote = c.fk_lote
+        join entrega e on c.fk_entrega = e.id_entrega
+        join monitoramento_sensor ms on c.id_carga = ms.fk_carga
+        join sensor s on ms.fk_sensor = s.id_sensor
+        join registro r on s.id_sensor = r.fk_sensor
+        join alerta a on r.id_registro = a.fk_registro
+        where l.fk_empresa = ${id_empresa}
+        group by l.codigo_lote, 
+         e.veiculo_placa, 
+         e.tipo_veiculo, 
+         c.status_carga, 
+         c.codigo_Carga, 
+         e.destino, 
+         e.ultima_loc; 
+        
+    `;
+
+    return database.executar(instrucaoSql);
+}
+function pesquisar(id_empresa, termo) {
+
+    console.log("ACESSEI MODEL pesquisar");
+
+    var instrucaoSql = `
+    
+    select 
+        l.codigo_lote,
+        e.veiculo_placa,
+        e.tipo_veiculo,
+        c.status_carga,
+        count(a.id_alerta) as total_alertas,
+        c.codigo_Carga,
+        e.destino,
+        e.ultima_loc
+
+    from lote l
+
+    join carga c on l.id_lote = c.fk_lote
+    join entrega e on c.fk_entrega = e.id_entrega
+    join monitoramento_sensor ms on c.id_carga = ms.fk_carga
+    join sensor s on ms.fk_sensor = s.id_sensor
+    join registro r on s.id_sensor = r.fk_sensor
+    join alerta a on r.id_registro = a.fk_registro
+
+    where l.fk_empresa = ${id_empresa}
+    and (
+        l.codigo_lote like '%${termo}%' or c.codigo_Carga like '%${termo}%'
+    )
+
+    group by 
+        l.codigo_lote,
+        e.veiculo_placa,
+        e.tipo_veiculo,
+        c.status_carga,
+        c.codigo_Carga,
+        e.destino,
+        e.ultima_loc;
     `;
 
     return database.executar(instrucaoSql);
 }
 
-
 module.exports = {
     cargasAlerta,
     maiorTemperatura,
-    menorTemperatura
+    menorTemperatura,
+    tabela,
+    pesquisar
 };
