@@ -17,15 +17,15 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="public/css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 
 </head>
 
-<body>
+<body onload="kpiCargasAlerta() , kpiMaiorTemperatura(), kpiMenorTemperatura()">
 
     <div class="sidebar">
         <div class="sidebar-content">
-            <img src="public/assets/imgs/saveyogurt-logo.png">
+            <img src="../assets/imgs/saveyogurt-logo.png">
             <h2>Save Yogurt Admin</h2>
             <a href="dash-geral.html">
                 <div class="menu-item-selected">
@@ -82,21 +82,21 @@
 
         <div class="kpi-container">
             <div class="kpi-card">
-                <div class="kpi-title">Lotes em Alerta Crítico</div>
-                <div class="kpi-value">5</div>
-                <div class="kpi-subtitle">Lotes: L002, L005, L008, L010, L012</div>
+                <div class="kpi-title">Cargas em Alerta Crítico</div>
+                <h1 class="kpi1Values"></h1>
+                <p class="kpi1Subtitle"></p>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-title">Maior Temp. Registrada</div>
-                <div class="kpi-value">12.5°C</div>
-                <div class="kpi-subtitle">Lote: L010</div>
+                <h1 class="kpi2Value"></h1>
+                <p class="kpi2Subtitle"></p>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-title">Menor Temp. Registrada</div>
-                <div class="kpi-value">-1.2°C</div>
-                <div class="kpi-subtitle">Lote: L008</div>
+                <h1 class="kpi3Value"></h1>
+                <p class="kpi3Subtitle"></p>
             </div>
         </div>
 
@@ -115,8 +115,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID Lote</th>
-                        <th>Veículo</th>
+                        <th>Número Lote</th>
+                        <th>Placa Veiculo</th>
                         <th>Tipo do Veiculo</th>
                         <th>Status de Transporte</th>
                         <th class="text-center">Número de Alertas</th>
@@ -141,65 +141,19 @@
                         <td>São Paulo - CD Norte</td>
                         <td>Rodovia SP-280, km 75</td>
                     </tr>
-
                     <tr>
-                        <td>L002</td>
-                        <td>PQR-9012</td>
-                        <td>Navio</td>
+                        <td>L001</td>
+                        <td>ABC-4353</td>
+                        <td>Caminhão</td>
                         <td>
                             <span class="status transporte">
                                 <i class="fa-solid fa-truck icon transporte"></i> em transporte
-                            </span>
-                        </td>
-                        <td class="fundo-red">1</td>
-                        <td class="text-bold">C002B</td>
-                        <td>Belo Horizonte - CD Oeste</td>
-                        <td>Centro de Distribuição São Paulo</td>
-                    </tr>
-
-                    <tr>
-                        <td>L007</td>
-                        <td>PDT-2143</td>
-                        <td>Caminhão</td>
-                        <td>
-                            <span class="status liberados">
-                                <i class="fa-solid fa-boxes-stacked"></i>liberados
-                            </span>
-                        </td>
-                        <td class="fundo-yellow">1</td>
-                        <td class="text-bold">C008A</td>
-                        <td>Recife - CD Leste</td>
-                        <td>Avenida Paulista, SP</td>
-                    </tr>
-
-                    <tr>
-                        <td>L004</td>
-                        <td>MNO-3456</td>
-                        <td>Caminhão</td>
-                        <td>
-                            <span class="status entregue">
-                                <i class="fa-solid fa-check-circle"></i>entregue
                             </span>
                         </td>
                         <td class="text-center">0</td>
-                        <td class="text-bold">C005A</td>
-                        <td>Fortaleza - CD Norte</td>
-                        <td>Porto de Santos, Terminal A</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>L007</td>
-                        <td>KSA-3754</td>
-                        <td>Avião</td>
-                        <td>
-                            <span class="status transporte">
-                                <i class="fa-solid fa-truck icon transporte"></i> em transporte
-                            </span>
-                        </td>
-                        <td class="fundo-red">2</td>
-                        <td class="text-bold">C008B</td>
-                        <td>Recife - CD Leste</td>
-                        <td>Centro de Distribuição Curitiba</td>
+                        <td class="text-bold">C001A</td>
+                        <td>São Paulo - CD Norte</td>
+                        <td>Rodovia SP-280, km 75</td>
                     </tr>
 
                 </tbody>
@@ -211,3 +165,64 @@
 </body>
 
 </html>
+<script>
+    function kpiCargasAlerta(req,res){
+        fetch(`/dashboardGeral/cargasAlerta`)
+        .then(resposta => resposta.json())
+        .then(dados => {
+
+            const kpi1Values = document.querySelector('.kpi1Values');
+            const kpi1Subtitle = document.querySelector('.kpi1Subtitle');
+
+            kpi1Values.innerHTML = `${dados[0].qtd_cargas_criticas}`
+            kpi1Subtitle.innerHTML = `Cargas: ${dados[0].identificadores_cargas}`
+
+        })
+
+    }
+    function kpiMaiorTemperatura(req,res){
+        fetch(`/dashboardGeral/maiorTemperatura`)
+        .then(resposta => resposta.json())
+        .then(dados => {
+
+            const kpi2Value = document.querySelector('.kpi2Value');
+            const kpi2Subtitle = document.querySelector('.kpi2Subtitle');
+
+            kpi2Value.innerHTML = `${dados[0].maiorTemp}°`
+            kpi2Subtitle.innerHTML = `Cargas: ${dados[0].codigo_Carga}`
+        })
+
+    }
+
+    function kpiMenorTemperatura(req,res){
+        fetch(`/dashboardGeral/menorTemperatura`)
+        .then(resposta => resposta.json())
+        .then(dados => {
+
+            const kpi3Value = document.querySelector('.kpi3Value');
+            const kpi3Subtitle = document.querySelector('.kpi3Subtitle');
+
+            kpi3Value.innerHTML = `${dados[0].maiorTemp}°`
+            kpi3Subtitle.innerHTML = `Cargas: ${dados[0].codigo_Carga}`
+        })
+
+    }
+   
+    // let id_empresa = sessionStorage.ID_EMPRESA;
+    sessionStorage.ID_EMPRESA = 1
+
+    function tabela(){
+        fetch(`/dasdashboardGeral/tabela/:${id_empresa}`)
+        .then(resposta => resposta.json())
+        .then(dados => {
+
+            
+
+
+        })
+    }
+
+
+
+
+</script>
