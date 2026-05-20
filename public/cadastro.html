@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+<link rel="icon" href="./assets/imgs/saveyogurt-logo.png">
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="public/css/tela_cadastro.css">
+    <link rel="stylesheet" href="./css/tela_cadastro.css">
 
     <!-- Link FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+
+<body onload="listar()">
 
     <header>
         <div id="div_logo">
             <a href="index.html">
-                <img src="public/assets/imgs/saveyogurt-logo.png" alt="Logo">
+                <img src="./assets/imgs/saveyogurt-logo.png" alt="Logo">
                 <p id="logo_titulo">Save Yogurt</p>
             </a>
         </div>
@@ -48,46 +50,222 @@
             <h1>Cadastre-se</h1>
             <div class="inputs_grupo">
                 <input type="text" id="ipt_codigo_cadastro" placeholder="Código">
+                <input type="text" id="ipt_nome_cadastro" placeholder="Nome">
                 <input type="text" id="ipt_cpf_cadastro" placeholder="CPF" maxlength="14">
                 <input type="email" id="ipt_email_cadastro" placeholder="E-mail">
                 <input type="password" id="ipt_senha_cadastro" placeholder="Senha">
                 <input type="password" id="ipt_confirmar_senha_cadastro" placeholder="Confirmar Senha">
             </div>
-            <button class="botao_acao" onclick="cadastro_realizado()">Finalizar Cadastro</button>
+            <button class="botao_acao" onclick="cadastrar()">Finalizar Cadastro</button>
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
             <div id="div_resultado_cadastro"></div>
-            </div>
-            </div>
+        </div>
+        </div>
         </div>
     </main>
 
     <footer>
         <div class="footer_brand">
-        <img src="public/assets/imgs/saveyogurt-logo.png">
-        <h2>Save Yogurt</h2>
-        <p>© 2026 Save Yogurt<br>Todos os direitos reservados.</p>
-    </div>
+            <img src="./assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt</h2>
+            <p>© 2026 Save Yogurt<br>Todos os direitos reservados.</p>
+        </div>
 
-    <div class="footer_col">
-        <span>LINKS RÁPIDOS</span>
-        <a href="#">Cadastro</a>
-    </div>
+        <div class="footer_col">
+            <span>LINKS RÁPIDOS</span>
+            <a href="#">Cadastro</a>
+        </div>
 
-    <div class="footer_col">
-        <span>PÁGINAS</span>
-        <a href="index.html">Landing Page</a>
-        <a href="simulador.html">Simulador</a>
-        <a href="cadastro_login.html">Cadastrar</a>
-        <a href="login.html">Login</a>
-        <a href="sobre_nos.html">Sobre Nós</a>
-    </div>
+        <div class="footer_col">
+            <span>PÁGINAS</span>
+            <a href="index.html">Landing Page</a>
+            <a href="simulador.html">Simulador</a>
+            <a href="cadastro_login.html">Cadastrar</a>
+            <a href="login.html">Login</a>
+            <a href="sobre_nos.html">Sobre Nós</a>
+        </div>
 
-    <div class="footer_col">
-        <span>SOCIAL</span>
-        <a href="https://www.instagram.com/saveyogurt/"><i class="fa-brands fa-instagram"></i>Instagram</a>
-        <a href="https://x.com/saveyogurt"><i class="fa-brands fa-x-twitter"></i>X</a>
-        <a href="https://www.linkedin.com/in/save-yogurt-a3636540b "><i class="fa-brands fa-linkedin"></i>Linkedin</a>
-    </div>
+        <div class="footer_col">
+            <span>SOCIAL</span>
+            <a href="https://www.instagram.com/saveyogurt/"><i class="fa-brands fa-instagram"></i>Instagram</a>
+            <a href="https://x.com/saveyogurt"><i class="fa-brands fa-x-twitter"></i>X</a>
+            <a href="https://www.linkedin.com/in/save-yogurt-a3636540b "><i
+                    class="fa-brands fa-linkedin"></i>Linkedin</a>
+        </div>
     </footer>
-    <script src="public/js/login_cadastro.js"></script>
 </body>
+
 </html>
+
+<script>
+
+    // Array para armazenar empresas cadastradas para validação de código de ativação 
+    let listaEmpresasCadastradas = [];
+
+    function cadastrar() {
+        // aguardar();
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var idEmpresaVincular;
+        var nomeVar = ipt_nome_cadastro.value;
+        var codigoVar = ipt_codigo_cadastro.value;
+        var cpfVar = ipt_cpf_cadastro.value;
+        var emailVar = ipt_email_cadastro.value;
+        var senhaVar = ipt_senha_cadastro.value;
+        var confirmacaoSenhaVar = ipt_confirmar_senha_cadastro.value;
+
+        // Verificando se há algum campo em branco
+        if (
+            nomeVar == "" ||
+            emailVar == "" ||
+            senhaVar == "" ||
+            cpfVar == "" ||
+            confirmacaoSenhaVar == "" ||
+            codigoVar == ""
+        ) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Mensagem de erro para todos os campos em branco)";
+
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        if (nomeVar.length < 3) {
+
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "Seu nome deve ter mais de 3 letras";
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        if (emailVar.includes('@') == false) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(O email deve conter @.)";
+
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        if (senhaVar.length < 6) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Sua senha deve ter mais de 6 caracteres)";
+
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        if (cpfVar.length != 11) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(O cpf deve ter exatamente 11 caracteres)";
+
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        if (senhaVar != confirmacaoSenhaVar) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(As senhas não conhecidem)";
+
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        // Verificando se o código de ativação é de alguma empresa cadastrada
+        for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
+            if (listaEmpresasCadastradas[i].token == codigoVar) {
+                idEmpresaVincular = listaEmpresasCadastradas[i].id_empresa
+                console.log("Código de ativação válido.");
+                break;
+            } else {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
+            }
+        }
+
+        console.log("nomeVar:", nomeVar);
+        console.log("emailVar:", emailVar);
+        console.log("senhaVar:", senhaVar);
+        console.log("cpfVar:", cpfVar);
+        console.log("codigoVar:", codigoVar);
+        console.log("idEmpresaVincular:", idEmpresaVincular);
+        console.log("listaEmpresasCadastradas:", listaEmpresasCadastradas);
+        // Enviando o valor da nova input
+        fetch("/cadastro/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                cpfServer: cpfVar,
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                idEmpresaVincularServer: idEmpresaVincular
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    cardErro.style.display = "block";
+
+                    mensagem_erro.innerHTML =
+                        "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                    setTimeout(() => {
+                        window.location = "login.html";
+                    }, "2000");
+
+                    limparFormulario();
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
+    }
+
+    // Listando empresas cadastradas 
+    function listar() {
+        fetch("/cadastro/listar", {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((empresas) => {
+                    empresas.forEach((empresa) => {
+                        listaEmpresasCadastradas.push(empresa);
+
+                        console.log("listaEmpresasCadastradas")
+                        console.log(listaEmpresasCadastradas[0].token)
+                    });
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none";
+    }
+</script>

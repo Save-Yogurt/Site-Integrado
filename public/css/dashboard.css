@@ -301,3 +301,18 @@
  .text-bold {
      font-weight: bold;
  }
+
+ .linha-verde {
+    background-color: #0da715;
+    color: #000000;
+}
+
+.linha-amarela {
+    background-color: #fbc02d;
+    color: #000000;
+}
+
+.linha-vermelha {
+    background-color: #d32f2f;
+    color: #000000;
+}

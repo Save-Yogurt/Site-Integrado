@@ -15,10 +15,13 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
+var cadastroRouter = require("./src/routes/cadastro");
 var indexRouter = require("./src/routes/index");
 var dashboardGeralRouter = require("./src/routes/dashboardGeral");
 var cargasRouter = require("./src/routes/dashboardCarga");
 var entregaRoutes = require("./src/routes/entregaRoutes");
+var loginRouter = require("./src/routes/login");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +34,9 @@ app.use("/", indexRouter);
 app.use("/dashboardGeral", dashboardGeralRouter);
 app.use("/cargas", cargasRouter);
 app.use("/entrega", entregaRoutes);
+app.use("/cadastro", cadastroRouter);
+app.use("/login", loginRouter);
+
 
 
 

@@ -15,8 +15,12 @@ router.get("/menorTemperatura", function (req, res) {
     dashboardGeralController.menorTemperatura(req, res);
 });
 
-router.get("/tabela", function (req, res) {
+router.get("/tabela/:id_empresa", function (req, res) {
     dashboardGeralController.tabela(req, res);
+});
+
+router.get("/pesquisar/:id_empresa/:termo", function (req, res) {
+    dashboardGeralController.pesquisar(req, res);
 });
 
 
