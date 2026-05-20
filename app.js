@@ -17,6 +17,7 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var dashboardGeralRouter = require("./src/routes/dashboardGeral");
+var cargasRouter = require("./src/routes/dashboardCarga");
 var entregaRoutes = require("./src/routes/entregaRoutes");
 
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/dashboardGeral", dashboardGeralRouter);
+app.use("/cargas", cargasRouter);
 app.use("/entrega", entregaRoutes);
 
 

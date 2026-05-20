@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-     <meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Dashboard Carga</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/Cadastro-carga.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/dash-carga.css">
     
-    <link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+    <link rel="icon" href="../assets/imgs/saveyogurt-logo.png">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="sidebar">
         <div class="sidebar-content">
-            <img src="public/assets/imgs/saveyogurt-logo.png">
+            <img src="../assets/imgs/saveyogurt-logo.png">
             <h2>Save Yogurt Admin</h2>
-            <a href="dash-geral.html">
+            <a href="dashboardGeral.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
                     <span class="menu-text">Dashboard Geral</span>
                 </div>
             </a>
 
-            <a href="dash-carga.html">
+            <a href="dashboardCarga.html">
                 <div class="menu-item-selected">
                     <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
                     <span class="menu-text">Dashboard Cargas</span>
@@ -77,9 +73,10 @@
     <main class="main-content">
         <div class="header-cargas">
             <h1 class="header-title">Dashboard Carga</h1>
-            <select class="select-carga">
-                <option>Carga001</option>
-                <option>Carga002</option>
+            <!-- Adicionado id corretificado e a chamada da função no onchange -->
+            <select id="select_carga" class="select-carga" onchange="atualizarDashboard()">
+                <option value="Carga001">Carga001</option>
+                <option value="Carga002">Carga002</option>
             </select>
         </div>
 
@@ -87,28 +84,29 @@
             <div class="kpi-item">
                 <span class="kpi-label">Status da Última Medição</span>
                 <div class="kpi-main">
-                    <span class="status-text">Em conformidade</span>
-                    <i class="fa-solid fa-circle-check check-icon"></i>
+                    <!-- IDs adicionados para manipulação do JS -->
+                    <span id="kpi_status_texto" class="status-text">Em conformidade</span>
+                    <i id="kpi_status_icone" class="fa-solid fa-circle-check check-icon"></i>
                 </div>
             </div>
             <div class="kpi-item">
                 <span class="kpi-label">Lote Associado da Carga</span>
                 <div class="kpi-main">
-                    <span class="lote-text">LOTE-7734</span>
+                    <span id="kpi_lote" class="lote-text">LOTE-7734</span>
                 </div>
                 <span class="kpi-subtext">Lote Associado</span>
             </div>
             <div class="kpi-item">
                 <span class="kpi-label">Código do Sensor Acoplado</span>
                 <div class="kpi-main">
-                    <span class="sensor-text">SEN-A01</span>
+                    <span id="kpi_sensor" class="sensor-text">SEN-A01</span>
                     <i class="fa-solid fa-microchip sensor-icon"></i>
                 </div>
             </div>
             <div class="kpi-item">
                 <span class="kpi-label">Início de Monitoramento</span>
                 <div class="kpi-main">
-                    <span class="data-text">15 de Out de 2024</span>
+                    <span id="kpi_data" class="data-text">15 de Out de 2024</span>
                 </div>
             </div>
         </div>
@@ -116,7 +114,8 @@
         <div class="dashboard-row">
             <div class="chart-section">
                 <div class="section-title">
-                    <span>Temperatura da Carga - Carga001 (Histórico Completo)</span>
+                    <!-- ID adicionado para mudar o título dinamicamente -->
+                    <span id="titulo_grafico">Temperatura da Carga - Carga001 (Histórico Completo)</span>
                     <i class="fa-solid fa-box-archive"></i>
                 </div>
                 <div class="chart-wrapper">
@@ -136,12 +135,9 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr><td>22/10 10:00</td><td class="text-orange">5.7°C</td><td>Alerta</td></tr>
-                        <tr><td>24/10 12:00</td><td class="text-orange">6.8°C</td><td>Alerta</td></tr>
-                        <tr><td>26/10 16:00</td><td class="text-red">3.5°C</td><td>Crítico</td></tr>
-                        <tr><td>28/10 8:00</td><td class="text-orange">9.1°C</td><td>Alerta</td></tr>
-                        <tr><td>30/10 2:00</td><td class="text-orange">5.7°C</td><td>Alerta</td></tr>
+                    <!-- ID adicionado no tbody para limpar e reinserir as linhas -->
+                    <tbody id="tabela_desvios_corpo">
+                        <!-- Gerado dinamicamente pelo JS -->
                     </tbody>
                 </table>
             </div>
@@ -149,66 +145,134 @@
     </main>
 
     <script>
-        const ctx = document.getElementById('tempChart').getContext('2d');
-        const tempChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00', '02:00', '04:00', '06:00'],
-                datasets: [{
-                    label: 'Temperatura (°C)',
-                    data: [5, 5.2, 5.1, 5.3, 5.8, 5.5, 5, 5.3, 5.4, 5.9, 5.1],
-                    borderColor: '#006876',
-                    backgroundColor: '#006876',
-                    borderWidth: 2,
-                    pointRadius: 4,
-                    tension: 0.1,
-                    z: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        min: -2,
-                        max: 10,
-                        ticks: { stepSize: 1 }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    // Plugin para desenhar as faixas coloridas de fundo
-                    beforeDraw: (chart) => {
-                        const { ctx, chartArea: { top, bottom, left, right }, scales: { y } } = chart;
-                        const drawZone = (min, max, color) => {
-                            ctx.fillStyle = color;
-                            ctx.fillRect(left, y.getPixelForValue(max), right - left, y.getPixelForValue(min) - y.getPixelForValue(max));
-                        };
-                        drawZone(0, 2, '#ffcdd2'); // Crítico inferior (vermelho claro)
-                        drawZone(2, 4, '#fff9c4'); // Alerta inferior (amarelo claro)
-                        drawZone(4, 7, '#c8e6c9'); // Ideal (verde claro)
-                        drawZone(7, 8.5, '#fff9c4'); // Alerta superior (amarelo claro)
-                        drawZone(8.5, 10, '#ffcdd2'); // Crítico superior (vermelho claro)
-                    }
-                }
-            },
-            plugins: [{
-                id: 'backgroundZones',
-                beforeDraw: (chart) => {
-                    const {ctx, chartArea, scales: {y}} = chart;
-                    const {left, right} = chartArea;
-                    const fillZone = (yStart, yEnd, color) => {
-                        ctx.fillStyle = color;
-                        ctx.fillRect(left, y.getPixelForValue(yEnd), right - left, y.getPixelForValue(yStart) - y.getPixelForValue(yEnd));
-                    };
-                    fillZone(-2, 0, '#f8d7da'); // Crítico
-                    fillZone(0, 2, '#fff3cd'); // Alerta
-                    fillZone(2,6, '#d4edda'); // Ideal
-                    fillZone(6, 8, '#fff3cd'); // Alerta
-                    fillZone(8,10, '#f8d7da'); // Crítico
-                }
+    // 1. Inicialização do gráfico (Começa vazio, os dados virão do banco)
+    const ctx = document.getElementById('tempChart').getContext('2d');
+    const tempChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Temperatura (°C)',
+                data: [],
+                borderColor: '#006876',
+                backgroundColor: '#006876',
+                borderWidth: 2,
+                pointRadius: 4,
+                tension: 0.1
             }]
-        });
-    </script>
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { min: -2, max: 10, ticks: { stepSize: 1 } }
+            },
+            plugins: { legend: { display: false } }
+        },
+        plugins: [{
+            id: 'backgroundZones',
+            beforeDraw: (chart) => {
+                const { ctx, chartArea, scales: { y } } = chart;
+                if (!chartArea) return;
+                const { left, right } = chartArea;
+                
+                const fillZone = (yStart, yEnd, color) => {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(left, y.getPixelForValue(yEnd), right - left, y.getPixelForValue(yStart) - y.getPixelForValue(yEnd));
+                };
+
+                fillZone(-2, 0, '#f8d7da');  // Crítico Inferior
+                fillZone(0, 2, '#fff3cd');   // Alerta Inferior
+                fillZone(2, 6, '#d4edda');   // Faixa Ideal
+                fillZone(6, 8, '#fff3cd');   // Alerta Superior
+                fillZone(8, 10, '#f8d7da');  // Crítico Superior
+            }
+        }]
+    });
+
+    // ATENÇÃO: Ajuste a URL base "/cargas" abaixo conforme o prefixo que você usou no seu app.js
+    const URL_BASE = "/cargas"; 
+
+    // 2. Preencher o Select dinamicamente
+    async function carregarCargas() {
+        try {
+            const resposta = await fetch(`${URL_BASE}/listar-cargas`);
+            const cargas = await resposta.json();
+
+            const select = document.getElementById('select_carga');
+            select.innerHTML = ""; // Limpa o HTML atual
+
+            cargas.forEach(carga => {
+                const option = document.createElement("option");
+                option.value = carga.idCarga; // Certifique-se de que o nome da coluna no banco é idCarga
+                option.text = `Carga ${carga.idCarga} - ${carga.identificacao || ''}`;
+                select.appendChild(option);
+            });
+
+            // Após popular o select, busca os dados da primeira carga da lista
+            if(cargas.length > 0) {
+                atualizarDashboard();
+            }
+        } catch (erro) {
+            console.error("Erro ao listar cargas:", erro);
+        }
+    }
+
+    // 3. Atualizar a tela inteira (KPIs, Gráfico e Tabela)
+    async function atualizarDashboard() {
+        const idCarga = document.getElementById('select_carga').value;
+        if (!idCarga) return;
+
+        try {
+            // A. Atualizar KPIs
+            const resKpis = await fetch(`${URL_BASE}/kpis/${idCarga}`);
+            const dadosKpis = await resKpis.json();
+            
+            // Os nomes (statusTexto, lote, etc) dependem do ALIAS usado no seu SELECT do SQL
+            document.getElementById('kpi_status_texto').innerText = dadosKpis.statusTexto;
+            document.getElementById('kpi_lote').innerText = dadosKpis.lote;
+            document.getElementById('kpi_sensor').innerText = dadosKpis.sensor;
+            document.getElementById('kpi_data').innerText = dadosKpis.dataInicio;
+
+            const iconeStatus = document.getElementById('kpi_status_icone');
+            iconeStatus.className = dadosKpis.statusClasseIcone || "fa-solid fa-circle-check check-icon"; 
+
+            // B. Atualizar Gráfico
+            const resGrafico = await fetch(`${URL_BASE}/grafico/${idCarga}`);
+            const dadosGrafico = await resGrafico.json();
+
+            document.getElementById('titulo_grafico').innerText = `Temperatura da Carga - Carga ${idCarga} (Histórico Completo)`;
+
+            // Supondo que a API retorne arrays separados, ou você usa .map() se vier um array de objetos
+            tempChart.data.labels = dadosGrafico.map(d => d.momento_leitura);
+            tempChart.data.datasets[0].data = dadosGrafico.map(d => d.temperatura);
+            tempChart.update();
+
+            // C. Atualizar Tabela de Desvios
+            const resDesvios = await fetch(`${URL_BASE}/desvios/${idCarga}`);
+            const dadosDesvios = await resDesvios.json();
+
+            const tbody = document.getElementById('tabela_desvios_corpo');
+            tbody.innerHTML = ""; 
+
+            dadosDesvios.forEach(desvio => {
+                const linhaHtml = `
+                    <tr>
+                        <td>${desvio.data}</td>
+                        <td class="${desvio.classeCor}">${desvio.valor}°C</td>
+                        <td>${desvio.status}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += linhaHtml;
+            });
+
+        } catch (erro) {
+            console.error("Erro ao buscar dados do dashboard:", erro);
+        }
+    }
+
+    // 4. Executa a listagem de cargas ao carregar a página
+    window.onload = carregarCargas;
+</script>
 </body>
 </html>
