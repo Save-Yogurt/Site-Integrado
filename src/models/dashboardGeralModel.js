@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function cargasAlerta() {
+function cargasAlerta(fk_empresa) {
     console.log("ACESSEI graficosModel - Kpi1");
 
     var instrucaoSql = `
@@ -12,47 +12,54 @@ function cargasAlerta() {
         ORDER BY c.codigo_Carga 
         SEPARATOR ', '
     ) AS identificadores_cargas
-
     FROM alerta a
-    JOIN carga c 
-    ON a.fk_carga = c.id_carga
-
-    WHERE a.descricao = 'Critico';
+    JOIN carga c ON a.fk_carga = c.id_carga
+    JOIN lote l ON c.fk_lote = l.id_lote
+    WHERE a.descricao = 'Critico'
+    AND l.fk_empresa = ${fk_empresa};
     `;
 
     return database.executar(instrucaoSql);
 }
-function maiorTemperatura() {
+
+function maiorTemperatura(fk_empresa) {
     console.log("ACESSEI graficosModel - Kpi2");
 
     var instrucaoSql = `
     select
-    max(temperatura) as maiorTemp,
-    carga.codigo_Carga
+    max(registro.temperatura) as maiortemp,
+    carga.codigo_carga
     from registro
-        join sensor on registro.fk_sensor = sensor.id_sensor
-        join monitoramento_sensor ms on sensor.id_sensor = ms.fk_sensor
+    join sensor on registro.fk_sensor = sensor.id_sensor
+    join monitoramento_sensor ms on sensor.id_sensor = ms.fk_sensor
     join carga on ms.fk_carga = carga.id_carga
-    group by carga.codigo_Carga
-    order by maiorTemp desc
+    join lote on carga.fk_lote = lote.id_lote 
+    where sensor.fk_empresa = ${fk_empresa}
+  and lote.fk_empresa =${fk_empresa}
+    group by carga.codigo_carga, sensor.codigo_sensor
+    order by maiortemp desc
     limit 1;
     `;
 
     return database.executar(instrucaoSql);
 }
-function menorTemperatura() {
+
+function menorTemperatura(fk_empresa) {
     console.log("ACESSEI graficosModel - Kpi3");
 
     var instrucaoSql = `
     select
-    max(temperatura) as maiorTemp,
-    carga.codigo_Carga
+    min(registro.temperatura) as menortemp,
+    carga.codigo_carga
     from registro
-        join sensor on registro.fk_sensor = sensor.id_sensor
-        join monitoramento_sensor ms on sensor.id_sensor = ms.fk_sensor
+    join sensor on registro.fk_sensor = sensor.id_sensor
+    join monitoramento_sensor ms on sensor.id_sensor = ms.fk_sensor
     join carga on ms.fk_carga = carga.id_carga
-    group by carga.codigo_Carga
-    order by maiorTemp asc
+    join lote on carga.fk_lote = lote.id_lote 
+    where sensor.fk_empresa = ${fk_empresa}
+    and lote.fk_empresa =${fk_empresa}
+    group by carga.codigo_carga, sensor.codigo_sensor
+    order by menortemp desc
     limit 1;
     `;
 

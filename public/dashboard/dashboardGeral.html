@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <script src="../js/sessao.js"></script>
     <link rel="stylesheet" href="../css/dashboard.css">
 
 </head>
 
-<body onload="kpiCargasAlerta() , kpiMaiorTemperatura(), kpiMenorTemperatura() , tabela()">
+<body onload="validarSessao(),kpiCargasAlerta() , kpiMaiorTemperatura(), kpiMenorTemperatura() , tabela()">
 
     <div class="sidebar">
         <div class="sidebar-content">
@@ -34,35 +34,35 @@
                 </div>
             </a>
 
-            <a href="dash-carga.html">
+            <a href="dashboardCarga.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
                     <span class="menu-text">Dashboard Cargas</span>
                 </div>
             </a>
 
-            <a href="cadastro-do-lote.html">
+            <a href="cadastroLote.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
                     <span class="menu-text">Cadastro Lote</span>
                 </div>
             </a>
 
-            <a href="cadastro-carga.html">
+            <a href="cadastroCarga.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
                     <span class="menu-text">Cadastro Carga</span>
                 </div>
             </a>
 
-            <a href="cadastro_entrega.html">
+            <a href="cadastroEntrega.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
                     <span class="menu-text">Entregas</span>
                 </div>
             </a>
 
-            <a href="status-carga.html">
+            <a href="statusCarga.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
                     <span class="menu-text">Atualizar Entrega</span>
@@ -70,7 +70,7 @@
             </a>
         </div>
         <div class="logout-section">
-            <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+            <button type="button" class="logout-btn"  onclick="limparSessao()">
                 Sair do Sistema
             </button>
         </div>
@@ -140,7 +140,10 @@
 </html>
 <script>
     function kpiCargasAlerta(req, res) {
-        fetch(`/dashboardGeral/cargasAlerta`)
+
+        let id_empresa = sessionStorage.getItem('ID_EMPRESA');
+
+        fetch(`/dashboardGeral/cargasAlerta/${id_empresa}`)
             .then(resposta => resposta.json())
             .then(dados => {
 
@@ -154,37 +157,43 @@
 
     }
     function kpiMaiorTemperatura(req, res) {
-        fetch(`/dashboardGeral/maiorTemperatura`)
+
+        let id_empresa = sessionStorage.getItem('ID_EMPRESA');
+
+
+        fetch(`/dashboardGeral/maiorTemperatura/${id_empresa}`)
             .then(resposta => resposta.json())
             .then(dados => {
 
                 const kpi2Value = document.querySelector('.kpi2Value');
                 const kpi2Subtitle = document.querySelector('.kpi2Subtitle');
 
-                kpi2Value.innerHTML = `${dados[0].maiorTemp}°`
-                kpi2Subtitle.innerHTML = `Cargas: ${dados[0].codigo_Carga}`
+                kpi2Value.innerHTML = `${dados[0].maiortemp}°`
+                kpi2Subtitle.innerHTML = `Cargas: ${dados[0].codigo_carga}`
             })
 
     }
 
     function kpiMenorTemperatura(req, res) {
-        fetch(`/dashboardGeral/menorTemperatura`)
+
+        let id_empresa = sessionStorage.getItem('ID_EMPRESA');
+
+        fetch(`/dashboardGeral/menorTemperatura/${id_empresa}`)
             .then(resposta => resposta.json())
             .then(dados => {
 
                 const kpi3Value = document.querySelector('.kpi3Value');
                 const kpi3Subtitle = document.querySelector('.kpi3Subtitle');
 
-                kpi3Value.innerHTML = `${dados[0].maiorTemp}°`
-                kpi3Subtitle.innerHTML = `Cargas: ${dados[0].codigo_Carga}`
+                kpi3Value.innerHTML = `${dados[0].menortemp}°`
+                kpi3Subtitle.innerHTML = `Cargas: ${dados[0].codigo_carga}`
             })
 
     }
 
-
-    let id_empresa = 1
-
     function tabela() {
+        
+        let id_empresa = sessionStorage.getItem('ID_EMPRESA');
 
         fetch(`/dashboardGeral/tabela/${id_empresa}`)
             .then(resposta => resposta.json())
@@ -232,6 +241,8 @@
 
 
     function pesquisar() {
+
+        let id_empresa = sessionStorage.getItem('ID_EMPRESA');
 
         const termo = document.getElementById("inputPesquisa").value;
 

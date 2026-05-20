@@ -18,8 +18,9 @@ var app = express();
 var cadastroRouter = require("./src/routes/cadastro");
 var indexRouter = require("./src/routes/index");
 var dashboardGeralRouter = require("./src/routes/dashboardGeral");
+var dashboardCargaRouter = require("./src/routes/dashboardCarga");
 var cargasRouter = require("./src/routes/dashboardCarga");
-var entregaRoutes = require("./src/routes/entregaRoutes");
+var entregaRouter = require("./src/routes/entrega");
 var loginRouter = require("./src/routes/login");
 
 
@@ -32,8 +33,9 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/dashboardGeral", dashboardGeralRouter);
+app.use("/dashboardCarga", dashboardCargaRouter);
 app.use("/cargas", cargasRouter);
-app.use("/entrega", entregaRoutes);
+app.use("/entrega", entregaRouter);
 app.use("/cadastro", cadastroRouter);
 app.use("/login", loginRouter);
 
