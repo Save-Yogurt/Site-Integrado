@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
+<link rel="icon" href="/public/assets/imgs/saveyogurt-logo.png">
 <html lang="en">
 
 <head>
@@ -19,54 +19,52 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="public/css/cadastro_do_lote.css">
+    <link rel="stylesheet" href="../css/cadastro_do_lote.css">
 
 </head>
 
-<body>
-
-    <body>
+    <body onload="validarSessao()">
 
         <div class="sidebar">
             <div class="sidebar-content">
-                <img src="public/assets/imgs/saveyogurt-logo.png">
+                <img src="../assets/imgs/saveyogurt-logo.png">
                 <h2>Save Yogurt Admin</h2>
-                <a href="dash-geral.html">
+                <a href="dashboardGeral.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
                         <span class="menu-text">Dashboard Geral</span>
                     </div>
                 </a>
 
-                <a href="dash-carga.html">
+                <a href="dashboardCarga.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
                         <span class="menu-text">Dashboard Cargas</span>
                     </div>
                 </a>
 
-                <a href="cadastro-do-lote.html">
+                <a href="cadastroLote.html">
                     <div class="menu-item-selected">
                         <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
                         <span class="menu-text">Cadastro Lote</span>
                     </div>
                 </a>
 
-                <a href="cadastro-carga.html">
+                <a href="cadastroCarga.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
                         <span class="menu-text">Cadastro Carga</span>
                     </div>
                 </a>
 
-                <a href="cadastro_entrega.html">
+                <a href="cadastroEntrega.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
                         <span class="menu-text">Entregas</span>
                     </div>
                 </a>
 
-                <a href="status-carga.html">
+                <a href="statusCarga.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
                         <span class="menu-text">Atualizar Entrega</span>
@@ -112,13 +110,13 @@
 
                         <div class="grupo_input" class="input">
                             <label>Quantidade de Caixas</label>
-                            <input type="text" id="id_numero_lote" placeholder="500">
+                            <input type="text" id="id_quantidade_caixas" placeholder="500">
                         </div>
 
                         <hr>
 
                         <div class="container_botao">
-                            <button class="button">Cadastro Novo Lote</button>
+                            <button class="button" onclick="cadastrarLote()">Cadastro Novo Lote</button>
                             <button class="cancelar">Cancelar</button>
                         </div>
                     </div>
@@ -127,3 +125,35 @@
     </body>
 
 </html>
+
+<script>
+
+    function cadastrarLote(){
+        let codigo = id_numero_lote.value;
+        let dataProducao = id_data_producao.value;
+        let dataValidade = id_data_validade.value;
+        let quantidade_caixas = id_quantidade_caixas.value;
+        let id_empresa = sessionStorage.getItem("ID_EMPRESA");
+
+        fetch("/cadastroLote/cadastrarLote", {
+            method: "post",
+            headers: {
+            "Content-Type": "application/json"
+        }, 
+          body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                codigoServer: codigo,
+                dataProducaoServer: dataProducao,
+                dataValidadeServer: dataValidade,
+                quantidade_caixasServer: quantidade_caixas,
+                id_empresaServer : id_empresa
+         })
+        })
+        .then(res => res.text())
+        .then(msg => {
+            alert("Lote Cadastrado Com sucesso");
+        })
+        .catch(erro => console.error(erro));
+    }
+</script>
