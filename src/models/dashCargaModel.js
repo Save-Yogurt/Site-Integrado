@@ -12,7 +12,7 @@ function obterKpis(idCarga) {
             c.codigo_Carga,
             l.codigo_lote,
             s.codigo_sensor,
-            DATE_FORMAT(ms.dt_inicio, '%d de %b de %Y') AS dt_inicio_formatada,
+            DATE_FORMAT(ms.dt_inicio, '%d/%m/%Y') AS dt_inicio_formatada,
             (SELECT r.temperatura FROM registro r 
              WHERE r.fk_sensor = s.id_sensor 
              ORDER BY r.dt_registro DESC LIMIT 1) AS ultima_temperatura,
@@ -61,9 +61,37 @@ function obterTabelaDesvios(idCarga) {
     return database.executar(instrucaoSql);
 }
 
+function obterDadoTempoReal(idCarga) {
+    var instrucaoSql = `
+        SELECT 
+            r.temperatura, 
+            DATE_FORMAT(r.dt_registro, '%H:%i:%s') AS horario 
+        FROM registro r
+        JOIN monitoramento_sensor ms ON r.fk_sensor = ms.fk_sensor
+        WHERE ms.fk_carga = ${idCarga}
+        ORDER BY r.dt_registro DESC 
+        LIMIT 1;
+    `;
+    console.log("Executando a instrução SQL Tempo Real: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function registrarLeitura(temperatura, idSensor) {
+    var instrucaoSql = `INSERT INTO registro (temperatura, dt_registro, fk_sensor) VALUES (${temperatura}, NOW(), ${idSensor});`;
+    return database.executar(instrucaoSql);
+}
+
+function salvarAlerta(idRegistro, idCarga, descricao) {
+    var instrucaoSql = `INSERT INTO alerta (descricao, dt_alerta, fk_registro, fk_carga) VALUES ('${descricao}', NOW(), ${idRegistro}, ${idCarga});`;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     listarCargas,
     obterKpis,
     obterDadosGrafico,
-    obterTabelaDesvios
+    obterTabelaDesvios,
+    obterDadoTempoReal,
+    registrarLeitura,
+    salvarAlerta
 };

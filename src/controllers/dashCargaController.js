@@ -1,5 +1,40 @@
 var cargaModel = require("../models/dashCargaModel");
 
+async function processarLeitura(req, res) {
+    var { temperatura, idSensor, idCarga } = req.body;
+
+    if (!temperatura || !idSensor || !idCarga) {
+        console.log("ERRO: Dados incompletos no body.");
+        return res.status(400).send("Dados incompletos");
+    }
+
+    try {
+        // 2. Teste do registrarLeitura
+        console.log("Tentando inserir leitura no banco...");
+        const resultadoRegistro = await cargaModel.registrarLeitura(temperatura, idSensor);
+        console.log("Resultado do insert de leitura:", resultadoRegistro);
+        
+        var idRegistro = resultadoRegistro.insertId;
+
+        if (!idRegistro) {
+            console.log("ERRO: O banco não retornou um ID de registro (Insert falhou silenciosamente).");
+            return res.status(500).send("Falha ao salvar registro");
+        }
+
+        // 3. Teste do obterKpis
+        console.log(`Buscando KPIs para carga ${idCarga}...`);
+        const resultadoKpi = await cargaModel.obterKpis(idCarga);
+        console.log("Resultado dos KPIs:", resultadoKpi);
+
+        // ... resto da lógica de alerta ...
+        res.status(200).send("Processamento finalizado");
+
+    } catch (erro) {
+        console.error("ERRO CRÍTICO NO BANCO:", erro);
+        res.status(500).json(erro);
+    }
+}
+
 function listarCargas(req, res) {
     cargaModel.listarCargas()
         .then(function (resultado) {
@@ -24,21 +59,41 @@ function obterKpis(req, res) {
         cargaModel.obterKpis(idCarga)
             .then(function (resultado) {
                 if (resultado.length > 0) {
-                    // Trata os dados da KPI caso queira formatar o ícone dinamicamente por aqui
                     var kpi = resultado[0];
+                    var temp = Number(kpi.ultima_temperatura);
                     
-                    // Exemplo de lógica de ícone injetada diretamente no objeto antes de enviar ao front
-                    kpi.statusClasseIcone = "fa-solid fa-circle-check check-icon";
-                    kpi.statusCorIcone = "";
+                    var textoStatus = "";
+                    var icone = "";
+
+                    // Lógica baseada nas suas faixas de fillZone:
                     
-                    if (kpi.status_carga.includes("Crítico") || kpi.status_carga === "Alerta") {
-                        kpi.statusClasseIcone = "fa-solid fa-circle-xmark";
-                        kpi.statusCorIcone = "#e74c3c";
+                    // CRÍTICO (< 0 ou > 10)
+                    if (temp < 0 || temp > 10) {
+                        textoStatus = "Crítico";
+                        icone = "fa-solid fa-circle-xmark";
+                    } 
+                    // ALERTA (0 a 2 OU 5 a 10)
+                    else if ((temp >= 0 && temp < 2) || (temp > 5 && temp <= 10)) {
+                        textoStatus = "Alerta";
+                        icone = "fa-solid fa-triangle-exclamation";
+                    } 
+                    // NORMAL (2 a 5)
+                    else {
+                        textoStatus = "Em conformidade";
+                        icone = "fa-solid fa-circle-check check-icon";
                     }
 
-                    res.status(200).json(kpi);
+                    var kpiFormatada = {
+                        statusTexto: textoStatus,
+                        lote: kpi.codigo_lote,
+                        sensor: kpi.codigo_sensor,
+                        dataInicio: kpi.dt_inicio_formatada,
+                        statusClasseIcone: icone
+                    };
+
+                    res.status(200).json(kpiFormatada);
                 } else {
-                    res.status(404).send("Nenhuma KPI encontrada para esta carga.");
+                    res.status(204).send("Nenhuma carga encontrada.");
                 }
             }).catch(function (erro) {
                 console.log(erro);
@@ -63,9 +118,14 @@ function obterDadosGrafico(req, res) {
 
                 // Varre os registros do banco ordenados cronologicamente preenchendo os eixos
                 resultado.forEach(registro => {
-                    dadosGrafico.labels.push(registro.registro_hora);
-                    dadosGrafico.valores.push(Number(registro.registro_temperatura));
+                    dadosGrafico.labels.push(registro.horario); 
+                    dadosGrafico.valores.push(Number(registro.temperatura));
                 });
+
+                dadosGrafico.labels.reverse();
+                dadosGrafico.valores.reverse();
+
+                
 
                 res.status(200).json(dadosGrafico); 
             }).catch(function (erro) {
@@ -85,17 +145,13 @@ function obterTabelaDesvios(req, res) {
             .then(function (resultado) {
                 var tabelaDesvios = [];
 
-                // AQUI ENTRA A SUA LÓGICA DE MÉTRICAS!
-                // Varremos todas as linhas de registros vindas do banco e filtramos apenas as que são desvios
                 resultado.forEach(row => {
-                    if (row.desvio_status !== null) {
-                        tabelaDesvios.push({
-                            data: row.desvio_data,
-                            valor: `${row.registro_temperatura}°C`,
-                            status: row.desvio_status,       // Ex: "Alerta Alto", "Crítico Baixo"
-                            classeCor: row.desvio_classe_cor // Ex: "text-orange", "text-red"
-                        });
-                    }
+                    tabelaDesvios.push({
+                        data: row.data_formatada,
+                        valor: row.temperatura,
+                        status: row.descricao,
+                        classeCor: row.descricao && row.descricao.includes("Crítico") ? "text-red" : "text-orange" 
+                    });
                 });
 
                 res.status(200).json(tabelaDesvios);
@@ -106,9 +162,30 @@ function obterTabelaDesvios(req, res) {
     }
 }
 
+function obterDadoTempoReal(req, res) {
+    var idCarga = req.params.idCarga;
+
+    console.log(`Recuperando dados em tempo real para a carga ID: ${idCarga}`);
+
+    cargaModel.obterDadoTempoReal(idCarga).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado); 
+        } else {
+            console.log("Nenhum dado novo encontrado para o tempo real.");
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os dados em tempo real.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     listarCargas,
     obterKpis,
     obterDadosGrafico,
-    obterTabelaDesvios
+    obterTabelaDesvios,
+    obterDadoTempoReal,
+    processarLeitura
 };
