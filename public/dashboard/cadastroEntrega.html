@@ -94,7 +94,17 @@
                 <h3 class="titulo_secao">
                     Informações da Entrega
                 </h3>
+                <div class="grupo_input">
 
+                    <label>Selecionar Carga</label>
+
+                    <select id="select_carga">
+
+                        <option value="">Selecione uma carga</option>
+
+                    </select>
+
+                </div>
                 <div class="grupo_input">
 
                     <label>Placa do Veículo</label>
@@ -149,46 +159,13 @@
                         <tr>
 
                             <th>ID</th>
-                            <th>Lote</th>
-                            <th>Sensor</th>
-                            <th>Temp. Min</th>
-                            <th>Temp. Max</th>
+                            <th>Código da Carga</th>
 
                         </tr>
 
                     </thead>
 
-                    <tbody>
-
-                        <tr>
-
-                            <td>301</td>
-                            <td>A123</td>
-                            <td>S1</td>
-                            <td>2°C</td>
-                            <td>8°C</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>302</td>
-                            <td>B456</td>
-                            <td>S2</td>
-                            <td>1°C</td>
-                            <td>7°C</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>303</td>
-                            <td>C789</td>
-                            <td>S3</td>
-                            <td>3°C</td>
-                            <td>9°C</td>
-
-                        </tr>
+                    <tbody id="tbody_cargas">
 
                     </tbody>
 
@@ -208,106 +185,116 @@
 </html>
 
 <script>
-    let cargasSelecionadas = [];
+    window.onload = () => {
 
-window.onload = () => {
-    listarCargas();
-};
+        listarCargas();
+    };
 
-function listarCargas() {
+    function listarCargas() {
 
-    fetch("/entrega/listarSemEntrega")
-    .then(res => res.json())
-    .then(dados => {
+        fetch("/entrega/listarSemEntrega")
 
-        const tbody = document.querySelector("tbody");
+            .then(function (resposta) {
 
-        tbody.innerHTML = "";
+                return resposta.json();
+            })
 
-        dados.forEach((carga) => {
+            .then(function (dados) {
 
-            tbody.innerHTML += `
-                <tr onclick="selecionarCarga(${carga.id_carga}, this)">
-                    <td>${carga.id_carga}</td>
-                    <td>${carga.codigo_lote}</td>
-                    <td>${carga.codigo_sensor}</td>
-                    <td>${carga.temp_min}°C</td>
-                    <td>${carga.temp_max}°C</td>
+                var tbody =
+                    document.getElementById("tbody_cargas");
+
+                var select =
+                    document.getElementById("select_carga");
+
+                tbody.innerHTML = "";
+
+                select.innerHTML = `
+            <option value="">
+                Selecione uma carga
+            </option>
+        `;
+
+                for (var i = 0; i < dados.length; i++) {
+
+                    tbody.innerHTML += `
+                <tr>
+                    <td>${dados[i].id_carga}</td>
+                    <td>${dados[i].codigo_Carga}</td>
                 </tr>
             `;
-        });
 
-    })
-    .catch((erro) => {
-        console.log("Erro ao listar cargas:", erro);
-    });
-}
+                    select.innerHTML += `
+                <option value="${dados[i].id_carga}">
+                    ${dados[i].codigo_Carga}
+                </option>
+            `;
+                }
 
-function selecionarCarga(idCarga, linha) {
+            })
 
-    if (cargasSelecionadas.includes(idCarga)) {
+            .catch(function (erro) {
 
-        cargasSelecionadas =
-            cargasSelecionadas.filter(id => id != idCarga);
-
-        linha.style.backgroundColor = "";
-
-    } else {
-
-        cargasSelecionadas.push(idCarga);
-
-        linha.style.backgroundColor = "#d1f5ff";
-    }
-}
-
-function cadastrarEntrega() {
-
-    const inputs = document.querySelectorAll("input");
-
-    const placa = inputs[0].value;
-    const destino = inputs[1].value;
-    const tipoVeiculo = inputs[2].value;
-
-    if (
-        placa == "" ||
-        destino == "" ||
-        tipoVeiculo == ""
-    ) {
-        alert("Preencha todos os campos");
-        return;
+                console.log("Erro ao listar cargas", erro);
+            });
     }
 
-    if (cargasSelecionadas.length == 0) {
-        alert("Selecione ao menos uma carga");
-        return;
-    }
+    function cadastrarEntrega() {
 
-    fetch("/entrega/cadastrar", {
+        var inputs =
+            document.querySelectorAll("input");
 
-        method: "POST",
+        var placa = inputs[0].value;
+        var destino = inputs[1].value;
+        var tipoVeiculo = inputs[2].value;
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+        var idCarga =
+            document.getElementById("select_carga").value;
 
-        body: JSON.stringify({
-            placa,
-            destino,
-            tipoVeiculo,
-            cargas: cargasSelecionadas
+        if (
+            placa == "" ||
+            destino == "" ||
+            tipoVeiculo == "" ||
+            idCarga == ""
+        ) {
+
+            alert("Preencha todos os campos");
+            return;
+        }
+
+        fetch("/entrega/cadastrar", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                placa: placa,
+                destino: destino,
+                tipoVeiculo: tipoVeiculo,
+                cargas: [idCarga]
+            })
+
         })
 
-    })
-    .then(res => res.json())
-    .then(resposta => {
+            .then(function (resposta) {
 
-        alert(resposta.mensagem);
+                return resposta.json();
+            })
 
-        window.location.reload();
-    })
-    .catch((erro) => {
+            .then(function (dados) {
 
-        console.log("Erro ao cadastrar entrega:", erro);
-    });
-}
+                alert(dados.mensagem);
+
+                window.location.reload();
+            })
+
+            .catch(function (erro) {
+
+                console.log("Erro ao cadastrar", erro);
+            });
+    }
 </script>
