@@ -1,55 +1,93 @@
-const entregaModel = require("../models/entregaModel");
+var entregaModel = require("../models/entregaModel");
 
-async function cadastrar(req, res) {
+function cadastrar(req, res) {
 
-    const {
-        placa,
-        destino,
+    var placa = req.body.placa;
+    var destino = req.body.destino;
+    var tipoVeiculo = req.body.tipoVeiculo;
+    var cargas = req.body.cargas;
+
+    if (
+        placa == undefined ||
+        destino == undefined ||
+        tipoVeiculo == undefined
+    ) {
+
+        res.status(400).send("Dados da entrega estão undefined!");
+    }
+
+    entregaModel.cadastrarEntrega(
         tipoVeiculo,
-        cargas
-    } = req.body;
+        placa,
+        destino
+    ).then(function (resultadoEntrega) {
 
-    try {
+        var idEntrega = resultadoEntrega.insertId;
 
-        const resultadoEntrega =
-            await entregaModel.cadastrarEntrega(
-                tipoVeiculo,
-                placa,
-                destino
-            );
+        var promessas = [];
 
-        const idEntrega = resultadoEntrega.insertId;
+        for (var i = 0; i < cargas.length; i++) {
 
-        for (let i = 0; i < cargas.length; i++) {
-
-            await entregaModel.vincularCarga(
-                idEntrega,
-                cargas[i]
+            promessas.push(
+                entregaModel.vincularCarga(
+                    idEntrega,
+                    cargas[i]
+                )
             );
         }
 
-        res.status(200).json({
-            mensagem: "Entrega cadastrada com sucesso"
-        });
+        Promise.all(promessas)
+            .then(function () {
 
-    } catch (erro) {
+                res.status(200).json({
+                    mensagem: "Entrega cadastrada com sucesso!"
+                });
+
+            }).catch(function (erro) {
+
+                console.log(erro);
+                console.log(
+                    "Erro ao vincular cargas",
+                    erro.sqlMessage
+                );
+
+                res.status(500).json(erro.sqlMessage);
+            });
+
+    }).catch(function (erro) {
 
         console.log(erro);
+        console.log(
+            "Erro ao cadastrar entrega",
+            erro.sqlMessage
+        );
 
         res.status(500).json(erro.sqlMessage);
-    }
+    });
 }
 
 function listarSemEntrega(req, res) {
 
     entregaModel.listarCargasSemEntrega()
-    .then((resultado) => {
+    .then(function (resultado) {
 
-        res.status(200).json(resultado);
+        if (resultado.length > 0) {
 
-    }).catch((erro) => {
+            res.status(200).json(resultado);
+
+        } else {
+
+            res.status(204).send("Nenhuma carga encontrada!");
+        }
+
+    }).catch(function (erro) {
 
         console.log(erro);
+
+        console.log(
+            "Erro ao listar cargas sem entrega",
+            erro.sqlMessage
+        );
 
         res.status(500).json(erro.sqlMessage);
     });
