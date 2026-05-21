@@ -18,4 +18,12 @@ router.get("/desvios/:idCarga", function (req, res) {
     cargaController.obterTabelaDesvios(req, res);
 });
 
+router.get("/tempo-real/:idCarga", function (req, res) {
+    cargaController.obterDadoTempoReal(req, res);
+});
+
+router.post("/capturar", function (req, res) {
+    cargaController.processarLeitura(req, res);
+});
+
 module.exports = router;
