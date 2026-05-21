@@ -36,6 +36,7 @@ CREATE TABLE sensor(
 CREATE TABLE lote(
     id_lote INT PRIMARY KEY AUTO_INCREMENT,
     codigo_lote VARCHAR(45) NOT NULL UNIQUE,
+    qtd_caixas INT,
     dt_fabricacao DATE NOT NULL,
     dt_validade DATE NOT NULL,
     fk_empresa INT,
@@ -94,8 +95,6 @@ CREATE TABLE alerta (
     CONSTRAINT fk_alerta_registro FOREIGN KEY (fk_registro) REFERENCES registro(id_registro),
     CONSTRAINT fk_alerta_carga FOREIGN KEY (fk_carga) REFERENCES carga(id_carga)
 );
-
-
 
 INSERT INTO empresa (cnpj, razao_social, token) VALUES 
 ('12345678000100', 'Logística Rápida S.A.', '321123'),

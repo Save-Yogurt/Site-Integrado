@@ -35,28 +35,28 @@
                 </div>
             </a>
 
-            <a href="cadastro-do-lote.html">
+            <a href="cadastroLote.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
                     <span class="menu-text">Cadastro Lote</span>
                 </div>
             </a>
 
-            <a href="cadastro-carga.html">
+            <a href="cadastroCarga.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
                     <span class="menu-text">Cadastro Carga</span>
                 </div>
             </a>
 
-            <a href="cadastro_entrega.html">
+            <a href="cadastroEntrega.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
                     <span class="menu-text">Entregas</span>
                 </div>
             </a>
 
-            <a href="status-carga.html">
+            <a href="statusCarga.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
                     <span class="menu-text">Atualizar Entrega</span>
@@ -73,10 +73,8 @@
     <main class="main-content">
         <div class="header-cargas">
             <h1 class="header-title">Dashboard Carga</h1>
-            <!-- Adicionado id corretificado e a chamada da função no onchange -->
             <select id="select_carga" class="select-carga" onchange="atualizarDashboard()">
-                <option value="Carga001">Carga001</option>
-                <option value="Carga002">Carga002</option>
+                <option value=""></option>
             </select>
         </div>
 
@@ -84,8 +82,7 @@
             <div class="kpi-item">
                 <span class="kpi-label">Status da Última Medição</span>
                 <div class="kpi-main">
-                    <!-- IDs adicionados para manipulação do JS -->
-                    <span id="kpi_status_texto" class="status-text">Em conformidade</span>
+                    <span id="kpi_status_texto" class="status-text"></span>
                     <i id="kpi_status_icone" class="fa-solid fa-circle-check check-icon"></i>
                 </div>
             </div>
@@ -106,7 +103,7 @@
             <div class="kpi-item">
                 <span class="kpi-label">Início de Monitoramento</span>
                 <div class="kpi-main">
-                    <span id="kpi_data" class="data-text">15 de Out de 2024</span>
+                    <span id="kpi_data" class="data-text"></span>
                 </div>
             </div>
         </div>
@@ -114,7 +111,6 @@
         <div class="dashboard-row">
             <div class="chart-section">
                 <div class="section-title">
-                    <!-- ID adicionado para mudar o título dinamicamente -->
                     <span id="titulo_grafico">Temperatura da Carga - Carga001 (Histórico Completo)</span>
                     <i class="fa-solid fa-box-archive"></i>
                 </div>
@@ -135,144 +131,215 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <!-- ID adicionado no tbody para limpar e reinserir as linhas -->
                     <tbody id="tabela_desvios_corpo">
-                        <!-- Gerado dinamicamente pelo JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
 
-    <script>
-    // 1. Inicialização do gráfico (Começa vazio, os dados virão do banco)
-    const ctx = document.getElementById('tempChart').getContext('2d');
-    const tempChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
+<script>
+    if (document.getElementById("b_usuario")) {
+        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    }
+
+    let proximaAtualizacao;
+    let meuGrafico; 
+
+    window.onload = function() {
+        configurarSelectCargas();
+    };
+
+    function configurarSelectCargas() {
+        fetch("/cargas/listar-cargas", { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (cargas) {
+                        var select = document.getElementById("select_carga");
+                        select.innerHTML = "";
+
+                        cargas.forEach(item => {
+                            select.innerHTML += `<option value="${item.id_carga}">${item.codigo_Carga}</option>`;
+                        });
+
+                        atualizarDashboard();
+                    });
+                } else {
+                    console.error('Nenhuma carga encontrada ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção das cargas: ${error.message}`);
+            });
+    }
+
+    function atualizarDashboard() {
+        var idCargaSelecionada = document.getElementById("select_carga").value;
+        if (!idCargaSelecionada) return;
+
+        var select = document.getElementById("select_carga");
+        var textoCargaSelecionada = select.options[select.selectedIndex].text;
+        document.getElementById("titulo_grafico").innerHTML = `Temperatura da Carga - ${textoCargaSelecionada} (Histórico Recente)`;
+
+        if (proximaAtualizacao != undefined) {
+            clearTimeout(proximaAtualizacao);
+        }
+
+        obterDadosGrafico(idCargaSelecionada);
+        obterDadosKpis(idCargaSelecionada);
+        obterDesviosTabela(idCargaSelecionada);
+    }
+
+    function obterDadosGrafico(idCarga) {
+        fetch(`/cargas/grafico/${idCarga}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (dadosGrafico) {
+                    console.log(`Dados históricos recebidos:`, dadosGrafico);
+                    plotarGrafico(dadosGrafico, idCarga);
+                });
+            } else {
+                console.error('Erro na API de gráfico histórico');
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    function plotarGrafico(dadosGrafico, idCarga) {
+        let dados = {
+            labels: dadosGrafico.labels, 
             datasets: [{
                 label: 'Temperatura (°C)',
-                data: [],
+                data: dadosGrafico.valores, 
+                fill: false,
                 borderColor: '#006876',
                 backgroundColor: '#006876',
                 borderWidth: 2,
                 pointRadius: 4,
-                tension: 0.1
+                tension: 0.1,
+                z: 10
             }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { min: -2, max: 10, ticks: { stepSize: 1 } }
+        };
+
+        const config = {
+            type: 'line',
+            data: dados,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: -2,
+                        max: 12,
+                        ticks: { stepSize: 1 }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
             },
-            plugins: { legend: { display: false } }
-        },
-        plugins: [{
-            id: 'backgroundZones',
-            beforeDraw: (chart) => {
-                const { ctx, chartArea, scales: { y } } = chart;
-                if (!chartArea) return;
-                const { left, right } = chartArea;
-                
-                const fillZone = (yStart, yEnd, color) => {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(left, y.getPixelForValue(yEnd), right - left, y.getPixelForValue(yStart) - y.getPixelForValue(yEnd));
-                };
+            plugins: [{
+                id: 'backgroundZones',
+                beforeDraw: (chart) => {
+                    const {ctx, chartArea, scales: {y}} = chart;
+                    if (!chartArea) return; 
+                    
+                    const {left, right} = chartArea;
+                    const fillZone = (yStart, yEnd, color) => {
+                        ctx.fillStyle = color;
+                        ctx.fillRect(
+                            left, 
+                            y.getPixelForValue(yEnd), 
+                            right - left, 
+                            y.getPixelForValue(yStart) - y.getPixelForValue(yEnd)
+                        );
+                    };
+                    
+                    fillZone(-2, 0, '#f8d7da');  // crítico < 0 (vermelho)
+                    fillZone(0, 2, '#fff3cd');   // alerta > 0 e < 2 (amarelo)
+                    fillZone(2, 5, '#d4edda');   // normal 2 a 5 (verde)
+                    fillZone(5, 10, '#fff3cd');  // alerta > 5 e < 10 (amarelo)
+                    fillZone(10, 12, '#f8d7da'); // crítico > 10 (vermelho)
+                }
+            }]
+        };
 
-                fillZone(-2, 0, '#f8d7da');  // Crítico Inferior
-                fillZone(0, 2, '#fff3cd');   // Alerta Inferior
-                fillZone(2, 6, '#d4edda');   // Faixa Ideal
-                fillZone(6, 8, '#fff3cd');   // Alerta Superior
-                fillZone(8, 10, '#f8d7da');  // Crítico Superior
-            }
-        }]
-    });
-
-    // ATENÇÃO: Ajuste a URL base "/cargas" abaixo conforme o prefixo que você usou no seu app.js
-    const URL_BASE = "/cargas"; 
-
-    // 2. Preencher o Select dinamicamente
-    async function carregarCargas() {
-        try {
-            const resposta = await fetch(`${URL_BASE}/listar-cargas`);
-            const cargas = await resposta.json();
-
-            const select = document.getElementById('select_carga');
-            select.innerHTML = ""; // Limpa o HTML atual
-
-            cargas.forEach(carga => {
-                const option = document.createElement("option");
-                option.value = carga.idCarga; // Certifique-se de que o nome da coluna no banco é idCarga
-                option.text = `Carga ${carga.idCarga} - ${carga.identificacao || ''}`;
-                select.appendChild(option);
-            });
-
-            // Após popular o select, busca os dados da primeira carga da lista
-            if(cargas.length > 0) {
-                atualizarDashboard();
-            }
-        } catch (erro) {
-            console.error("Erro ao listar cargas:", erro);
+        if (meuGrafico) {
+            meuGrafico.destroy();
         }
+
+        var ctx = document.getElementById('tempChart').getContext('2d');
+        meuGrafico = new Chart(ctx, config);
+
+        proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
     }
 
-    // 3. Atualizar a tela inteira (KPIs, Gráfico e Tabela)
-    async function atualizarDashboard() {
-        const idCarga = document.getElementById('select_carga').value;
-        if (!idCarga) return;
+    function atualizarGrafico(idCarga, dados) {
+        fetch(`/cargas/tempo-real/${idCarga}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (novoRegistro) {
+                    var registro = novoRegistro[0]; 
 
-        try {
-            // A. Atualizar KPIs
-            const resKpis = await fetch(`${URL_BASE}/kpis/${idCarga}`);
-            const dadosKpis = await resKpis.json();
-            
-            // Os nomes (statusTexto, lote, etc) dependem do ALIAS usado no seu SELECT do SQL
-            document.getElementById('kpi_status_texto').innerText = dadosKpis.statusTexto;
-            document.getElementById('kpi_lote').innerText = dadosKpis.lote;
-            document.getElementById('kpi_sensor').innerText = dadosKpis.sensor;
-            document.getElementById('kpi_data').innerText = dadosKpis.dataInicio;
+                    if (registro && registro.horario != dados.labels[dados.labels.length - 1]) {
+                        if (dados.labels.length >= 7) {
+                            dados.labels.shift(); 
+                            dados.datasets[0].data.shift();
+                        }
 
-            const iconeStatus = document.getElementById('kpi_status_icone');
-            iconeStatus.className = dadosKpis.statusClasseIcone || "fa-solid fa-circle-check check-icon"; 
+                        dados.labels.push(registro.horario);
+                        dados.datasets[0].data.push(Number(registro.temperatura));
+                        meuGrafico.update();
+                    }
 
-            // B. Atualizar Gráfico
-            const resGrafico = await fetch(`${URL_BASE}/grafico/${idCarga}`);
-            const dadosGrafico = await resGrafico.json();
+                    proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
+                });
+            } else {
+                proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro no tempo real: ${error.message}`);
+        });
+    }
 
-            document.getElementById('titulo_grafico').innerText = `Temperatura da Carga - Carga ${idCarga} (Histórico Completo)`;
+    function obterDadosKpis(idCarga) {
+        fetch(`/cargas/kpis/${idCarga}`, { cache: 'no-store' })
+        .then(res => res.json())
+        .then(kpi => {
+            document.getElementById("kpi_status_texto").innerText = kpi.statusTexto;
+            document.getElementById("kpi_lote").innerText = kpi.lote || "N/A";
+            document.getElementById("kpi_sensor").innerText = kpi.sensor || "N/A";
+            document.getElementById("kpi_data").innerText = kpi.dataInicio || "N/A";
+            document.getElementById("kpi_status_icone").className = kpi.statusClasseIcone;
+        }).catch(err => console.error("Erro ao buscar KPIs:", err));
+    }
 
-            // Supondo que a API retorne arrays separados, ou você usa .map() se vier um array de objetos
-            tempChart.data.labels = dadosGrafico.map(d => d.momento_leitura);
-            tempChart.data.datasets[0].data = dadosGrafico.map(d => d.temperatura);
-            tempChart.update();
+    function obterDesviosTabela(idCarga) {
+        fetch(`/cargas/desvios/${idCarga}`, { cache: 'no-store' })
+        .then(res => res.json())
+        .then(desvios => {
+            var corpoTabela = document.getElementById("tabela_desvios_corpo");
+            corpoTabela.innerHTML = ""; 
 
-            // C. Atualizar Tabela de Desvios
-            const resDesvios = await fetch(`${URL_BASE}/desvios/${idCarga}`);
-            const dadosDesvios = await resDesvios.json();
+            if(desvios.length == 0) {
+                corpoTabela.innerHTML = `<tr><td colspan="3" style="text-align:center;">Nenhum desvio detectado</td></tr>`;
+                return;
+            }
 
-            const tbody = document.getElementById('tabela_desvios_corpo');
-            tbody.innerHTML = ""; 
-
-            dadosDesvios.forEach(desvio => {
-                const linhaHtml = `
+            desvios.forEach(item => {
+                corpoTabela.innerHTML += `
                     <tr>
-                        <td>${desvio.data}</td>
-                        <td class="${desvio.classeCor}">${desvio.valor}°C</td>
-                        <td>${desvio.status}</td>
+                        <td>${item.data_formatada || item.data}</td>
+                        <td>${item.temperatura || item.valor}°C</td>
+                        <td>${item.descricao || item.status}</td>
                     </tr>
                 `;
-                tbody.innerHTML += linhaHtml;
             });
-
-        } catch (erro) {
-            console.error("Erro ao buscar dados do dashboard:", erro);
-        }
+        }).catch(err => console.error("Erro ao buscar tabela de desvios:", err));
     }
-
-    // 4. Executa a listagem de cargas ao carregar a página
-    window.onload = carregarCargas;
 </script>
 </body>
 </html>
