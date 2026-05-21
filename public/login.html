@@ -139,6 +139,14 @@
                     sessionStorage.ID_USUARIO = json.id_usuario;
                     sessionStorage.ID_EMPRESA = json.id_empresa;
 
+                    cardErro.style.display = "block";
+
+                    cardErro.style.backgroundColor = "#6be48f";
+                    cardErro.style.borderColor = "#00ff00";
+                    mensagem_erro.style.color = "#000000";
+
+                    mensagem_erro.innerHTML = "Login realizado com sucesso! Redirecionando...";
+
                     setTimeout(function () {
                         window.location = "./dashboard/dashboardGeral.html";
                     }, 1000); // apenas para exibir o loading

@@ -22,6 +22,7 @@ var dashboardCargaRouter = require("./src/routes/dashboardCarga");
 var cargasRouter = require("./src/routes/dashboardCarga");
 var entregaRouter = require("./src/routes/entrega");
 var loginRouter = require("./src/routes/login");
+var statusCargaRouter = require("./src/routes/statusCarga")
 
 
 app.use(express.json());
@@ -38,6 +39,7 @@ app.use("/cargas", cargasRouter);
 app.use("/entrega", entregaRouter);
 app.use("/cadastro", cadastroRouter);
 app.use("/login", loginRouter);
+app.use("/statusCarga",statusCargaRouter);
 
 
 
