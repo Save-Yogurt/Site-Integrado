@@ -30,24 +30,19 @@ function vincularCarga(idEntrega, idCarga) {
 
 function listarCargasSemEntrega() {
 
-    const instrucao = `
+    var instrucaoSql = `
+
         SELECT
-            c.id_carga,
-            l.codigo_lote,
-            s.codigo_sensor,
-            c.temp_min,
-            c.temp_max
-        FROM carga c
-        JOIN lote l
-            ON c.fk_lote = l.id_lote
-        LEFT JOIN monitoramento_sensor ms
-            ON ms.fk_carga = c.id_carga
-        LEFT JOIN sensor s
-            ON s.id_sensor = ms.fk_sensor
-        WHERE c.fk_entrega IS NULL;
+            id_carga,
+            codigo_Carga
+        FROM carga
+        WHERE fk_entrega IS NULL;
+
     `;
 
-    return database.executar(instrucao);
+    console.log("Executando SQL: \n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
