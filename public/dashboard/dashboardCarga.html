@@ -120,20 +120,27 @@
             </div>
 
             <div class="table-section">
-                <div class="section-title">
-                    <span>Resumo de Desvios (Mês Atual)</span>
+                <div class="cabecalho-fixo">
+                    <div class="section-title">
+                        <span>Resumo de Desvios (Mês Atual)</span>
+                    </div>
+                    <table class="desvios-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Desvio</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <table class="desvios-table">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Desvio</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela_desvios_corpo">
-                    </tbody>
-                </table>
+                
+                <div class="scroll">
+                    <table class="desvios-table">
+                        <tbody id="tabela_desvios_corpo">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>
@@ -283,6 +290,7 @@
                 response.json().then(function (novoRegistro) {
                     var registro = novoRegistro[0]; 
 
+                    // Se houver dado novo, atualiza o gráfico
                     if (registro && registro.horario != dados.labels[dados.labels.length - 1]) {
                         if (dados.labels.length >= 7) {
                             dados.labels.shift(); 
@@ -292,8 +300,12 @@
                         dados.labels.push(registro.horario);
                         dados.datasets[0].data.push(Number(registro.temperatura));
                         meuGrafico.update();
+
+                        obterDadosKpis(idCarga);
+                        obterDesviosTabela(idCarga);
                     }
 
+                    // Continua o loop de tempo real
                     proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
                 });
             } else {
@@ -302,6 +314,7 @@
         })
         .catch(function (error) {
             console.error(`Erro no tempo real: ${error.message}`);
+            proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
         });
     }
 
@@ -330,11 +343,20 @@
             }
 
             desvios.forEach(item => {
+                const statusText = item.descricao || item.status || "";
+                let corEstilo = "";
+
+                if (statusText.toLowerCase().includes('crítico')) {
+                    corEstilo = "color: #dc3545; font-weight: bold;"; // Vermelho
+                } else if (statusText.toLowerCase().includes('alerta')) {
+                    corEstilo = "color: #ffc107; font-weight: bold;"; // Amarelo
+                }
+
                 corpoTabela.innerHTML += `
                     <tr>
                         <td>${item.data_formatada || item.data}</td>
                         <td>${item.temperatura || item.valor}°C</td>
-                        <td>${item.descricao || item.status}</td>
+                        <td style="${corEstilo}">${statusText}</td>
                     </tr>
                 `;
             });

@@ -54,8 +54,7 @@ function obterTabelaDesvios(idCarga) {
         FROM alerta a
         JOIN registro r ON a.fk_registro = r.id_registro
         WHERE a.fk_carga = ${idCarga}
-        ORDER BY a.dt_alerta DESC
-        LIMIT 5;
+        ORDER BY a.dt_alerta DESC;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -76,22 +75,10 @@ function obterDadoTempoReal(idCarga) {
     return database.executar(instrucaoSql);
 }
 
-function registrarLeitura(temperatura, idSensor) {
-    var instrucaoSql = `INSERT INTO registro (temperatura, dt_registro, fk_sensor) VALUES (${temperatura}, NOW(), ${idSensor});`;
-    return database.executar(instrucaoSql);
-}
-
-function salvarAlerta(idRegistro, idCarga, descricao) {
-    var instrucaoSql = `INSERT INTO alerta (descricao, dt_alerta, fk_registro, fk_carga) VALUES ('${descricao}', NOW(), ${idRegistro}, ${idCarga});`;
-    return database.executar(instrucaoSql);
-}
-
 module.exports = {
     listarCargas,
     obterKpis,
     obterDadosGrafico,
     obterTabelaDesvios,
     obterDadoTempoReal,
-    registrarLeitura,
-    salvarAlerta
 };
