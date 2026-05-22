@@ -169,7 +169,6 @@
      padding: 20px;
      border-radius: 15px;
      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-     border-left: 5px solid #006876;
  }
 
  .kpi-label {
@@ -186,8 +185,7 @@
  }
 
  .status-text {
-     font-size: 1.2rem;
-     color: #006876;
+     font-size: 1.4rem;
      font-weight: bold;
  }
 
@@ -269,14 +267,17 @@
  }
 
  .desvios-table th {
-     text-align: left;
+     width: 20px;
+     text-align: center;
      padding: 10px;
      border-bottom: 2px solid #eee;
      color: #666;
  }
 
  .desvios-table td {
-     padding: 12px 10px;
+     width: 20px;
+     text-align: center;
+     padding: 10px;
      border-bottom: 1px solid #eee;
  }
 

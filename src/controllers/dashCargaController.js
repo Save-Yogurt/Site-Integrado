@@ -65,8 +65,6 @@ function obterKpis(req, res) {
                     var textoStatus = "";
                     var icone = "";
 
-                    // Lógica baseada nas suas faixas de fillZone:
-                    
                     // CRÍTICO (< 0 ou > 10)
                     if (temp < 0 || temp > 10) {
                         textoStatus = "Crítico";
@@ -77,7 +75,7 @@ function obterKpis(req, res) {
                         textoStatus = "Alerta";
                         icone = "fa-solid fa-triangle-exclamation";
                     } 
-                    // NORMAL (2 a 5)
+                    // EM CONFORMIDADE (2 a 5)
                     else {
                         textoStatus = "Em conformidade";
                         icone = "fa-solid fa-circle-check check-icon";

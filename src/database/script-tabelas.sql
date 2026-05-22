@@ -1,4 +1,4 @@
-create database SaveYogurt;
+CREATE TABLE SaveYogurt;
 
 USE SaveYogurt;
 
@@ -44,6 +44,17 @@ CREATE TABLE lote(
         FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa)
 );
 
+
+CREATE TABLE carga(
+    id_carga INT PRIMARY KEY AUTO_INCREMENT,
+    produto VARCHAR(45),
+    qtd_caixas int,
+    codigo_Carga VARCHAR(45) NOT NULL UNIQUE,
+    status_carga VARCHAR(45) NOT NULL,
+    fk_lote INT NOT NULL, 
+    CONSTRAINT fk_carga_lote FOREIGN KEY (fk_lote) REFERENCES lote(id_lote)
+);
+
 CREATE TABLE entrega (
     id_entrega INT PRIMARY KEY AUTO_INCREMENT,
     tipo_veiculo VARCHAR(45),
@@ -53,18 +64,6 @@ CREATE TABLE entrega (
     dt_inicio DATETIME DEFAULT NOW(),
     fk_codigo_carga varchar(45), 
     CONSTRAINT fk_entrega_carga FOREIGN KEY (fk_codigo_carga) REFERENCES carga(codigo_Carga)
-);
-
-CREATE TABLE carga(
-    id_carga INT PRIMARY KEY AUTO_INCREMENT,
-    produto VARCHAR(45),
-    qtd_caixas int,
-    codigo_Carga VARCHAR(45) NOT NULL UNIQUE,
-    status_carga VARCHAR(45) NOT NULL,
-    temp_min DECIMAL(5,2) NOT NULL, 
-    temp_max DECIMAL(5,2) NOT NULL,
-    fk_lote INT NOT NULL, 
-    CONSTRAINT fk_carga_lote FOREIGN KEY (fk_lote) REFERENCES lote(id_lote)
 );
 
 CREATE TABLE monitoramento_sensor(
@@ -96,62 +95,56 @@ CREATE TABLE alerta (
     CONSTRAINT fk_alerta_carga FOREIGN KEY (fk_carga) REFERENCES carga(id_carga)
 );
 
-INSERT INTO empresa (cnpj, razao_social, token) VALUES 
-('12345678000100', 'Logística Rápida S.A.', '321123'),
-('98765432000199', 'Frio Extremo Transportes Ltda', '432234');
+INSERT INTO empresa 
+(cnpj, razao_social, dt_criacao, token) 
+VALUES
+('11111111000101', 'Danone', '2026-04-10', '321123'),
+('22222222000102', 'Vigor', '2026-04-10', '432234'),
+('33333333000103', 'Batavo', '2026-04-10', '255772');
 
-INSERT INTO usuario (nome, cpf, email, senha, fk_empresa) VALUES 
-('Carlos Silva', '11122233344', 'carlos@lograpida.com', '12345678', 1),
-('Ana Souza', '55566677788', 'ana@frioextremo.com', '12345678', 2);
 
-INSERT INTO sensor (codigo_sensor, status_sensor, fk_empresa) VALUES 
-('SNS-1001', 'Em Uso', 1),
-('SNS-2002', 'Em Uso', 2);
+INSERT INTO sensor
+(codigo_sensor, status_sensor, fk_empresa)
+VALUES
+('SEN001', 'Disponível', 1),
+('SEN002', 'Em Uso', 1),
+('SEN003', 'Disponível', 2),
+('SEN004', 'Em Uso', 2),
+('SEN005', 'Disponível', 3),
+('SEN006', 'Disponível', 3);
 
-INSERT INTO lote (codigo_lote, dt_fabricacao, dt_validade, fk_empresa) VALUES 
-('LOT-2026-A', '2026-01-10', '2026-12-31', 1),
-('LOT-2026-B', '2026-02-15', '2027-02-15', 2);
+INSERT INTO lote
+(codigo_lote, dt_fabricacao, dt_validade, fk_empresa)
+VALUES
+('LOTEDAN001', '2026-04-01', '2026-05-01', 1),
+('LOTEDAN002', '2026-04-05', '2026-05-05', 1),
+('LOTEVIG001', '2026-04-02', '2026-05-02', 2),
+('LOTEVIG002', '2026-04-06', '2026-05-06', 2),
+('LOTEBAT001', '2026-04-03', '2026-05-03', 3),
+('LOTEBAT002', '2026-04-07', '2026-05-07', 3);
 
-INSERT INTO carga 
-(produto, qtd_caixas, codigo_Carga, status_carga, temp_min, temp_max, fk_lote) 
-VALUES 
-('Vacinas', 150, 'C001', 'Em trânsito', 2.00, 8.00, 1),
-('Peixes congelados', 500, 'C002', 'Em trânsito', -22.00, -18.00, 2);
+INSERT INTO carga
+(produto, qtd_caixas, codigo_carga, status_carga, fk_lote)
+VALUES
+('Iogurte Tradicional', 120, 'CARGA001', 'Armazenada', 1),
+('Iogurte Grego', 90, 'CARGA002', 'Armazenada', 2),
+('YoPRO Morango', 150, 'CARGA003', 'Transporte', 3),
+('YoPRO Banana', 110, 'CARGA004', 'Armazenada', 4),
+('Danette Chocolate', 130, 'CARGA005', 'Transporte', 5),
+('Danette Creme', 100, 'CARGA006', 'Armazenada', 6);
 
 INSERT INTO entrega 
 (tipo_veiculo, veiculo_placa, ultima_loc, destino, fk_codigo_carga) 
 VALUES 
-('Caminhão baú', 'ABC1D23', 'São Paulo - SP', 'Rio de Janeiro - RJ', 'C001'),
-('Van refrigerada', 'XYZ9G87', 'Curitiba - PR', 'Porto Alegre - RS', 'C002');
+('Caminhão baú', 'ABC1D23', 'São Paulo - SP', 'Rio de Janeiro - RJ', 'CARGA001'),
+('Van refrigerada', 'XYZ9G87', 'Curitiba - PR', 'Porto Alegre - RS', 'CARGA002');
 
-INSERT INTO monitoramento_sensor (fk_sensor, fk_carga) VALUES 
-(1, 1),
-(2, 2);
-
--- Registros para o sensor 1: Vacinas, limite ideal entre 2°C e 8°C
-INSERT INTO registro (temperatura, fk_sensor) VALUES 
-(4.20, 1),
-(3.80, 1),
-(1.50, 1),
-(9.10, 1);
-
--- Registros para o sensor 2: Peixes congelados, limite ideal entre -22°C e -18°C
-INSERT INTO registro (temperatura, fk_sensor) VALUES 
-(-19.50, 2),
-(-20.10, 2),
-(-12.30, 2),
-(-24.00, 2);
-
--- Alertas para a carga 1: Vacinas
-INSERT INTO alerta (descricao, fk_registro, fk_carga) VALUES 
-('Temperatura normal', 1, 1),
-('Temperatura normal', 2, 1),
-('Crítico: temperatura abaixo do limite mínimo', 3, 1),
-('Crítico: temperatura acima do limite máximo', 4, 1);
-
--- Alertas para a carga 2: Peixes congelados
-INSERT INTO alerta (descricao, fk_registro, fk_carga) VALUES 
-('Temperatura normal', 5, 2),
-('Temperatura normal', 6, 2),
-('Crítico: temperatura acima do limite máximo', 7, 2),
-('Crítico: temperatura abaixo do limite mínimo', 8, 2);
+INSERT INTO monitoramento_sensor 
+(fk_sensor, fk_carga, dt_inicio, dt_fim) 
+VALUES
+(1, 1, '2026-04-10 08:00:00', NULL),
+(2, 2, '2026-05-10 08:00:00', NULL),
+(3, 3, '2026-01-10 08:00:00', NULL),
+(4, 4, '2026-02-10 08:00:00', NULL),
+(5, 5, '2026-03-10 08:00:00', NULL),
+(6, 6, '2026-01-10 08:00:00', NULL);

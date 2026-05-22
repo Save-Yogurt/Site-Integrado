@@ -79,24 +79,24 @@
         </div>
 
         <div class="kpi-grid">
-            <div class="kpi-item">
+            <div class="kpi-item" id="kpi_status">
                 <span class="kpi-label">Status da Última Medição</span>
                 <div class="kpi-main">
                     <span id="kpi_status_texto" class="status-text"></span>
-                    <i id="kpi_status_icone" class="fa-solid fa-circle-check check-icon"></i>
+                    <i id="kpi_status_icone" class=""></i>
                 </div>
             </div>
             <div class="kpi-item">
                 <span class="kpi-label">Lote Associado da Carga</span>
                 <div class="kpi-main">
-                    <span id="kpi_lote" class="lote-text">LOTE-7734</span>
+                    <span id="kpi_lote" class="lote-text"></span>
                 </div>
                 <span class="kpi-subtext">Lote Associado</span>
             </div>
             <div class="kpi-item">
                 <span class="kpi-label">Código do Sensor Acoplado</span>
                 <div class="kpi-main">
-                    <span id="kpi_sensor" class="sensor-text">SEN-A01</span>
+                    <span id="kpi_sensor" class="sensor-text"></span>
                     <i class="fa-solid fa-microchip sensor-icon"></i>
                 </div>
             </div>
@@ -225,7 +225,6 @@
                 backgroundColor: '#006876',
                 borderWidth: 2,
                 pointRadius: 4,
-                tension: 0.1,
                 z: 10
             }]
         };
@@ -322,7 +321,18 @@
         fetch(`/cargas/kpis/${idCarga}`, { cache: 'no-store' })
         .then(res => res.json())
         .then(kpi => {
-            document.getElementById("kpi_status_texto").innerText = kpi.statusTexto;
+
+            var kpiStatusFundo = document.getElementById("kpi_status");
+            
+            if (kpi.statusTexto == "Alerta") {
+                kpiStatusFundo.style.backgroundColor = "#e5f071"; // muda o fundo da kpi de status para amarelo
+            } else if (kpi.statusTexto == "Crítico") {
+                kpiStatusFundo.style.backgroundColor = "#f07171"; // muda o fundo da kpi de status para vermelho
+            } else {
+                kpiStatusFundo.style.backgroundColor = "#71f086"; // muda o fundo da kpi de status para verde
+            }
+
+            document.getElementById("kpi_status_texto").innerText = kpi.statusTexto || "Sem dados";
             document.getElementById("kpi_lote").innerText = kpi.lote || "N/A";
             document.getElementById("kpi_sensor").innerText = kpi.sensor || "N/A";
             document.getElementById("kpi_data").innerText = kpi.dataInicio || "N/A";

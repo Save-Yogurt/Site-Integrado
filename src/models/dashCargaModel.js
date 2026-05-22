@@ -15,9 +15,7 @@ function obterKpis(idCarga) {
             DATE_FORMAT(ms.dt_inicio, '%d/%m/%Y') AS dt_inicio_formatada,
             (SELECT r.temperatura FROM registro r 
              WHERE r.fk_sensor = s.id_sensor 
-             ORDER BY r.dt_registro DESC LIMIT 1) AS ultima_temperatura,
-            c.temp_min,
-            c.temp_max
+             ORDER BY r.dt_registro DESC LIMIT 1) AS ultima_temperatura
         FROM carga c
         JOIN lote l ON c.fk_lote = l.id_lote
         LEFT JOIN monitoramento_sensor ms ON ms.fk_carga = c.id_carga AND ms.dt_fim IS NULL
