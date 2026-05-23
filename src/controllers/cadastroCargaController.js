@@ -36,7 +36,7 @@ function listarSensoresDisponiveis(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
-
+// exporta as funcoes
 module.exports = {
     cadastrarCarga,
     listarLotes,

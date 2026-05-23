@@ -1,7 +1,6 @@
 var database = require("../database/config");
-
+// cadastrar carga 
 function cadastrarCarga(codigoCarga, id_lote, id_sensor, produto, qtd_caixas) {
-    // 1. Insere a carga
     var sqlCarga = `
         INSERT INTO carga (codigo_Carga, produto, qtd_caixas, status_carga, fk_lote)
         VALUES ('${codigoCarga}', '${produto}', '${qtd_caixas}', 'Armazenada', ${id_lote});
@@ -9,15 +8,15 @@ function cadastrarCarga(codigoCarga, id_lote, id_sensor, produto, qtd_caixas) {
 
     return database.executar(sqlCarga)
         .then(function(resultadoCarga) {
-            var id_carga_nova = resultadoCarga.insertId; // pega o ID gerado automaticamente
+            var id_carga_nova = resultadoCarga.insertId; 
 
-            // 2. Vincula o sensor à carga no monitoramento
+          
             var sqlMonit = `
                 INSERT INTO monitoramento_sensor (fk_sensor, fk_carga, dt_inicio)
                 VALUES (${id_sensor}, ${id_carga_nova}, NOW());
             `;
 
-            // 3. Atualiza o sensor para "Em Uso"
+            
             var sqlSensor = `
                 UPDATE sensor SET status_sensor = 'Em Uso' WHERE id_sensor = ${id_sensor};
             `;
@@ -28,12 +27,12 @@ function cadastrarCarga(codigoCarga, id_lote, id_sensor, produto, qtd_caixas) {
                 });
         });
 }
-
+// lista os lotes por meio do select 
 function listarLotes() {
     var sql = `SELECT id_lote, codigo_lote FROM lote;`;
     return database.executar(sql);
 }
-
+// lista os sensore por meio de select
 function listarSensoresDisponiveis() {
     var sql = `SELECT id_sensor, codigo_sensor FROM sensor WHERE status_sensor = 'Disponível';`;
     return database.executar(sql);
