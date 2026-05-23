@@ -12,7 +12,7 @@ var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
-
+app.use("/cadastroCarga", cadastroCargaRouter);
 var app = express();
 
 var cadastroRouter = require("./src/routes/cadastro");
@@ -24,6 +24,7 @@ var cadastroLoteRouter = require("./src/routes/cadastroLote");
 var entregaRouter = require("./src/routes/entrega");
 var loginRouter = require("./src/routes/login");
 var statusCargaRouter = require("./src/routes/statusCarga")
+var cadastroCargaRouter = require("./src/routes/cadastroCarga");
 
 
 app.use(express.json());
@@ -34,6 +35,7 @@ app.use(express.static("public"));
 app.use(cors());
 
 app.use("/", indexRouter);
+
 app.use("/dashboardGeral", dashboardGeralRouter);
 app.use("/dashboardCarga", dashboardCargaRouter);
 app.use("/cargas", cargasRouter);

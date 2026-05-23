@@ -16,7 +16,7 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="public/css/cadastro-carga.css">
+    <link rel="stylesheet" href="../css/Cadastro-carga.css">
     <link rel="icon" href="public/assets/imgs/saveyogurt-logo.png">
 </head>
 
@@ -24,57 +24,57 @@
 
     <!-- SIDEBAR -->
     <div class="sidebar">
-            <div class="sidebar-content">
-                <img src="public/assets/imgs/saveyogurt-logo.png">
-                <h2>Save Yogurt Admin</h2>
-                <a href="dashboardGeral.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
-                        <span class="menu-text">Dashboard Geral</span>
-                    </div>
-                </a>
+        <div class="sidebar-content">
+            <img src="../assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
+            <a href="dashboardGeral.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                    <span class="menu-text">Dashboard Geral</span>
+                </div>
+            </a>
 
-                <a href="dashboardCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Dashboard Cargas</span>
-                    </div>
-                </a>
+            <a href="dashboardCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Dashboard Cargas</span>
+                </div>
+            </a>
 
-                <a href="cadastroLote.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Cadastro Lote</span>
-                    </div>
-                </a>
+            <a href="cadastroLote.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Lote</span>
+                </div>
+            </a>
 
-                <a href="cadastroCarga.html">
-                    <div class="menu-item-selected">
-                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Cadastro Carga</span>
-                    </div>
-                </a>
+            <a href="cadastroCarga.html">
+                <div class="menu-item-selected">
+                    <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Carga</span>
+                </div>
+            </a>
 
-                <a href="cadastroEntrega.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Entregas</span>
-                    </div>
-                </a>
+            <a href="cadastroEntrega.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Entregas</span>
+                </div>
+            </a>
 
-                <a href="statusCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Atualizar Entrega</span>
-                    </div>
-                </a>
-            </div>
-            <div class="logout-section">
-                <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
-                    Sair do Sistema
-                </button>
-            </div>
+            <a href="statusCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Atualizar Entrega</span>
+                </div>
+            </a>
         </div>
+        <div class="logout-section">
+            <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                Sair do Sistema
+            </button>
+        </div>
+    </div>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="main">
@@ -95,14 +95,6 @@
                     <div class="grupo-input">
                         <label>Código da Carga </label>
                         <input type="text" id="codigo_carga" placeholder="CARGA-XXXX">
-                    </div>
-                    <div class="grupo-input">
-                        <label>Temp. Mín (°C) </label>
-                        <input type="number" step="0.1" id="temp_min" placeholder="ex: 2.0">
-                    </div>
-                    <div class="grupo-input">
-                        <label>Temp. Máx (°C) </label>
-                        <input type="number" step="0.1" id="temp_max" placeholder="ex: 8.0">
                     </div>
                 </div>
 
@@ -160,27 +152,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbody_lotes">
-                            <tr>
-                                <td>101</td>
-                                <td>LOTE-A123</td>
-                            </tr>
-                            <tr>
-                                <td>102</td>
-                                <td>LOTE-B456</td>
-                            </tr>
-                            <tr>
-                                <td>103</td>
-                                <td>LOTE-C789</td>
-                            </tr>
-                            <tr>
-                                <td>104</td>
-                                <td>LOTE-D012</td>
-                            </tr>
-                            <tr>
-                                <td>105</td>
-                                <td>LOTE-E345</td>
-                            </tr>
-                            <!-- Mais linhas serão adicionadas dinamicamente -->
+
                         </tbody>
                     </table>
                 </div>
@@ -198,27 +170,8 @@
                             </tr>
                         </thead>
                         <tbody id="tbody_sensores">
-                            <tr>
-                                <td>50</td>
-                                <td>SENS-X1</td>
-                            </tr>
-                            <tr>
-                                <td>51</td>
-                                <td>SENS-Y2</td>
-                            </tr>
-                            <tr>
-                                <td>52</td>
-                                <td>SENS-C789</td>
-                            </tr>
-                            <tr>
-                                <td>53</td>
-                                <td>SENS-D123</td>
-                            </tr>
-                            <tr>
-                                <td>54</td>
-                                <td>SENS-E456</td>
-                            </tr>
-                            <!-- Mais linhas serão adicionadas dinamicamente -->
+
+
                         </tbody>
                     </table>
                 </div>
@@ -228,7 +181,104 @@
 
     </div>
 
-    <script src="js/cadastro-carga.js"></script>
+    
+
+    <script>
+        function carregarLotes() {
+            var tbody = document.getElementById('tbody_lotes');
+            var select = document.getElementById('id_lote');
+
+            console.log('tbody_lotes:', tbody);   // vai mostrar null ou o elemento
+            console.log('id_lote:', select);
+
+            fetch('/cadastroCarga/lotes')
+                .then(res => res.json())
+                .then(lotes => {
+                    console.log('lotes recebidos:', lotes);
+                    tbody.innerHTML = '';
+                    lotes.forEach(lote => {
+                        tbody.innerHTML += `<tr><td>${lote.id_lote}</td><td>${lote.codigo_lote}</td></tr>`;
+                        var option = document.createElement('option');
+                        option.value = lote.id_lote;
+                        option.text = lote.codigo_lote;
+                        select.appendChild(option);
+                    });
+                });
+        }
+
+        function carregarSensores() {
+            var tbody = document.getElementById('tbody_sensores');
+            var select = document.getElementById('id_sensor');
+
+            console.log('tbody_sensores:', tbody);
+            console.log('id_sensor:', select);
+
+            fetch('/cadastroCarga/sensores')
+                .then(res => res.json())
+                .then(sensores => {
+                    console.log('sensores recebidos:', sensores);
+                    tbody.innerHTML = '';
+                    sensores.forEach(sensor => {
+                        tbody.innerHTML += `<tr><td>${sensor.id_sensor}</td><td>${sensor.codigo_sensor}</td></tr>`;
+                        var option = document.createElement('option');
+                        option.value = sensor.id_sensor;
+                        option.text = sensor.codigo_sensor;
+                        select.appendChild(option);
+                    });
+                });
+        }
+
+        carregarLotes();
+        carregarSensores();
+        function cadastrarCarga() {
+            var codigoCarga = document.getElementById('codigo_carga').value;
+            var id_lote = document.getElementById('id_lote').value;
+            var id_sensor = document.getElementById('id_sensor').value;
+            var produto = document.getElementById('produto').value;
+            var qtd_caixas = document.getElementById('qtd_caixas').value;
+
+            // validação básica
+            if (!codigoCarga || !id_lote || !id_sensor || !produto || !qtd_caixas) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            fetch('/cadastroCarga/cadastrarCarga', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    codigoCargaServer: codigoCarga,
+                    id_LoteServer: id_lote,
+                    id_sensorServer: id_sensor,
+                    produtoServer: produto,
+                    qtd_caixaServer: qtd_caixas
+                })
+            })
+                .then(res => res.json())
+                .then(function (resultado) {
+                    alert('Carga cadastrada com sucesso!');
+                    limparFormulario();
+                    carregarLotes();    // atualiza a tabela
+                    carregarSensores(); // sensor some pois virou 'Em Uso'
+                })
+                .catch(function (erro) {
+                    console.log('Erro:', erro);
+                    alert('Erro ao cadastrar carga!');
+                });
+        }
+
+        function cancelar() {
+            limparFormulario();
+        }
+
+        function limparFormulario() {
+            document.getElementById('codigo_carga').value = '';
+            document.getElementById('id_lote').value = '';
+            document.getElementById('id_sensor').value = '';
+            document.getElementById('produto').value = '';
+            document.getElementById('qtd_caixas').value = '';
+        }
+    </script>
 </body>
 
 </html>
