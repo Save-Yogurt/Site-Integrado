@@ -1,4 +1,4 @@
-CREATE TABLE SaveYogurt;
+CREATE DATABASE SaveYogurt;
 
 USE SaveYogurt;
 
