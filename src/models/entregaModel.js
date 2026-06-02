@@ -13,7 +13,7 @@ function vincularCarga(codigoCarga) {
 
   const instrucao = `
         UPDATE carga 
-        SET status_carga = 'Em Transporte' 
+        SET status_carga = 'Em Trânsito' 
         WHERE codigo_Carga = '${codigoCarga}';
     `;
 
