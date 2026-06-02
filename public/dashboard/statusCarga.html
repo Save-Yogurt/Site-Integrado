@@ -17,6 +17,7 @@
 <body>
 
     <div class="sidebar">
+<<<<<<< HEAD
             <div class="sidebar-content">
                 <img src="../assets/imgs/saveyogurt-logo.png">
                 <h2>Save Yogurt Admin</h2>
@@ -39,6 +40,31 @@
                     </div>
                 </a>
             
+=======
+        <div class="sidebar-content">
+            <img src="../assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
+            <a href="dashboardGeral.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                    <span class="menu-text">Dashboard Geral</span>
+                </div>
+            </a>
+
+            <a href="dashboardCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Dashboard Cargas</span>
+                </div>
+            </a>
+
+            <a href="cadastroLote.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Lote</span>
+                </div>
+
+>>>>>>> 2636d3fb255bab9f1c84b13a7952fae8f12d747e
 
                 <a href="cadastroCarga.html">
                     <div class="menu-item">
@@ -46,7 +72,11 @@
                         <span class="menu-text">Cadastro Carga</span>
                     </div>
                 </a>
+<<<<<<< HEAD
            
+=======
+
+>>>>>>> 2636d3fb255bab9f1c84b13a7952fae8f12d747e
 
                 <a href="cadastroEntrega.html">
                     <div class="menu-item">
@@ -54,7 +84,12 @@
                         <span class="menu-text">Entregas</span>
                     </div>
                 </a>
+<<<<<<< HEAD
             <a href="status-carga.html">
+=======
+            </a>
+            <a href="statusCarga.html">
+>>>>>>> 2636d3fb255bab9f1c84b13a7952fae8f12d747e
                 <div class="menu-item-selected">
                     <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
                     <span class="menu-text">Atualizar Entrega</span>
@@ -168,11 +203,11 @@
 
         return false;
     }
-        function limparCampos() {
-            document.getElementById("id_codigo_carga").value = "";
-            document.getElementById("id_nova_localizacao").value = "";
-            document.getElementById("status").value = "Em trânsito";
-        }
+    function limparCampos() {
+        document.getElementById("id_codigo_carga").value = "";
+        document.getElementById("id_nova_localizacao").value = "";
+        document.getElementById("status").value = "Em trânsito";
+    }
     function cancelar() {
         var confirmar = confirm("Deseja cancelar a atualização?");
 
