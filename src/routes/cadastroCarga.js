@@ -13,5 +13,7 @@ router.get("/lotes", function(req, res) {
 router.get("/sensores", function(req, res) {
     cadastroCargaController.listarSensoresDisponiveis(req, res);
 });
-
+router.get("/verificarQuantidadeCaixas/:codigo_lote", function (req, res) {
+    cadastroCargaController.verificarQuantidadeCaixas(req, res);
+});
 module.exports = router;

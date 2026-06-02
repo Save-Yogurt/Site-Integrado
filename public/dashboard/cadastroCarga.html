@@ -181,7 +181,7 @@
 
     </div>
 
-    
+
 
     <script>
         function carregarLotes() {
@@ -230,6 +230,7 @@
 
         carregarLotes();
         carregarSensores();
+
         function cadastrarCarga() {
             var codigoCarga = document.getElementById('codigo_carga').value;
             var id_lote = document.getElementById('id_lote').value;
@@ -237,46 +238,66 @@
             var produto = document.getElementById('produto').value;
             var qtd_caixas = document.getElementById('qtd_caixas').value;
 
-            // validação básica
             if (!codigoCarga || !id_lote || !id_sensor || !produto || !qtd_caixas) {
                 alert('Preencha todos os campos!');
                 return;
             }
 
-            fetch('/cadastroCarga/cadastrarCarga', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    codigoCargaServer: codigoCarga,
-                    id_LoteServer: id_lote,
-                    id_sensorServer: id_sensor,
-                    produtoServer: produto,
-                    qtd_caixaServer: qtd_caixas
-                })
+            fetch(`/cadastroCarga/verificarQuantidadeCaixas/${id_lote}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
             })
-                .then(res => res.json())
-                .then(function (resultado) {
-                    alert('Carga cadastrada com sucesso!');
-                    limparFormulario();
-                    carregarLotes();    // atualiza a tabela
-                    carregarSensores(); // sensor some pois virou 'Em Uso'
+                .then(function (respostaVerificacao) {
+                    if (respostaVerificacao.status === 200) {
+                        return respostaVerificacao.json(); 
+                    } else {
+                        alert('Lote não encontrado. Verifique o código inserido.');
+                        throw new Error('Lote inexistente'); 
+                    }
                 })
-                .catch(function (erro) {
-                    console.log('Erro:', erro);
-                    alert('Erro ao cadastrar carga!');
+                .then(function (dadosLote) {
+                    var limiteLote = dadosLote[0].caixas_limite_do_lote;
+                    var caixasOcupadas = dadosLote[0].soma_total_das_cargas;
+                    var caixasDisponiveis = limiteLote - caixasOcupadas;
+
+                    if (Number(qtd_caixas) > caixasDisponiveis) {
+                        alert(`Atenção: O lote selecionado só tem espaço para ${caixasDisponiveis} caixas. Você tentou cadastrar ${qtd_caixas}.`);
+                        return; 
+                    }
+
+                 
+                    fetch('/cadastroCarga/cadastrarCarga', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            codigoCargaServer: codigoCarga,
+                            id_LoteServer: id_lote,
+                            id_sensorServer: id_sensor,
+                            produtoServer: produto,
+                            qtd_caixaServer: qtd_caixas
+                        })
+                    })
+                        .then(function (res) {
+                            if (res.ok) {
+                                return res.json();
+                            } else {
+                                throw new Error('Erro ao processar cadastro no servidor');
+                            }
+                        })
+                        .then(function (resultado) {
+                            alert('Carga cadastrada com sucesso!');
+                            carregarLotes();
+                            carregarSensores();
+                        })
+                        .catch(function (erroCadastro) {
+                            console.log('Erro no cadastro:', erroCadastro);
+                            alert('Erro ao cadastrar carga!');
+                        });
+
+                })
+                .catch(function (erroVerificacao) {
+                    console.error("Etapa de verificação interrompida ou com erro: ", erroVerificacao);
                 });
-        }
-
-        function cancelar() {
-            limparFormulario();
-        }
-
-        function limparFormulario() {
-            document.getElementById('codigo_carga').value = '';
-            document.getElementById('id_lote').value = '';
-            document.getElementById('id_sensor').value = '';
-            document.getElementById('produto').value = '';
-            document.getElementById('qtd_caixas').value = '';
         }
     </script>
 </body>

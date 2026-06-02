@@ -20,8 +20,6 @@ function vincularCarga(codigoCarga) {
     return database.executar(instrucao);
 }
 
-
-
 function listarCargasSemEntrega() {
 
     var instrucaoSql = `
