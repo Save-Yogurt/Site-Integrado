@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Uso | Save Yogurt</title>
+    <link rel="icon" href="assets/imgs/saveyogurt-logo.png">
+    <link rel="stylesheet" href="css/manual.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <div id="div_logo">
+            <a href="index.html">
+            <img src="assets/imgs/saveyogurt-logo.png">
+            <p id="logo_titulo">Save Yogurt</p>
+            </a>
+        </div>
+        <div id="div_links">
+            <a href="index.html">
+            <p>Página Inicial</p>
+            </a>
+            <a href="sobre_nos.html">
+            <p>Sobre Nós</p>
+            </a>
+            <a href="simulador.html">
+            <p>Simulador</p>
+            </a>
+        </div>
+        <div id="div_botoes">
+            <a href="login.html">
+            <Button class="botoes">Login</Button>
+            </a>
+            <a href="cadastro.html">
+            <Button class="botoes">Cadastro</Button>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+
+        <div class="hero-text">
+            <h1>Manual de Utilização <span>Save Yogurt</span></h1>
+
+            <p>
+                Aprenda a utilizar todas as funcionalidades da plataforma de monitoramento
+                térmico para transporte de iogurtes.
+            </p>
+
+            
+        </div>
+
+    </section>
+
+    <section class="manual">
+
+        <div class="card">
+            <h2><i class="fa-solid fa-circle-info"></i> O que é o Save Yogurt?</h2>
+
+            <p>
+                O Save Yogurt é uma solução IoT desenvolvida para monitorar a temperatura
+                durante o transporte de iogurtes, permitindo identificar desvios térmicos,
+                reduzir desperdícios e garantir a qualidade do produto até seu destino final.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-user-plus"></i> Como acessar o sistema</h2>
+
+            <ol>
+                <li>Clique em Cadastro.</li>
+                <li>Preencha os dados da empresa e usuário.</li>
+                <li>Realize o Login utilizando seu e-mail e senha.</li>
+                <li>Após autenticação você será direcionado para a Dashboard.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-chart-line"></i> Dashboard Geral</h2>
+
+            <p>
+                A Dashboard Geral apresenta informações em tempo real sobre todas as cargas
+                monitoradas.
+            </p>
+
+            <div class="status-grid">
+
+                <div class="status vermelho">
+                    <h3>Crítico</h3>
+                    <p>0°C</p>
+                </div>
+
+                <div class="status amarelo">
+                    <h3>Alerta</h3>
+                    <p>0 a 2°C</p>
+                </div>
+
+                <div class="status verde">
+                    <h3>Ideal</h3>
+                    <p>2 a 5°C</p>
+                </div>
+
+                <div class="status amarelo">
+                    <h3>Alerta</h3>
+                    <p>5 a 10°C</p>
+                </div>
+
+                <div class="status vermelho">
+                    <h3>Crítico</h3>
+                    <p>10°C+</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-gauge-high"></i> Indicadores Principais</h2>
+
+            <ul>
+                <li><strong>Cargas em Alerta Crítico:</strong> quantidade de cargas fora da temperatura segura.</li>
+
+                <li><strong>Maior Temperatura Registrada:</strong> maior valor capturado pelos sensores.</li>
+
+                <li><strong>Menor Temperatura Registrada:</strong> menor valor capturado pelos sensores.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-magnifying-glass"></i> Pesquisa de Lote</h2>
+
+            <p>
+                Utilize o campo de pesquisa para localizar rapidamente lotes ou cargas
+                através do código informado.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-truck"></i> Monitoramento de Transporte</h2>
+
+            <p>
+                A tabela principal exibe:
+            </p>
+
+            <ul>
+                <li>Código da carga</li>
+                <li>Placa do veículo</li>
+                <li>Tipo do veículo</li>
+                <li>Status do transporte</li>
+                <li>Número de alertas</li>
+                <li>Lote associado</li>
+                <li>Destino</li>
+                <li>Última localização registrada</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-box"></i> Cadastro de Lotes</h2>
+
+            <p>
+                Permite registrar novos lotes de iogurte para posterior vinculação às cargas.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-truck-ramp-box"></i> Cadastro de Cargas</h2>
+
+            <p>
+                Responsável pelo registro das cargas transportadas, associando lotes,
+                veículos e destino.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-location-dot"></i> Atualização de Entrega</h2>
+
+            <p>
+                Possibilita atualizar o status da entrega e acompanhar o progresso do
+                transporte em tempo real.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> Níveis de Alerta</h2>
+
+            <div class="alertas">
+
+                <div>
+                    <h3>🟢 Ideal</h3>
+                    <p>2°C a 5°C</p>
+                </div>
+
+                <div>
+                    <h3>🟡 Alerta</h3>
+                    <p>0°C a 2°C e 5°C a 10°C</p>
+                </div>
+
+                <div>
+                    <h3>🔴 Crítico</h3>
+                    <p>Abaixo de 0°C ou acima de 10°C</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fa-solid fa-lightbulb"></i> Boas Práticas</h2>
+
+            <ul>
+                <li>Verifique a dashboard diariamente.</li>
+                <li>Monitore cargas em estado crítico.</li>
+                <li>Mantenha os cadastros atualizados.</li>
+                <li>Analise recorrências de alertas.</li>
+                <li>Atualize o status das entregas regularmente.</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <footer>
+        Save Yogurt © 2026 - Sistema de Monitoramento da Cadeia do Frio
+    </footer>
+
+</body>
+
+</html>
