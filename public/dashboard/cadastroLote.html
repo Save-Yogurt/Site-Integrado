@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<link rel="icon" href="/public/assets/imgs/saveyogurt-logo.png">
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Cadastro de Lotes</title>
+
+    <link rel="icon" href="../assets/imgs/saveyogurt-logo.png">
 
     <!-- Link Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,140 +21,177 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="../css/cadastro_do_lote.css">
-
 </head>
 
-    <body onload="validarSessao()">
+<body onload="validarSessao()">
 
-        <div class="sidebar">
-            <div class="sidebar-content">
-                <img src="../assets/imgs/saveyogurt-logo.png">
-                <h2>Save Yogurt Admin</h2>
-                <a href="dashboardGeral.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
-                        <span class="menu-text">Dashboard Geral</span>
-                    </div>
-                </a>
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <img src="../assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
 
-                <a href="dashboardCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Dashboard Cargas</span>
-                    </div>
-                </a>
+            <a href="dashboardGeral.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                    <span class="menu-text">Dashboard Geral</span>
+                </div>
+            </a>
 
-                <a href="cadastroLote.html">
-                    <div class="menu-item-selected">
-                        <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Cadastro Lote</span>
-                    </div>
-                </a>
+            <a href="dashboardCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Dashboard Cargas</span>
+                </div>
+            </a>
 
-                <a href="cadastroCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Cadastro Carga</span>
-                    </div>
-                </a>
+            <a href="cadastroLote.html">
+                <div class="menu-item-selected">
+                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Lote</span>
+                </div>
+            </a>
 
-                <a href="cadastroEntrega.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Entregas</span>
-                    </div>
-                </a>
+            <a href="cadastroCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Carga</span>
+                </div>
+            </a>
 
-                <a href="statusCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Atualizar Entrega</span>
-                    </div>
-                </a>
-            </div>
-            <div class="logout-section">
-                <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
-                    Sair do Sistema
-                </button>
-            </div>
+            <a href="cadastroEntrega.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Entregas</span>
+                </div>
+            </a>
+
+            <a href="statusCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Atualizar Entrega</span>
+                </div>
+            </a>
         </div>
 
-        <div class="main">
+        <div class="logout-section">
+            <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                Sair do Sistema
+            </button>
+        </div>
+    </div>
 
-            <div class="titulo-sensor">
-                <h1 id="titulo_lote">Cadastro de Novo Lote de Produção</h1>
-            </div>
+    <div class="main">
 
-            <div class="container">
+        <div class="titulo-sensor">
+            <h1 id="titulo_lote">Cadastro de Novo Lote de Produção</h1>
+        </div>
 
-                <div id="bloco_maior">
+        <div class="container">
 
-                    <h3 class="titulo_secao">Informações do Lote</h3>
+            <div id="bloco_maior">
 
-                    <hr>
-                    <div class="quadrado">
+                <h3 class="titulo_secao">Informações do Lote</h3>
+
+                <hr>
+
+                <div class="quadrado">
+
+                    <div class="grupo_input">
+                        <label>Código do Lote</label>
+                        <input type="text" id="id_numero_lote" placeholder="XXXLOTE001">
+                    </div>
+
+                    <div class="inputs_lado_a_lado">
                         <div class="grupo_input">
-                            <label>Código do Lote</label>
-                            <input type="text" id="id_numero_lote" placeholder="XXXLOTE001">
+                            <label>Data de Fabricação</label>
+                            <input type="date" id="id_data_producao">
                         </div>
 
-                        <div class="inputs_lado_a_lado">
-                            <div class="grupo_input">
-                                <label>Data de Fabricação</label>
-                                <input type="date" id="id_data_producao">
-                            </div>
-                            <div class="grupo_input">
-                                <label>Data de Validade</label>
-                                <input type="date" id="id_data_validade">
-                            </div>
-                        </div>
-
-                        <div class="grupo_input" class="input">
-                            <label>Quantidade de Caixas</label>
-                            <input type="text" id="id_quantidade_caixas" placeholder="500">
-                        </div>
-
-                        <hr>
-
-                        <div class="container_botao">
-                            <button class="button" onclick="cadastrarLote()">Cadastro Novo Lote</button>
-                            <button class="cancelar">Cancelar</button>
+                        <div class="grupo_input">
+                            <label>Data de Validade</label>
+                            <input type="date" id="id_data_validade">
                         </div>
                     </div>
-                </div>
-            </div>
-    </body>
 
-</html>
+                    <div class="grupo_input">
+                        <label>Quantidade de Caixas</label>
+                        <input type="text" id="id_quantidade_caixas" placeholder="500">
+                    </div>
+
+                    <hr>
+
+                    <div class="container_botao">
+                        <button type="button" class="button" onclick="cadastrarLote()">
+                            Cadastro Novo Lote
+                        </button>
+
+                        <button type="button" class="cancelar" onclick="limparCampos()">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
 
 <script>
-
-    function cadastrarLote(){
-        let codigo = id_numero_lote.value;
-        let dataProducao = id_data_producao.value;
-        let dataValidade = id_data_validade.value;
-        let quantidade_caixas = id_quantidade_caixas.value;
+    function cadastrarLote() {
+        let codigo = document.getElementById("id_numero_lote").value.trim();
+        let dataProducao = document.getElementById("id_data_producao").value;
+        let dataValidade = document.getElementById("id_data_validade").value;
+        let quantidade_caixas = document.getElementById("id_quantidade_caixas").value.trim();
         let id_empresa = sessionStorage.getItem("ID_EMPRESA");
 
+        if (
+            codigo == "" ||
+            dataProducao == "" ||
+            dataValidade == "" ||
+            quantidade_caixas == ""
+        ) {
+            alert("Preencha todos os campos antes de cadastrar o lote.");
+            return false;
+        }
+
         fetch("/cadastroLote/cadastrarLote", {
-            method: "post",
+            method: "POST",
             headers: {
-            "Content-Type": "application/json"
-        }, 
-          body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
                 codigoServer: codigo,
                 dataProducaoServer: dataProducao,
                 dataValidadeServer: dataValidade,
                 quantidade_caixasServer: quantidade_caixas,
-                id_empresaServer : id_empresa
-         })
+                id_empresaServer: id_empresa
+            })
         })
-        .then(res => res.text())
-        .then(msg => {
-            alert("Lote Cadastrado Com sucesso");
-        })
-        .catch(erro => console.error(erro));
+            .then(function (res) {
+                return res.text();
+            })
+            .then(function (msg) {
+                alert("Lote cadastrado com sucesso!");
+                limparCampos();
+            })
+            .catch(function (erro) {
+                console.error(erro);
+                alert("Erro ao cadastrar lote.");
+            });
+
+        return false;
+    }
+
+    function limparCampos() {
+        document.getElementById("id_numero_lote").value = "";
+        document.getElementById("id_data_producao").value = "";
+        document.getElementById("id_data_validade").value = "";
+        document.getElementById("id_quantidade_caixas").value = "";
     }
 </script>
+
+</html>

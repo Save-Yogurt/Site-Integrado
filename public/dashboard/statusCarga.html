@@ -17,46 +17,51 @@
 <body>
 
     <div class="sidebar">
-            <div class="sidebar-content">
-                <img src="../assets/imgs/saveyogurt-logo.png">
-                <h2>Save Yogurt Admin</h2>
-                <a href="dashboardGeral.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
-                        <span class="menu-text">Dashboard Geral</span>
-                    </div>
-                </a>
-                <a href="dashboardCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Dashboard Cargas</span>
-                    </div>
-                </a>
-                <a href="cadastroLote.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Cadastro Lote</span>
-                    </div>
-                </a>
-        
-                <a href="cadastroCarga.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Cadastro Carga</span>
-                    </div>
-                </a>
-                <a href="cadastroEntrega.html">
-                    <div class="menu-item">
-                        <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
-                        <span class="menu-text">Entregas</span>
-                    </div>
-                </a>
-                <div class="menu-item-selected">
-                    <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
-                    <span class="menu-text">Atualizar Entrega</span>
+        <div class="sidebar-content">
+            <img src="../assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
+
+            <a href="dashboardGeral.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                    <span class="menu-text">Dashboard Geral</span>
                 </div>
             </a>
+
+            <a href="dashboardCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Dashboard Cargas</span>
+                </div>
+            </a>
+
+            <a href="cadastroLote.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Lote</span>
+                </div>
+            </a>
+
+            <a href="cadastroCarga.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Cadastro Carga</span>
+                </div>
+            </a>
+
+            <a href="cadastroEntrega.html">
+                <div class="menu-item">
+                    <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
+                    <span class="menu-text">Entregas</span>
+                </div>
+            </a>
+
+            <div class="menu-item-selected">
+                <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                <span class="menu-text">Atualizar Entrega</span>
+            </div>
         </div>
+
         <div class="logout-section">
             <button type="button" class="logout-btn" onclick="limparSessao()">
                 Sair do Sistema
@@ -87,28 +92,34 @@
                     <label>Nova localização / Endereço</label>
                     <input type="text" id="id_nova_localizacao" placeholder="Ex: Rodovia SP-101, Km 50">
 
-
                     <label for="status">Novo status da carga</label>
                     <select name="status_carga" id="status">
                         <option value="Em_transito">Em trânsito</option>
                         <option value="Entregue">Entregue</option>
                     </select>
                 </div>
-
             </div>
 
-            <button class="botao_salvar" onclick="salvar_atualizacao()">Salvar atualização</button>
-            <button class="botao_cancelar" onclick="cancelar()">Cancelar</button>
+            <div class="botoes_formulario">
+                <button type="button" class="botao_salvar" onclick="salvar_atualizacao()">
+                    Salvar atualização
+                </button>
+
+                <button type="button" class="botao_cancelar" onclick="cancelar()">
+                    Cancelar
+                </button>
+            </div>
 
         </div>
     </main>
 
 </body>
+
 <script>
     function salvar_atualizacao() {
 
-        var codigoCargaVar = document.getElementById("id_codigo_carga").value;
-        var novaLocalizacaoVar = document.getElementById("id_nova_localizacao").value;
+        var codigoCargaVar = document.getElementById("id_codigo_carga").value.trim();
+        var novaLocalizacaoVar = document.getElementById("id_nova_localizacao").value.trim();
         var statusVar = document.getElementById("status").value;
 
         if (
@@ -119,10 +130,8 @@
             alert("Preencha todos os campos antes de salvar a atualização.");
             return false;
         }
-        else {
-            console.log("Campos preenchidos corretamente.");
-        }
 
+        console.log("Campos preenchidos corretamente.");
         console.log("FORM CÓDIGO CARGA: ", codigoCargaVar);
         console.log("FORM NOVA LOCALIZAÇÃO: ", novaLocalizacaoVar);
         console.log("FORM STATUS: ", statusVar);
@@ -151,7 +160,7 @@
             } else {
                 console.log("Houve um erro ao tentar atualizar a carga!");
 
-                resposta.text().then(texto => {
+                resposta.text().then(function (texto) {
                     console.error(texto);
                     alert(texto);
                 });
@@ -164,19 +173,19 @@
 
         return false;
     }
+
     function limparCampos() {
         document.getElementById("id_codigo_carga").value = "";
         document.getElementById("id_nova_localizacao").value = "";
-        document.getElementById("status").value = "Em trânsito";
+        document.getElementById("status").value = "Em_transito";
     }
+
     function cancelar() {
-        var confirmar = confirm("Deseja cancelar a atualização?");
+        limparCampos();
+    }
 
-        if (confirmar) {
-            limparCampos();
-        }
-
-        return false;
+    function limparSessao() {
+        window.location.href = "index.html";
     }
 </script>
 

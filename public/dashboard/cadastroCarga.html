@@ -27,6 +27,7 @@
         <div class="sidebar-content">
             <img src="../assets/imgs/saveyogurt-logo.png">
             <h2>Save Yogurt Admin</h2>
+
             <a href="dashboardGeral.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
@@ -69,6 +70,7 @@
                 </div>
             </a>
         </div>
+
         <div class="logout-section">
             <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
                 Sair do Sistema
@@ -93,18 +95,19 @@
 
                 <div class="linha-inputs">
                     <div class="grupo-input">
-                        <label>Código da Carga </label>
+                        <label>Código da Carga</label>
                         <input type="text" id="codigo_carga" placeholder="Ex: C001">
                     </div>
                 </div>
 
                 <div class="linha-inputs">
                     <div class="grupo-input">
-                        <label>ID do Lote Associado </label>
+                        <label>ID do Lote Associado</label>
                         <select id="id_lote">
-                            <option value=""></option>
+                            <option value="">Selecione...</option>
                         </select>
                     </div>
+
                     <div class="grupo-input">
                         <label>Produto</label>
                         <input type="text" id="produto" placeholder="">
@@ -113,11 +116,12 @@
 
                 <div class="linha-inputs">
                     <div class="grupo-input">
-                        <label>**ID do Sensor Associado </label>
+                        <label>ID do Sensor Associado</label>
                         <select id="id_sensor">
-                            <option value=""></option>
+                            <option value="">Selecione...</option>
                         </select>
                     </div>
+
                     <div class="grupo-input">
                         <label>Quantidade Caixas</label>
                         <input type="number" id="qtd_caixas" placeholder="">
@@ -125,24 +129,26 @@
                 </div>
 
                 <div class="botoes-acao">
-                    <button class="btn-cadastrar" onclick="cadastrarCarga()">
+                    <button type="button" class="btn-cadastrar" onclick="cadastrarCarga()">
                         Cadastrar Nova Carga
                     </button>
-                    <button class="btn-cancelar" onclick="cancelar()">
+
+                    <button type="button" class="btn-cancelar" onclick="cancelar()">
                         Cancelar
                     </button>
                 </div>
 
             </div>
 
-
         </div>
+
         <!-- TABELAS DE INFORMAÇÕES -->
         <div class="tabelas-info">
 
             <!-- LOTES DISPONÍVEIS -->
             <div class="tabela-container">
                 <h3 class="titulo-tabela">Lotes Disponíveis</h3>
+
                 <div class="tabela-scroll">
                     <table class="tabela-dados">
                         <thead>
@@ -151,6 +157,7 @@
                                 <th>Cód. Lote</th>
                             </tr>
                         </thead>
+
                         <tbody id="tbody_lotes">
 
                         </tbody>
@@ -161,6 +168,7 @@
             <!-- SENSORES DISPONÍVEIS -->
             <div class="tabela-container">
                 <h3 class="titulo-tabela">Sensores Disponíveis</h3>
+
                 <div class="tabela-scroll">
                     <table class="tabela-dados">
                         <thead>
@@ -169,8 +177,8 @@
                                 <th>Cód. Sensor</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody_sensores">
 
+                        <tbody id="tbody_sensores">
 
                         </tbody>
                     </table>
@@ -181,28 +189,37 @@
 
     </div>
 
-
-
     <script>
         function carregarLotes() {
             var tbody = document.getElementById('tbody_lotes');
             var select = document.getElementById('id_lote');
 
-            console.log('tbody_lotes:', tbody);   // vai mostrar null ou o elemento
-            console.log('id_lote:', select);
-
             fetch('/cadastroCarga/lotes')
-                .then(res => res.json())
-                .then(lotes => {
+                .then(function (res) {
+                    return res.json();
+                })
+                .then(function (lotes) {
                     console.log('lotes recebidos:', lotes);
+
                     tbody.innerHTML = '';
-                    lotes.forEach(lote => {
-                        tbody.innerHTML += `<tr><td>${lote.id_lote}</td><td>${lote.codigo_lote}</td></tr>`;
+                    select.innerHTML = '<option value="">Selecione...</option>';
+
+                    lotes.forEach(function (lote) {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${lote.id_lote}</td>
+                                <td>${lote.codigo_lote}</td>
+                            </tr>
+                        `;
+
                         var option = document.createElement('option');
                         option.value = lote.id_lote;
                         option.text = lote.codigo_lote;
                         select.appendChild(option);
                     });
+                })
+                .catch(function (erro) {
+                    console.log('Erro ao carregar lotes:', erro);
                 });
         }
 
@@ -210,21 +227,32 @@
             var tbody = document.getElementById('tbody_sensores');
             var select = document.getElementById('id_sensor');
 
-            console.log('tbody_sensores:', tbody);
-            console.log('id_sensor:', select);
-
             fetch('/cadastroCarga/sensores')
-                .then(res => res.json())
-                .then(sensores => {
+                .then(function (res) {
+                    return res.json();
+                })
+                .then(function (sensores) {
                     console.log('sensores recebidos:', sensores);
+
                     tbody.innerHTML = '';
-                    sensores.forEach(sensor => {
-                        tbody.innerHTML += `<tr><td>${sensor.id_sensor}</td><td>${sensor.codigo_sensor}</td></tr>`;
+                    select.innerHTML = '<option value="">Selecione...</option>';
+
+                    sensores.forEach(function (sensor) {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${sensor.id_sensor}</td>
+                                <td>${sensor.codigo_sensor}</td>
+                            </tr>
+                        `;
+
                         var option = document.createElement('option');
                         option.value = sensor.id_sensor;
                         option.text = sensor.codigo_sensor;
                         select.appendChild(option);
                     });
+                })
+                .catch(function (erro) {
+                    console.log('Erro ao carregar sensores:', erro);
                 });
         }
 
@@ -232,27 +260,29 @@
         carregarSensores();
 
         function cadastrarCarga() {
-            var codigoCarga = document.getElementById('codigo_carga').value;
+            var codigoCarga = document.getElementById('codigo_carga').value.trim();
             var id_lote = document.getElementById('id_lote').value;
             var id_sensor = document.getElementById('id_sensor').value;
-            var produto = document.getElementById('produto').value;
+            var produto = document.getElementById('produto').value.trim();
             var qtd_caixas = document.getElementById('qtd_caixas').value;
 
             if (!codigoCarga || !id_lote || !id_sensor || !produto || !qtd_caixas) {
                 alert('Preencha todos os campos!');
-                return;
+                return false;
             }
 
             fetch(`/cadastroCarga/verificarQuantidadeCaixas/${id_lote}`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
                 .then(function (respostaVerificacao) {
                     if (respostaVerificacao.status === 200) {
-                        return respostaVerificacao.json(); 
+                        return respostaVerificacao.json();
                     } else {
                         alert('Lote não encontrado. Verifique o código inserido.');
-                        throw new Error('Lote inexistente'); 
+                        throw new Error('Lote inexistente');
                     }
                 })
                 .then(function (dadosLote) {
@@ -262,13 +292,14 @@
 
                     if (Number(qtd_caixas) > caixasDisponiveis) {
                         alert(`Atenção: O lote selecionado só tem espaço para ${caixasDisponiveis} caixas. Você tentou cadastrar ${qtd_caixas}.`);
-                        return; 
+                        return false;
                     }
 
-                 
                     fetch('/cadastroCarga/cadastrarCarga', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({
                             codigoCargaServer: codigoCarga,
                             id_LoteServer: id_lote,
@@ -286,6 +317,8 @@
                         })
                         .then(function (resultado) {
                             alert('Carga cadastrada com sucesso!');
+
+                            limparCampos();
                             carregarLotes();
                             carregarSensores();
                         })
@@ -298,8 +331,23 @@
                 .catch(function (erroVerificacao) {
                     console.error("Etapa de verificação interrompida ou com erro: ", erroVerificacao);
                 });
+
+            return false;
+        }
+
+        function limparCampos() {
+            document.getElementById('codigo_carga').value = "";
+            document.getElementById('id_lote').value = "";
+            document.getElementById('produto').value = "";
+            document.getElementById('id_sensor').value = "";
+            document.getElementById('qtd_caixas').value = "";
+        }
+
+        function cancelar() {
+            limparCampos();
         }
     </script>
+
 </body>
 
 </html>
