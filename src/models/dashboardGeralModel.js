@@ -66,33 +66,56 @@ function menorTemperatura(fk_empresa) {
     return database.executar(instrucaoSql);
 }
 
-function tabela (id_empresa){
+function tabela(id_empresa) {
     console.log("ACESSEI graficosModel - tabela");
 
     var instrucaoSql = `
-    select l.codigo_lote,
-		e.veiculo_placa,
-        e.tipo_veiculo,
-        c.status_carga,
-        count(id_alerta) as total_alertas,
-        c.codigo_Carga,
-        e.destino,
-        e.ultima_loc
-        from lote l
-        join carga c on l.id_lote = c.fk_lote
-        join entrega e on c.fk_entrega = e.id_entrega
-        join monitoramento_sensor ms on c.id_carga = ms.fk_carga
-        join sensor s on ms.fk_sensor = s.id_sensor
-        join registro r on s.id_sensor = r.fk_sensor
-        join alerta a on r.id_registro = a.fk_registro
-        where l.fk_empresa = ${id_empresa}
-        group by l.codigo_lote, 
-         e.veiculo_placa, 
-         e.tipo_veiculo, 
-         c.status_carga, 
-         c.codigo_Carga, 
-         e.destino, 
-         e.ultima_loc; 
+   SELECT 
+    l.codigo_lote,
+    -- Case para a Placa do Veículo
+    CASE 
+        WHEN e.veiculo_placa IS NULL THEN 'Não saiu para entrega'
+        ELSE e.veiculo_placa
+    END AS veiculo_placa,
+    
+    -- Case para o Tipo de Veículo
+    CASE 
+        WHEN e.tipo_veiculo IS NULL THEN 'Não saiu para entrega'
+        ELSE e.tipo_veiculo
+    END AS tipo_veiculo,
+    
+    c.status_carga,
+    COUNT(a.id_alerta) AS total_alertas,
+    c.codigo_Carga,
+    
+    -- Case para o Destino
+    CASE 
+        WHEN e.destino IS NULL THEN 'Não saiu para entrega'
+        ELSE e.destino
+    END AS destino,
+    
+    -- Case para a Última Localização
+    CASE 
+        WHEN e.ultima_loc IS NULL THEN 'Não saiu para entrega'
+        ELSE e.ultima_loc
+    END AS ultima_loc
+FROM lote l
+JOIN carga c ON l.id_lote = c.fk_lote
+LEFT JOIN entrega e ON c.codigo_Carga = e.fk_codigo_Carga
+LEFT JOIN monitoramento_sensor ms ON c.id_carga = ms.fk_carga
+LEFT JOIN sensor s ON ms.fk_sensor = s.id_sensor
+LEFT JOIN registro r ON s.id_sensor = r.fk_sensor
+LEFT JOIN alerta a ON r.id_registro = a.fk_registro
+WHERE l.fk_empresa = ${id_empresa}
+  AND (c.status_carga != 'Entregue' OR c.status_carga IS NULL)
+GROUP BY 
+    l.codigo_lote, 
+    e.veiculo_placa, 
+    e.tipo_veiculo, 
+    c.status_carga, 
+    c.codigo_Carga, 
+    e.destino, 
+    e.ultima_loc;
         
     `;
 
@@ -104,38 +127,52 @@ function pesquisar(id_empresa, termo) {
 
     var instrucaoSql = `
     
-    select 
-        l.codigo_lote,
-        e.veiculo_placa,
-        e.tipo_veiculo,
-        c.status_carga,
-        count(a.id_alerta) as total_alertas,
-        c.codigo_Carga,
-        e.destino,
-        e.ultima_loc
+    SELECT 
+    l.codigo_lote,
 
-    from lote l
+    CASE 
+        WHEN e.veiculo_placa IS NULL THEN 'Não saiu para entrega'
+        ELSE e.veiculo_placa
+    END AS veiculo_placa,
+    
+    CASE 
+        WHEN e.tipo_veiculo IS NULL THEN 'Não saiu para entrega'
+        ELSE e.tipo_veiculo
+    END AS tipo_veiculo,
+    
+    c.status_carga,
+    COUNT(a.id_alerta) AS total_alertas,
+    c.codigo_Carga,
 
-    join carga c on l.id_lote = c.fk_lote
-    join entrega e on c.fk_entrega = e.id_entrega
-    join monitoramento_sensor ms on c.id_carga = ms.fk_carga
-    join sensor s on ms.fk_sensor = s.id_sensor
-    join registro r on s.id_sensor = r.fk_sensor
-    join alerta a on r.id_registro = a.fk_registro
+    CASE 
+        WHEN e.destino IS NULL THEN 'Não saiu para entrega'
+        ELSE e.destino
+    END AS destino,
 
-    where l.fk_empresa = ${id_empresa}
-    and (
+    CASE 
+        WHEN e.ultima_loc IS NULL THEN 'Não saiu para entrega'
+        ELSE e.ultima_loc
+    END AS ultima_loc
+FROM lote l
+JOIN carga c ON l.id_lote = c.fk_lote
+LEFT JOIN entrega e ON c.codigo_Carga = e.fk_codigo_Carga
+LEFT JOIN monitoramento_sensor ms ON c.id_carga = ms.fk_carga
+LEFT JOIN sensor s ON ms.fk_sensor = s.id_sensor
+LEFT JOIN registro r ON s.id_sensor = r.fk_sensor
+LEFT JOIN alerta a ON r.id_registro = a.fk_registro
+WHERE l.fk_empresa = ${id_empresa}
+  AND (c.status_carga != 'Entregue' OR c.status_carga IS NULL)
+   AND (
         l.codigo_lote like '%${termo}%' or c.codigo_Carga like '%${termo}%'
     )
-
-    group by 
-        l.codigo_lote,
-        e.veiculo_placa,
-        e.tipo_veiculo,
-        c.status_carga,
-        c.codigo_Carga,
-        e.destino,
-        e.ultima_loc;
+GROUP BY 
+    l.codigo_lote,
+    e.veiculo_placa,
+    e.tipo_veiculo,
+    c.status_carga,
+    c.codigo_Carga,
+    e.destino,
+    e.ultima_loc;
     `;
 
     return database.executar(instrucaoSql);

@@ -17,46 +17,40 @@
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-content">
-            <img src="../assets/imgs/saveyogurt-logo.png">
-            <h2>Save Yogurt Admin</h2>
-            <a href="dashboardGeral.html">
-                <div class="menu-item">
-                    <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
-                    <span class="menu-text">Dashboard Geral</span>
-                </div>
-            </a>
-
-            <a href="dashboardCarga.html">
-                <div class="menu-item">
-                    <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
-                    <span class="menu-text">Dashboard Cargas</span>
-                </div>
-            </a>
-
-            <a href="cadastroLote.html">
-                <div class="menu-item">
-                    <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
-                    <span class="menu-text">Cadastro Lote</span>
-                </div>
-
-
+            <div class="sidebar-content">
+                <img src="../assets/imgs/saveyogurt-logo.png">
+                <h2>Save Yogurt Admin</h2>
+                <a href="dashboardGeral.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
+                        <span class="menu-text">Dashboard Geral</span>
+                    </div>
+                </a>
+                <a href="dashboardCarga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-boxes-stacked" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Dashboard Cargas</span>
+                    </div>
+                </a>
+                <a href="cadastroLote.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-layer-group" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Cadastro Lote</span>
+                    </div>
+                </a>
+        
                 <a href="cadastroCarga.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
                         <span class="menu-text">Cadastro Carga</span>
                     </div>
                 </a>
-
-
                 <a href="cadastroEntrega.html">
                     <div class="menu-item">
                         <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
                         <span class="menu-text">Entregas</span>
                     </div>
                 </a>
-            </a>
-            <a href="statusCarga.html">
                 <div class="menu-item-selected">
                     <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
                     <span class="menu-text">Atualizar Entrega</span>
@@ -64,7 +58,7 @@
             </a>
         </div>
         <div class="logout-section">
-            <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+            <button type="button" class="logout-btn" onclick="limparSessao()">
                 Sair do Sistema
             </button>
         </div>
