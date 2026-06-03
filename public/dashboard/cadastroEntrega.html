@@ -10,7 +10,6 @@
 
     <link rel="icon" href="../assets/imgs/saveyogurt-logo.png">
 
-
     <link rel="stylesheet" href="../css/cadastro-entrega.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -26,6 +25,7 @@
         <div class="sidebar-content">
             <img src="../assets/imgs/saveyogurt-logo.png">
             <h2>Save Yogurt Admin</h2>
+
             <a href="dashboardGeral.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-chart-line" style="color: #00BCD4"></i>
@@ -68,6 +68,7 @@
                 </div>
             </a>
         </div>
+
         <div class="logout-section">
             <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
                 Sair do Sistema
@@ -80,9 +81,7 @@
 
         <!-- TÍTULO -->
         <div id="bloco_titulo">
-
             <h1>Cadastro de Nova Entrega</h1>
-
         </div>
 
         <!-- CONTAINER -->
@@ -94,35 +93,47 @@
                 <h3 class="titulo_secao">
                     Informações da Entrega
                 </h3>
+
                 <div class="grupo_input">
-                    <label>Selecionar id da Carga</label>
+                    <label>Código da Carga</label>
                     <input type="text" id="ipt_codigo_carga" placeholder="Ex: C002">
                 </div>
 
                 <div class="grupo_input">
                     <label>Placa do Veículo</label>
-                    <input type="text" id="ipt_placa" placeholder="Ex: ABC-1234">
+                    <input type="text" id="ipt_placa" placeholder="Ex: ABC1D23">
                 </div>
 
                 <div class="grupo_input">
                     <label>Destino</label>
-
                     <input type="text" id="ipt_destino" placeholder="Ex: São Paulo - SP">
                 </div>
 
                 <div class="grupo_input">
                     <label>Tipo de Veículo</label>
 
-                    <input type="text" id="ipt_tipo_veiculo" placeholder="ex: carreta, caminhão ">
+                    <select name="transporte" id="ipt_tipo_veiculo">
+                        <option value="">Selecione...</option>
+                        <option value="caminhao_refrigerado">Caminhão refrigerado</option>
+                        <option value="caminhao_frigorifico">Caminhão frigorífico</option>
+                        <option value="carreta_refrigerada">Carreta refrigerada</option>
+                        <option value="van_refrigerada">Van refrigerada</option>
+                        <option value="fiorino_refrigerada">Fiorino refrigerada</option>
+                        <option value="navio">Navio</option>
+                        <option value="balsa">Balsa</option>
+                        <option value="trem">Trem</option>
+                        <option value="aviao">Avião</option>
+                        <option value="helicoptero">Helicóptero</option>
+                    </select>
                 </div>
 
                 <div id="grupo_botoes">
 
-                    <button class="botao" onclick="cadastrarEntrega()">
+                    <button type="button" class="botao" onclick="cadastrarEntrega()">
                         Cadastrar Nova Entrega
                     </button>
 
-                    <button class="botao_cancelar">
+                    <button type="button" class="botao_cancelar" onclick="limparCampos()">
                         Cancelar
                     </button>
 
@@ -140,14 +151,10 @@
                 <table>
 
                     <thead>
-
                         <tr>
-
                             <th>ID</th>
                             <th>Código da Carga</th>
-
                         </tr>
-
                     </thead>
 
                     <tbody id="tbody_cargas">
@@ -162,16 +169,12 @@
 
     </main>
 
-    <!-- FOOTER -->
-
-
 </body>
 
 </html>
 
 <script>
     window.onload = () => {
-
         listarCargas();
     };
 
@@ -198,14 +201,11 @@
             });
     }
 
-
-
-
     function cadastrarEntrega() {
-        var placa = document.getElementById("ipt_placa").value;
-        var destino = document.getElementById("ipt_destino").value;
+        var placa = document.getElementById("ipt_placa").value.trim();
+        var destino = document.getElementById("ipt_destino").value.trim();
         var tipoVeiculo = document.getElementById("ipt_tipo_veiculo").value;
-        var codigo_Carga = document.getElementById("ipt_codigo_carga").value;
+        var codigo_Carga = document.getElementById("ipt_codigo_carga").value.trim();
 
         if (
             placa == "" ||
@@ -213,13 +213,11 @@
             tipoVeiculo == "" ||
             codigo_Carga == ""
         ) {
-
             alert("Preencha todos os campos");
             return;
         }
 
         fetch("/entrega/cadastrar", {
-
             method: "POST",
 
             headers: {
@@ -227,30 +225,28 @@
             },
 
             body: JSON.stringify({
-
                 placa: placa,
                 destino: destino,
                 tipoVeiculo: tipoVeiculo,
                 cargas: codigo_Carga
             })
-
         })
-
             .then(function (resposta) {
-
                 return resposta.json();
             })
-
             .then(function (dados) {
-
                 alert(dados.mensagem);
-
                 window.location.reload();
             })
-
             .catch(function (erro) {
-
                 console.log("Erro ao cadastrar", erro);
             });
+    }
+
+    function limparCampos() {
+        document.getElementById("ipt_codigo_carga").value = "";
+        document.getElementById("ipt_placa").value = "";
+        document.getElementById("ipt_destino").value = "";
+        document.getElementById("ipt_tipo_veiculo").value = "";
     }
 </script>
