@@ -58,6 +58,7 @@
                 </div>
             </a>
 
+<<<<<<< HEAD
             <a href="cadastroEntrega.html">
                 <div class="menu-item">
                     <i class="fa-solid fa-truck-fast" style="color: #00BCD4;"></i>
@@ -71,6 +72,22 @@
                     <span class="menu-text">Atualizar Entrega</span>
                 </div>
             </a>
+=======
+                <a href="statusCarga.html">
+                    <div class="menu-item">
+                        <i class="fa-solid fa-location-dot" style="color: #00BCD4;"></i>
+                        <span class="menu-text">Atualizar Entrega</span>
+                    </div>
+                </a>
+
+                
+            </div>
+            <div class="logout-section">
+                <button type="button" class="logout-btn" onclick="window.location.href='index.html'">
+                    Sair do Sistema
+                </button>
+            </div>
+>>>>>>> 49b316f (criação do bob ia)
         </div>
 
         <div class="logout-section">
@@ -112,6 +129,13 @@
                             <input type="date" id="id_data_validade">
                         </div>
                     </div>
+<<<<<<< HEAD
+=======
+                </div>
+            </div>
+        </div>
+    </body>
+>>>>>>> 49b316f (criação do bob ia)
 
                     <div class="grupo_input">
                         <label>Quantidade de Caixas</label>
@@ -141,11 +165,19 @@
 </body>
 
 <script>
+<<<<<<< HEAD
     function cadastrarLote() {
         let codigo = document.getElementById("id_numero_lote").value.trim();
         let dataProducao = document.getElementById("id_data_producao").value;
         let dataValidade = document.getElementById("id_data_validade").value;
         let quantidade_caixas = document.getElementById("id_quantidade_caixas").value.trim();
+=======
+    function cadastrarLote(){
+        let codigo = id_numero_lote.value;
+        let dataProducao = id_data_producao.value;
+        let dataValidade = id_data_validade.value;
+        let quantidade_caixas = id_quantidade_caixas.value;
+>>>>>>> 49b316f (criação do bob ia)
         let id_empresa = sessionStorage.getItem("ID_EMPRESA");
 
         if (

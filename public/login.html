@@ -142,6 +142,7 @@
                     sessionStorage.ID_USUARIO = json.id_usuario;
                     sessionStorage.ID_EMPRESA = json.id_empresa;
 
+<<<<<<< HEAD
                     cardErro.style.display = "block";
 
                     cardErro.style.backgroundColor = "#6be48f";
@@ -153,6 +154,20 @@
                     setTimeout(function () {
                         window.location = "./dashboard/dashboardGeral.html";
                     }, 1000); // apenas para exibir o loading
+=======
+                    // suporte
+                    if (emailVar.toLowerCase().includes("suporte")) {
+                        setTimeout(function () {
+                            window.location = "./dashboard/bobIa.html";
+                        }, 1000); // apenas para exibir o loading
+                    }
+                    // cliente
+                    else {
+                        setTimeout(function () {
+                            window.location = "./dashboard/dashboardGeral.html";
+                        }, 1000); // apenas para exibir o loading
+                    }
+>>>>>>> 49b316f (criação do bob ia)
 
                 });
 

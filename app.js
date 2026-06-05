@@ -7,6 +7,7 @@ var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 
 require("dotenv").config({ path: caminho_env });
 
+const { GoogleGenAI } = require("@google/genai");
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
@@ -23,8 +24,12 @@ var cargasRouter = require("./src/routes/dashboardCarga");
 var cadastroLoteRouter = require("./src/routes/cadastroLote");
 var entregaRouter = require("./src/routes/entrega");
 var loginRouter = require("./src/routes/login");
+<<<<<<< HEAD
 var statusCargaRouter = require("./src/routes/statusCarga")
 var cadastroCargaRouter = require("./src/routes/cadastroCarga");
+=======
+var bobIARouter = require("./src/routes/bobIA");
+>>>>>>> 49b316f (criação do bob ia)
 
 
 app.use(express.json());
@@ -44,7 +49,7 @@ app.use("/cadastro", cadastroRouter);
 app.use("/login", loginRouter);
 app.use("/statusCarga",statusCargaRouter);
 app.use("/cadastroLote", cadastroLoteRouter);
-
+app.use("/perguntar", bobIARouter);
 
 
 

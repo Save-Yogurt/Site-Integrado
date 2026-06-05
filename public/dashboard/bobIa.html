@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bob IA</title>
+
+    <link rel="icon" href="../assets/imgs/saveyogurt-logo.png">
+    <link rel="stylesheet" href="../css/bob_ia.css">
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+            <div class="sidebar-content">
+                <img src="../assets/imgs/saveyogurt-logo.png">
+                <h2>Save Yogurt Admin</h2>
+
+                <a href="bobIa.html">
+                    <div class="menu-item-selected">
+                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
+                        <span class="menu-text">BOB IA</span>
+                    </div>
+                </a>
+            </div>
+            <div class="logout-section">
+                <button type="button" class="logout-btn" onclick="window.location.href='../index.html'">
+                    Sair do Sistema
+                </button>
+            </div>
+        </div>
+
+       
+
+  <div class="suporte-box">
+
+    <h2 class="titulo-secao">Suporte com BOB IA</h2>
+
+    <p class="descricao">
+        Este chat é exclusivo para a equipe de suporte. Utilize para resolver dúvidas técnicas e operacionais do sistema.
+    </p>
+
+    <div class="lista-ajuda">
+
+        <div class="item-ajuda">
+            <strong>Cadastro de carga</strong>
+            <p>Ex: "Erro ao cadastrar carga"</p>
+        </div>
+
+        <div class="item-ajuda">
+            <strong>Atualização de entrega</strong>
+            <p>Ex: "Como atualizar status da entrega?"</p>
+        </div>
+
+        <div class="item-ajuda">
+            <strong>Problemas no sistema</strong>
+            <p>Ex: "Sistema não salva informações"</p>
+        </div>
+
+        <div class="item-ajuda">
+            <strong>Acesso e login</strong>
+            <p>Ex: "Usuário não consegue acessar"</p>
+        </div>
+
+    </div>
+
+    <div class="dica">
+        Seja direto nas perguntas para obter respostas mais rápidas e precisas.
+    </div>
+
+</div>
+
+    <div id="chat-bot">
+        <div id="chat-header">
+            <img src="../assets/imgs/logo_bob_Ia.png" alt="Logo IA">
+            <span>Bob IA</span>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
+            <button onclick="enviarMensagem()">➤</button>
+        </div>
+        <input type="hidden" id="pergunta">
+        <div id="resposta" style="display:none; visibility: hidden;"></div>
+    </div>
+
+    <button id="chat-toggle">
+        <img src="../assets/imgs/logo_bob_Ia.png">
+    </button>
+
+</body>
+
+<script>
+
+    async function gerarResposta() {
+        const pergunta = document.getElementById('pergunta').value;
+
+        const response = await fetch('/perguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pergunta })
+        });
+
+        const data = await response.json();
+
+        const resposta = document.getElementById('resposta');
+        resposta.style.display = 'block';
+        resposta.innerText = data.resultado;
+        document.getElementById('resposta').innerText = data.resultado;
+    }
+
+    const toggle = document.getElementById("chat-toggle");
+    const chat = document.getElementById("chat-bot");
+
+    toggle.onclick = () => {
+        chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+    }
+
+    async function enviarMensagem() {
+        const input = document.getElementById("chat-input");;
+        const msg = input.value;
+
+        if (!msg) {
+            return
+        }
+
+        adicionarMensagem(msg, "user");
+        input.value = "";
+
+        document.getElementById('pergunta').value = msg
+
+        await gerarResposta()
+
+        const respostaTexto = document.getElementById('resposta').innerHTML;
+
+        document.getElementById('resposta').style.display = 'none'
+
+        adicionarMensagem(respostaTexto, "bot")
+
+    }
+
+    function adicionarMensagem(texto, tipo) {
+        const chatBox = document.getElementById("chat-messages")
+        const div = document.createElement("div");
+
+        div.style.marginBottom = "10px"
+        div.style.textAlign = tipo === "user" ? "right" : "left"
+
+        div.innerHTML = `
+        <span style = "
+        background: ${tipo === "user" ? "#0078d4" : "#eee"};
+            color: ${tipo === "user" ? "white" : "black"};
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 80%;
+        "> ${texto} </span>
+        `;
+
+        chatBox.appendChild(div)
+        chatBox.scrollTop = chatBox.scrollHeight
+    }
+
+    toggle.onclick = () => {
+        if (chat.style.display === "flex") {
+            chat.style.opacity = "0";
+            chat.style.transform = "scale(0.9)";
+            setTimeout(() => chat.style.display = "none", 200);
+        } else {
+            chat.style.display = "flex";
+            setTimeout(() => {
+                chat.style.opacity = "1";
+                chat.style.transform = "scale(1)";
+            }, 10);
+        }
+    };
+</script>
+
+</html>
