@@ -24,12 +24,9 @@ var cargasRouter = require("./src/routes/dashboardCarga");
 var cadastroLoteRouter = require("./src/routes/cadastroLote");
 var entregaRouter = require("./src/routes/entrega");
 var loginRouter = require("./src/routes/login");
-<<<<<<< HEAD
 var statusCargaRouter = require("./src/routes/statusCarga")
 var cadastroCargaRouter = require("./src/routes/cadastroCarga");
-=======
 var bobIARouter = require("./src/routes/bobIA");
->>>>>>> 49b316f (criação do bob ia)
 
 
 app.use(express.json());
