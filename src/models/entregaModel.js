@@ -2,8 +2,8 @@ const database = require("../database/config");
 
 function cadastrarEntrega(tipoVeiculo, placa, destino, codigoCarga) {
     const instrucao = `
-        INSERT INTO entrega (tipo_veiculo, veiculo_placa, destino, fk_codigo_carga)
-        VALUES ('${tipoVeiculo}', '${placa}', '${destino}', '${codigoCarga}');
+        INSERT INTO entrega (tipo_veiculo, veiculo_placa, ultima_loc, destino, fk_codigo_carga)
+        VALUES ('${tipoVeiculo}', '${placa}', 'Estoque', '${destino}', '${codigoCarga}');
     `;
 
     return database.executar(instrucao);
