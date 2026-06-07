@@ -196,7 +196,7 @@
                 break;
             } else {
                 cardErro.style.display = "block";
-                mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
+                mensagem_erro.innerHTML = "Código Invalido";
             }
         }
 
@@ -243,10 +243,13 @@
                     limparFormulario();
                 } else {
                     throw "Houve um erro ao tentar realizar o cadastro!";
+                    cardErro.style.display = "block";
+                mensagem_erro.innerHTML = "Alguns Dos Dados Ja Foram Cadastrados";
                 }
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
+                
             });
 
         return false;

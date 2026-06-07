@@ -5,7 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bob IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap"
+        rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="../assets/imgs/saveyogurt-logo.png">
     <link rel="stylesheet" href="../css/bob_ia.css">
 </head>
@@ -13,63 +21,64 @@
 <body>
     <!-- SIDEBAR -->
     <div class="sidebar">
-            <div class="sidebar-content">
-                <img src="../assets/imgs/saveyogurt-logo.png">
-                <h2>Save Yogurt Admin</h2>
+        <div class="sidebar-content">
+            <img src="../assets/imgs/saveyogurt-logo.png">
+            <h2>Save Yogurt Admin</h2>
 
-                <a href="bobIa.html">
-                    <div class="menu-item-selected">
-                        <i class="fa-solid fa-pallet" style="color: #00BCD4;"></i>
-                        <span class="menu-text">BOB IA</span>
-                    </div>
-                </a>
+            <a href="bobIa.html">
+                <div class="menu-item-selected">
+                    <i class="fa-solid fa-robot" style="color: #00BCD4;"></i>
+                    <span class="menu-text">BOB IA</span>
+                </div>
+            </a>
+        </div>
+        <div class="logout-section">
+            <button type="button" class="logout-btn" onclick="window.location.href='../index.html'">
+                Sair do Sistema
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="suporte-box">
+
+        <h2 class="titulo-secao">Suporte com BOB IA</h2>
+
+        <p class="descricao">
+            Este chat é exclusivo para a equipe de suporte. Utilize para resolver dúvidas técnicas e operacionais do
+            sistema.
+        </p>
+
+        <div class="lista-ajuda">
+
+            <div class="item-ajuda">
+                <strong>Cadastro de carga</strong>
+                <p>Ex: "Erro ao cadastrar carga"</p>
             </div>
-            <div class="logout-section">
-                <button type="button" class="logout-btn" onclick="window.location.href='../index.html'">
-                    Sair do Sistema
-                </button>
+
+            <div class="item-ajuda">
+                <strong>Atualização de entrega</strong>
+                <p>Ex: "Como atualizar status da entrega?"</p>
             </div>
+
+            <div class="item-ajuda">
+                <strong>Problemas no sistema</strong>
+                <p>Ex: "Sistema não salva informações"</p>
+            </div>
+
+            <div class="item-ajuda">
+                <strong>Acesso e login</strong>
+                <p>Ex: "Usuário não consegue acessar"</p>
+            </div>
+
         </div>
 
-       
-
-  <div class="suporte-box">
-
-    <h2 class="titulo-secao">Suporte com BOB IA</h2>
-
-    <p class="descricao">
-        Este chat é exclusivo para a equipe de suporte. Utilize para resolver dúvidas técnicas e operacionais do sistema.
-    </p>
-
-    <div class="lista-ajuda">
-
-        <div class="item-ajuda">
-            <strong>Cadastro de carga</strong>
-            <p>Ex: "Erro ao cadastrar carga"</p>
-        </div>
-
-        <div class="item-ajuda">
-            <strong>Atualização de entrega</strong>
-            <p>Ex: "Como atualizar status da entrega?"</p>
-        </div>
-
-        <div class="item-ajuda">
-            <strong>Problemas no sistema</strong>
-            <p>Ex: "Sistema não salva informações"</p>
-        </div>
-
-        <div class="item-ajuda">
-            <strong>Acesso e login</strong>
-            <p>Ex: "Usuário não consegue acessar"</p>
+        <div class="dica">
+            Seja direto nas perguntas para obter respostas mais rápidas e precisas.
         </div>
 
     </div>
-
-    <div class="dica">
-        Seja direto nas perguntas para obter respostas mais rápidas e precisas.
-    </div>
-
-</div>
 
     <div id="chat-bot">
         <div id="chat-header">

@@ -34,7 +34,7 @@
             <a href="simulador.html">
                 <p>Simulador</p>
             </a>
-                 <a href="manual.html">
+            <a href="manual.html">
                 <p>Manual de uso do site</p>
             </a>
         </div>
@@ -151,18 +151,18 @@
 
                     setTimeout(function () {
                         window.location = "./dashboard/dashboardGeral.html";
-                    }, 1000); // apenas para exibir o loading
+                    }, 2000); // apenas para exibir o loading
                     // suporte
                     if (emailVar.toLowerCase().includes("suporte")) {
                         setTimeout(function () {
                             window.location = "./dashboard/bobIa.html";
-                        }, 1000); // apenas para exibir o loading
+                        }, 2000); // apenas para exibir o loading
                     }
                     // cliente
                     else {
                         setTimeout(function () {
                             window.location = "./dashboard/dashboardGeral.html";
-                        }, 1000); // apenas para exibir o loading
+                        }, 2000); // apenas para exibir o loading
                     }
 
                 });
@@ -173,6 +173,9 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
+                    cardErro.style.display = "block"
+                    mensagem_erro.innerHTML = `${texto}`;
+                    return false;
                 });
             }
 

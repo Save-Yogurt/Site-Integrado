@@ -44,6 +44,16 @@ CREATE TABLE lote(
         FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa)
 );
 
+CREATE TABLE carga(
+    id_carga INT PRIMARY KEY AUTO_INCREMENT,
+    produto VARCHAR(45),
+    qtd_caixas int,
+    codigo_Carga VARCHAR(45) NOT NULL UNIQUE,
+    status_carga VARCHAR(45) NOT NULL,
+    fk_lote INT NOT NULL, 
+    CONSTRAINT fk_carga_lote FOREIGN KEY (fk_lote) REFERENCES lote(id_lote)
+);
+
 CREATE TABLE entrega (
     id_entrega INT PRIMARY KEY AUTO_INCREMENT,
     tipo_veiculo VARCHAR(45),
@@ -53,16 +63,6 @@ CREATE TABLE entrega (
     dt_inicio DATETIME DEFAULT NOW(),
     fk_codigo_carga varchar(45), 
     CONSTRAINT fk_entrega_carga FOREIGN KEY (fk_codigo_carga) REFERENCES carga(codigo_Carga)
-);
-
-CREATE TABLE carga(
-    id_carga INT PRIMARY KEY AUTO_INCREMENT,
-    produto VARCHAR(45),
-    qtd_caixas int,
-    codigo_Carga VARCHAR(45) NOT NULL UNIQUE,
-    status_carga VARCHAR(45) NOT NULL,
-    fk_lote INT NOT NULL, 
-    CONSTRAINT fk_carga_lote FOREIGN KEY (fk_lote) REFERENCES lote(id_lote)
 );
 
 CREATE TABLE monitoramento_sensor(

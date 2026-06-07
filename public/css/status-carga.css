@@ -13,6 +13,8 @@ body {
     display: flex;
 }
 
+/* SIDEBAR */
+
 .sidebar {
     width: 250px;
     background: linear-gradient(180deg, #201c19, #3a342f);
@@ -134,10 +136,9 @@ main {
     overflow: auto;
     background-color: whitesmoke;
     position: relative;
-
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch; /* Garante que os filhos estiquem até 100% da largura */
 }
 
 #bloco_titulo {
@@ -157,12 +158,11 @@ main {
 }
 
 #bloco_maior {
-    width: 100%;
-    max-width: 700px;
+    width: 100%; /* Ocupa 100% da largura do main */
     background: #fff;
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
     transition: all 0.3s ease;
     margin: 0 auto;
 }
@@ -171,13 +171,13 @@ main {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
-.titulo_secao {
+.titulo_secao{
     font-size: 18px;
+    font-weight: 700;
     color: #201c19;
-    margin-top: 0;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(32, 28, 25, 0.1);
+    border-bottom: 2px solid #f0f0f0;
 }
 
 .grupo_input {
@@ -192,6 +192,7 @@ main {
     font-size: 13px;
     color: #555;
     font-weight: 600;
+    margin-bottom: 8px;
 }
 
 input,
@@ -201,7 +202,7 @@ select {
     font-family: inherit;
     border: 1px solid #d1d5db;
     border-radius: 8px;
-    background-color: #f8f9fa;
+    background-color: white;
     outline: none;
     font-size: 14px;
     color: #333;
@@ -210,18 +211,18 @@ select {
 
 input:hover,
 select:hover {
-    border-color: #008fa1;
+    border-color: #0078d4;
 }
 
 input:focus,
 select:focus {
     outline: none;
-    box-shadow: 0 0 4px #00BCD4;
-    border-color: #00BCD4;
+    border-color: #0078d4;
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
 }
 
 #id_numero_lote {
-    max-width: 650px;
+    width: 100%; /* Removido o max-width anterior */
 }
 
 .inputs_lado_a_lado {
@@ -278,11 +279,11 @@ select:focus {
     width: 50%;
     padding: 14px;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 700;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .botao_salvar {
@@ -296,12 +297,12 @@ select:focus {
 }
 
 .botao_cancelar {
-    background-color: #d9d9d9;
-    color: #201c19;
+    background-color: #ddd;
+    color: #555;
 }
 
 .botao_cancelar:hover {
-    background-color: #c9c9c9;
+    background-color: #ccc;
 }
 
 footer {
