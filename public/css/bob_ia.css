@@ -135,10 +135,10 @@
  }
 
 
- 
-/* ========================================== */
-/* SIDEBAR */
-/* ========================================== */
+
+ /* ========================================== */
+ /* SIDEBAR */
+ /* ========================================== */
  .sidebar {
      width: 250px;
      background: linear-gradient(180deg, #201c19, #3a342f);
@@ -227,8 +227,8 @@
      width: 100%;
      padding: 12px;
      background-image: linear-gradient(to right, #004981 0%, #0078d4 50%, #0078d4 90%);
-    background-size: 200% auto;
-    transition: 0.5s;
+     background-size: 200% auto;
+     transition: 0.5s;
      color: white;
      border: none;
      border-radius: 8px;
@@ -255,81 +255,80 @@
  }
 
 
- 
+
 
  /* como usar */
 
- .suporte-box {
+.suporte-box {
+    flex: 1;
     background: white;
     padding: 30px;
+    margin: 20px 30px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    max-width: 600px;
-    width: 100%;
-    margin: 40px auto;
-    height: fit-content;
-}
 
-.descricao {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 20px;
+    min-height: calc(100vh - 40px);
 }
+ .descricao {
+     font-size: 14px;
+     color: #555;
+     margin-bottom: 20px;
+ }
 
-.lista-ajuda {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+ .lista-ajuda {
+     display: flex;
+     flex-direction: column;
+     gap: 15px;
+ }
 
-/* cada item */
-.item-ajuda {
-    padding: 15px;
-    background: #f8f8f8;
-    border-radius: 8px;
-    transition: 0.3s;
-}
+ /* cada item */
+ .item-ajuda {
+     padding: 15px;
+     background: #f8f8f8;
+     border-radius: 8px;
+     transition: 0.3s;
+ }
 
-.item-ajuda:hover {
-    background: #eef6ff;
-}
+ .item-ajuda:hover {
+     background: #eef6ff;
+ }
 
-/* título do item */
-.item-ajuda strong {
-    font-size: 14px;
-    color: #201c19;
-}
+ /* título do item */
+ .item-ajuda strong {
+     font-size: 14px;
+     color: #201c19;
+ }
 
-/* texto */
-.item-ajuda p {
-    font-size: 13px;
-    color: #666;
-    margin-top: 5px;
-}
+ /* texto */
+ .item-ajuda p {
+     font-size: 13px;
+     color: #666;
+     margin-top: 5px;
+ }
 
-/* dica */
-.dica {
-    margin-top: 20px;
-    font-size: 13px;
-    color: #0078d4;
-    font-weight: 600;
-}
+ /* dica */
+ .dica {
+     margin-top: 20px;
+     font-size: 13px;
+     color: #0078d4;
+     font-weight: 600;
+ }
 
-/* botão */
-.btn-chat {
-    margin-top: 20px;
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    background-image: linear-gradient(to right, #004981 0%, #0078d4 50%, #0078d4 90%);
-    background-size: 200% auto;
-    color: white;
-    transition: 0.5s;
-}
+ /* botão */
+ .btn-chat {
+     margin-top: 20px;
+     width: 100%;
+     padding: 14px;
+     border-radius: 8px;
+     border: none;
+     cursor: pointer;
+     font-weight: 700;
+     background-image: linear-gradient(to right, #004981 0%, #0078d4 50%, #0078d4 90%);
+     background-size: 200% auto;
+     color: white;
+     transition: 0.5s;
+ }
 
-.btn-chat:hover {
-    background-position: right center;
-}
+ .btn-chat:hover {
+     background-position: right center;
+ }
