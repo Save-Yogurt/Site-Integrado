@@ -463,3 +463,17 @@ footer {
         gap: 30px;
     }
 }
+
+
+/* Botão de suporte */
+.btn-suporte {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.btn-suporte img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
