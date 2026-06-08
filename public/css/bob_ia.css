@@ -34,10 +34,10 @@
 
  #chat-toggle {
      position: fixed;
-     bottom: 20px;
+     bottom: 15px;
      right: 20px;
-     width: 65px;
-     height: 65px;
+     width: 90px;
+     height: 90px;
      border-radius: 50%;
      border: 3px solid white;
      cursor: pointer;
@@ -46,20 +46,19 @@
      display: flex;
      align-items: center;
      justify-content: center;
-     /* background: linear-gradient(to right, #004981, #0078d4); */
  }
 
  #chat-toggle img {
      object-fit: cover;
      border-radius: 50%;
      right: 20px;
-     width: 65px;
-     height: 65px;
+     width: 90;
+     height: 90px;
  }
 
  #chat-bot {
      position: fixed;
-     bottom: 95px;
+     bottom: 130px;
      right: 20px;
      width: 320px;
      height: 420px;
@@ -254,21 +253,16 @@
      transform: translateY(0);
  }
 
+ .suporte-box {
+     flex: 1;
+     background: white;
+     padding: 30px;
+     margin: 20px 30px;
+     border-radius: 12px;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+     min-height: calc(100vh - 40px);
+ }
 
-
-
- /* como usar */
-
-.suporte-box {
-    flex: 1;
-    background: white;
-    padding: 30px;
-    margin: 20px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-
-    min-height: calc(100vh - 40px);
-}
  .descricao {
      font-size: 14px;
      color: #555;
@@ -281,7 +275,6 @@
      gap: 15px;
  }
 
- /* cada item */
  .item-ajuda {
      padding: 15px;
      background: #f8f8f8;
@@ -293,20 +286,17 @@
      background: #eef6ff;
  }
 
- /* título do item */
  .item-ajuda strong {
      font-size: 14px;
      color: #201c19;
  }
 
- /* texto */
  .item-ajuda p {
      font-size: 13px;
      color: #666;
      margin-top: 5px;
  }
 
- /* dica */
  .dica {
      margin-top: 20px;
      font-size: 13px;
@@ -314,7 +304,6 @@
      font-weight: 600;
  }
 
- /* botão */
  .btn-chat {
      margin-top: 20px;
      width: 100%;
