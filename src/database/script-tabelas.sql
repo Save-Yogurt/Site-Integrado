@@ -107,9 +107,9 @@ INSERT INTO usuario (nome, cpf, email, senha, fk_empresa) VALUES
 
 INSERT INTO sensor (codigo_sensor, status_sensor, fk_empresa) VALUES
 ('SEN001', 'Disponível', 1),
-('SEN002', 'Em Uso', 1),
+('SEN002', 'Disponível', 1),
 ('SEN003', 'Disponível', 2),
-('SEN004', 'Em Uso', 2),
+('SEN004', 'Disponível', 2),
 ('SEN005', 'Disponível', 3),
 ('SEN006', 'Disponível', 3);
 

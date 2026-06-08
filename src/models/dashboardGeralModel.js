@@ -116,7 +116,7 @@ GROUP BY
     c.codigo_Carga, 
     e.destino, 
     e.ultima_loc;
-        
+    Order by desc total_alertas    
     `;
 
     return database.executar(instrucaoSql);
