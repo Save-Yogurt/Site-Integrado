@@ -115,8 +115,8 @@ GROUP BY
     c.status_carga, 
     c.codigo_Carga, 
     e.destino, 
-    e.ultima_loc;
-    Order by desc total_alertas    
+    e.ultima_loc
+    ORDER BY total_alertas DESC ;   
     `;
 
     return database.executar(instrucaoSql);
@@ -172,7 +172,8 @@ GROUP BY
     c.status_carga,
     c.codigo_Carga,
     e.destino,
-    e.ultima_loc;
+    e.ultima_loc
+    ORDER BY total_alertas DESC;
     `;
 
     return database.executar(instrucaoSql);
