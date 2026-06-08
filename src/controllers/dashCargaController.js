@@ -84,7 +84,7 @@ function obterKpis(req, res) {
                     var kpiFormatada = {
                         statusTexto: textoStatus,
                         lote: kpi.codigo_lote,
-                        sensor: kpi.codigo_sensor,
+                        placa: kpi.placa,
                         dataInicio: kpi.dt_inicio_formatada,
                         statusClasseIcone: icone
                     };

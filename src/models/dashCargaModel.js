@@ -11,7 +11,7 @@ function obterKpis(idCarga) {
         SELECT 
             c.codigo_Carga,
             l.codigo_lote,
-            s.codigo_sensor,
+            e.veiculo_placa AS placa,
             DATE_FORMAT(ms.dt_inicio, '%d/%m/%Y') AS dt_inicio_formatada,
             (SELECT r.temperatura FROM registro r 
              WHERE r.fk_sensor = s.id_sensor 
@@ -20,6 +20,7 @@ function obterKpis(idCarga) {
         JOIN lote l ON c.fk_lote = l.id_lote
         LEFT JOIN monitoramento_sensor ms ON ms.fk_carga = c.id_carga AND ms.dt_fim IS NULL
         LEFT JOIN sensor s ON ms.fk_sensor = s.id_sensor
+        LEFT JOIN entrega e ON e.fk_codigo_carga = c.codigo_Carga
         WHERE c.id_carga = ${idCarga};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

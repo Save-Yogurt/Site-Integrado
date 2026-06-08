@@ -121,9 +121,9 @@
                 <span class="kpi-subtext">Lote Associado</span>
             </div>
             <div class="kpi-item">
-                <span class="kpi-label">Código do Sensor Acoplado</span>
+                <span class="kpi-label">Placa do Veículo</span>
                 <div class="kpi-main">
-                    <span id="kpi_sensor" class="sensor-text"></span>
+                    <span id="kpi_placa" class="sensor-text"></span>
                     <i class="fa-solid fa-microchip sensor-icon"></i>
                 </div>
             </div>
@@ -361,7 +361,7 @@
 
             document.getElementById("kpi_status_texto").innerText = kpi.statusTexto || "Sem dados";
             document.getElementById("kpi_lote").innerText = kpi.lote || "N/A";
-            document.getElementById("kpi_sensor").innerText = kpi.sensor || "N/A";
+            document.getElementById("kpi_placa").innerText = kpi.placa || "N/A";
             document.getElementById("kpi_data").innerText = kpi.dataInicio || "N/A";
             document.getElementById("kpi_status_icone").className = kpi.statusClasseIcone;
         }).catch(err => console.error("Erro ao buscar KPIs:", err));
