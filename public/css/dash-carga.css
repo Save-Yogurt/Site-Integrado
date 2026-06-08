@@ -347,3 +347,29 @@
   height: 25px;
   object-fit: contain;
 }
+
+.filtros-desvios {
+    margin-bottom: 12px;
+}
+
+.linha-filtros {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.linha-filtros select,
+.linha-filtros input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.filtros-desvios button {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}

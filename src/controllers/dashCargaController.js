@@ -13,7 +13,7 @@ async function processarLeitura(req, res) {
         console.log("Tentando inserir leitura no banco...");
         const resultadoRegistro = await cargaModel.registrarLeitura(temperatura, idSensor);
         console.log("Resultado do insert de leitura:", resultadoRegistro);
-        
+
         var idRegistro = resultadoRegistro.insertId;
 
         if (!idRegistro) {
@@ -61,7 +61,7 @@ function obterKpis(req, res) {
                 if (resultado.length > 0) {
                     var kpi = resultado[0];
                     var temp = Number(kpi.ultima_temperatura);
-                    
+
                     var textoStatus = "";
                     var icone = "";
 
@@ -69,12 +69,12 @@ function obterKpis(req, res) {
                     if (temp < 0 || temp > 10) {
                         textoStatus = "Crítico";
                         icone = "fa-solid fa-circle-xmark";
-                    } 
+                    }
                     // ALERTA (0 a 2 OU 5 a 10)
                     else if ((temp >= 0 && temp < 2) || (temp > 5 && temp <= 10)) {
                         textoStatus = "Alerta";
                         icone = "fa-solid fa-triangle-exclamation";
-                    } 
+                    }
                     // EM CONFORMIDADE (2 a 5)
                     else {
                         textoStatus = "Em conformidade";
@@ -116,16 +116,16 @@ function obterDadosGrafico(req, res) {
 
                 // Varre os registros do banco ordenados cronologicamente preenchendo os eixos
                 resultado.forEach(registro => {
-                    dadosGrafico.labels.push(registro.horario); 
+                    dadosGrafico.labels.push(registro.horario);
                     dadosGrafico.valores.push(Number(registro.temperatura));
                 });
 
                 dadosGrafico.labels.reverse();
                 dadosGrafico.valores.reverse();
 
-                
 
-                res.status(200).json(dadosGrafico); 
+
+                res.status(200).json(dadosGrafico);
             }).catch(function (erro) {
                 console.log(erro);
                 res.status(500).json(erro.sqlMessage);
@@ -148,7 +148,7 @@ function obterTabelaDesvios(req, res) {
                         data: row.data_formatada,
                         valor: row.temperatura,
                         status: row.descricao,
-                        classeCor: row.descricao && row.descricao.includes("Crítico") ? "text-red" : "text-orange" 
+                        classeCor: row.descricao && row.descricao.includes("Crítico") ? "text-red" : "text-orange"
                     });
                 });
 
@@ -163,11 +163,10 @@ function obterTabelaDesvios(req, res) {
 function obterDadoTempoReal(req, res) {
     var idCarga = req.params.idCarga;
 
-    console.log(`Recuperando dados em tempo real para a carga ID: ${idCarga}`);
 
     cargaModel.obterDadoTempoReal(idCarga).then(function (resultado) {
         if (resultado.length > 0) {
-            res.status(200).json(resultado); 
+            res.status(200).json(resultado);
         } else {
             console.log("Nenhum dado novo encontrado para o tempo real.");
             res.status(204).send("Nenhum resultado encontrado!");
@@ -179,11 +178,50 @@ function obterDadoTempoReal(req, res) {
     });
 }
 
+function filtrarTabela(req, res) {
+
+    var idCarga = req.body.idCarga;
+    var periodo = req.body.periodo;
+    var data = req.body.data;
+
+    var filtro = "";
+
+    if (data) {
+        filtro += ` AND DATE(a.dt_alerta) = '${data}'`;
+    }
+
+    if (periodo == "madrugada") {
+        filtro += ` AND TIME(a.dt_alerta) BETWEEN '00:00:00' AND '05:59:59'`;
+    }
+
+    if (periodo == "manha") {
+        filtro += ` AND TIME(a.dt_alerta) BETWEEN '06:00:00' AND '11:59:59'`;
+    }
+
+    if (periodo == "tarde") {
+        filtro += ` AND TIME(a.dt_alerta) BETWEEN '12:00:00' AND '17:59:59'`;
+    }
+
+    if (periodo == "noite") {
+        filtro += ` AND TIME(a.dt_alerta) BETWEEN '18:00:00' AND '23:59:59'`;
+    }
+
+    cargaModel.filtrarTabela(idCarga, filtro)
+        .then(function(resultado) {
+            res.json(resultado);
+        })
+        .catch(function(erro) {
+            console.log(erro);
+            res.status(500).json(erro);
+        });
+}
+
 module.exports = {
     listarCargas,
     obterKpis,
     obterDadosGrafico,
     obterTabelaDesvios,
     obterDadoTempoReal,
-    processarLeitura
+    processarLeitura,
+    filtrarTabela
 };

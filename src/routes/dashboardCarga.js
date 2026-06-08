@@ -26,4 +26,8 @@ router.post("/capturar", function (req, res) {
     cargaController.processarLeitura(req, res);
 });
 
+router.post("/filtrar", function (req, res) {
+    cargaController.filtrarTabela(req, res);
+});
+
 module.exports = router;

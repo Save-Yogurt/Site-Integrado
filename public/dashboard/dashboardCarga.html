@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Dashboard Carga</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=Manrope:wght@200..800&display=swap"
+        rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/dash-carga.css">
-    
+
     <link rel="icon" href="../assets/imgs/saveyogurt-logo.png">
     <script src="../js/sessao.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <div class="sidebar">
         <div class="sidebar-content">
@@ -63,7 +69,7 @@
                 </div>
             </a>
 
-            
+
         </div>
         <div class="logout-section">
             <button type="button" class="logout-btn" onclick="limparSessao()">
@@ -83,8 +89,8 @@
         <a class="btn-suporte" href="https://gabrielverasze.atlassian.net/servicedesk/customer/portal/1">
             <img src="https://cdn-icons-png.flaticon.com/512/1028/1028931.png" alt="Suporte">
         </a>
-        
-         <div class="barra-metrica">
+
+        <div class="barra-metrica">
             <div class="zona critico" style="width: 20%;">
                 <span>Crítico</span>
                 <small> menor que 0°C</small>
@@ -129,7 +135,7 @@
                 <span class="kpi-label">Placa do Veículo</span>
                 <div class="kpi-main">
                     <span id="kpi_placa" class="sensor-text"></span>
-                    <i class="fa-solid fa-microchip sensor-icon"></i>
+                    <i class="fa-solid fa-car sensor-icon"></i>
                 </div>
             </div>
             <div class="kpi-item">
@@ -156,6 +162,25 @@
                     <div class="section-title">
                         <span>Resumo de Desvios (Mês Atual)</span>
                     </div>
+                    <div class="filtros-desvios">
+
+                        <div class="linha-filtros">
+                            <select id="select_periodo">
+                                <option value="">Todos os períodos</option>
+                                <option value="madrugada">Madrugada</option>
+                                <option value="manha">Manhã</option>
+                                <option value="tarde">Tarde</option>
+                                <option value="noite">Noite</option>
+                            </select>
+
+                            <input type="date" id="input_data_desvio">
+                        </div>
+
+                        <button onclick="filtrarTabela()">
+                            Filtrar
+                        </button>
+
+                    </div>
                     <table class="desvios-table">
                         <thead>
                             <tr>
@@ -166,7 +191,7 @@
                         </thead>
                     </table>
                 </div>
-                
+
                 <div class="scroll">
                     <table class="desvios-table">
                         <tbody id="tabela_desvios_corpo">
@@ -177,233 +202,325 @@
         </div>
     </main>
 
-<script>
-    if (document.getElementById("b_usuario")) {
-        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-    }
+    <script>
+        if (document.getElementById("b_usuario")) {
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+        }
 
-    let proximaAtualizacao;
-    let meuGrafico; 
+        let proximaAtualizacao;
+        let meuGrafico;
 
-    window.onload = function() {
-        configurarSelectCargas();
-    };
+        window.onload = async function () {
+            await configurarSelectCargas();
 
-    function configurarSelectCargas() {
-        fetch("/cargas/listar-cargas", { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (cargas) {
-                        var select = document.getElementById("select_carga");
-                        select.innerHTML = "";
+            const params = new URLSearchParams(window.location.search);
+            const codigoCarga = params.get("carga");
 
-                        cargas.forEach(item => {
-                            select.innerHTML += `<option value="${item.id_carga}">${item.codigo_Carga}</option>`;
-                        });
+            const select = document.getElementById("select_carga");
+
+            if (codigoCarga) {
+
+                for (let i = 0; i < select.options.length; i++) {
+
+                    if (select.options[i].text.trim() === codigoCarga.trim()) {
+
+                        select.selectedIndex = i;
 
                         atualizarDashboard();
-                    });
-                } else {
-                    console.error('Nenhuma carga encontrada ou erro na API');
+
+                        return;
+                    }
                 }
-            })
-            .catch(function (error) {
-                console.error(`Erro na obtenção das cargas: ${error.message}`);
-            });
-    }
-
-    function atualizarDashboard() {
-        var idCargaSelecionada = document.getElementById("select_carga").value;
-        if (!idCargaSelecionada) return;
-
-        var select = document.getElementById("select_carga");
-        var textoCargaSelecionada = select.options[select.selectedIndex].text;
-        document.getElementById("titulo_grafico").innerHTML = `Temperatura da Carga - ${textoCargaSelecionada} (Histórico Recente)`;
-
-        if (proximaAtualizacao != undefined) {
-            clearTimeout(proximaAtualizacao);
-        }
-
-        obterDadosGrafico(idCargaSelecionada);
-        obterDadosKpis(idCargaSelecionada);
-        obterDesviosTabela(idCargaSelecionada);
-    }
-
-    function obterDadosGrafico(idCarga) {
-        fetch(`/cargas/grafico/${idCarga}`, { cache: 'no-store' })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (dadosGrafico) {
-                    console.log(`Dados históricos recebidos:`, dadosGrafico);
-                    plotarGrafico(dadosGrafico, idCarga);
-                });
-            } else {
-                console.error('Erro na API de gráfico histórico');
             }
-        })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-    }
 
-    function plotarGrafico(dadosGrafico, idCarga) {
-        let dados = {
-            labels: dadosGrafico.labels, 
-            datasets: [{
-                label: 'Temperatura (°C)',
-                data: dadosGrafico.valores, 
-                fill: false,
-                borderColor: '#006876',
-                backgroundColor: '#006876',
-                borderWidth: 2,
-                pointRadius: 4,
-                z: 10
-            }]
+            if (select.options.length > 0) {
+                atualizarDashboard();
+            }
         };
 
-        const config = {
-            type: 'line',
-            data: dados,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        min: -2,
-                        max: 12,
-                        ticks: { stepSize: 1 }
+
+        async function configurarSelectCargas() {
+            try {
+                const response = await fetch("/cargas/listar-cargas", {
+                    cache: "no-store"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Nenhuma carga encontrada");
+                }
+
+                const cargas = await response.json();
+
+                const select = document.getElementById("select_carga");
+                select.innerHTML = "";
+
+                cargas.forEach(item => {
+                    select.innerHTML += `
+                <option value="${item.id_carga}">
+                    ${item.codigo_Carga}
+                </option>
+            `;
+                });
+
+            } catch (error) {
+                console.error(`Erro na obtenção das cargas: ${error.message}`);
+            }
+        }
+
+        function atualizarDashboard() {
+            var idCargaSelecionada = document.getElementById("select_carga").value;
+            if (!idCargaSelecionada) return;
+
+            var select = document.getElementById("select_carga");
+            var textoCargaSelecionada = select.options[select.selectedIndex].text;
+            document.getElementById("titulo_grafico").innerHTML = `Temperatura da Carga - ${textoCargaSelecionada} (Histórico Recente)`;
+
+            if (proximaAtualizacao != undefined) {
+                clearTimeout(proximaAtualizacao);
+            }
+
+            obterDadosGrafico(idCargaSelecionada);
+            obterDadosKpis(idCargaSelecionada);
+            obterDesviosTabela(idCargaSelecionada);
+        }
+
+        function obterDadosGrafico(idCarga) {
+            fetch(`/cargas/grafico/${idCarga}`, { cache: 'no-store' })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (dadosGrafico) {
+                            console.log(`Dados históricos recebidos:`, dadosGrafico);
+                            plotarGrafico(dadosGrafico, idCarga);
+                        });
+                    } else {
+                        console.error('Erro na API de gráfico histórico');
+                    }
+                })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }
+
+        function plotarGrafico(dadosGrafico, idCarga) {
+            let dados = {
+                labels: dadosGrafico.labels,
+                datasets: [{
+                    label: 'Temperatura (°C)',
+                    data: dadosGrafico.valores,
+                    fill: false,
+                    borderColor: '#006876',
+                    backgroundColor: '#006876',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    z: 10
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: dados,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: -2,
+                            max: 12,
+                            ticks: { stepSize: 1 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
                     }
                 },
-                plugins: {
-                    legend: { display: false }
-                }
-            },
-            plugins: [{
-                id: 'backgroundZones',
-                beforeDraw: (chart) => {
-                    const {ctx, chartArea, scales: {y}} = chart;
-                    if (!chartArea) return; 
-                    
-                    const {left, right} = chartArea;
-                    const fillZone = (yStart, yEnd, color) => {
-                        ctx.fillStyle = color;
-                        ctx.fillRect(
-                            left, 
-                            y.getPixelForValue(yEnd), 
-                            right - left, 
-                            y.getPixelForValue(yStart) - y.getPixelForValue(yEnd)
-                        );
-                    };
-                    
-                    fillZone(-2, 0, '#f8d7da');  // crítico < 0 (vermelho)
-                    fillZone(0, 2, '#fff3cd');   // alerta > 0 e < 2 (amarelo)
-                    fillZone(2, 5, '#d4edda');   // normal 2 a 5 (verde)
-                    fillZone(5, 10, '#fff3cd');  // alerta > 5 e < 10 (amarelo)
-                    fillZone(10, 12, '#f8d7da'); // crítico > 10 (vermelho)
-                }
-            }]
-        };
+                plugins: [{
+                    id: 'backgroundZones',
+                    beforeDraw: (chart) => {
+                        const { ctx, chartArea, scales: { y } } = chart;
+                        if (!chartArea) return;
 
-        if (meuGrafico) {
-            meuGrafico.destroy();
+                        const { left, right } = chartArea;
+                        const fillZone = (yStart, yEnd, color) => {
+                            ctx.fillStyle = color;
+                            ctx.fillRect(
+                                left,
+                                y.getPixelForValue(yEnd),
+                                right - left,
+                                y.getPixelForValue(yStart) - y.getPixelForValue(yEnd)
+                            );
+                        };
+
+                        fillZone(-2, 0, '#f8d7da');  // crítico < 0 (vermelho)
+                        fillZone(0, 2, '#fff3cd');   // alerta > 0 e < 2 (amarelo)
+                        fillZone(2, 5, '#d4edda');   // normal 2 a 5 (verde)
+                        fillZone(5, 10, '#fff3cd');  // alerta > 5 e < 10 (amarelo)
+                        fillZone(10, 12, '#f8d7da'); // crítico > 10 (vermelho)
+                    }
+                }]
+            };
+
+            if (meuGrafico) {
+                meuGrafico.destroy();
+            }
+
+            var ctx = document.getElementById('tempChart').getContext('2d');
+            meuGrafico = new Chart(ctx, config);
+
+            proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
         }
 
-        var ctx = document.getElementById('tempChart').getContext('2d');
-        meuGrafico = new Chart(ctx, config);
+        function atualizarGrafico(idCarga, dados) {
+            fetch(`/cargas/tempo-real/${idCarga}`, { cache: 'no-store' })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (novoRegistro) {
+                            var registro = novoRegistro[0];
 
-        proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
-    }
+                            // Se houver dado novo, atualiza o gráfico
+                            if (registro && registro.horario != dados.labels[dados.labels.length - 1]) {
+                                if (dados.labels.length >= 7) {
+                                    dados.labels.shift();
+                                    dados.datasets[0].data.shift();
+                                }
 
-    function atualizarGrafico(idCarga, dados) {
-        fetch(`/cargas/tempo-real/${idCarga}`, { cache: 'no-store' })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (novoRegistro) {
-                    var registro = novoRegistro[0]; 
+                                dados.labels.push(registro.horario);
+                                dados.datasets[0].data.push(Number(registro.temperatura));
+                                meuGrafico.update();
 
-                    // Se houver dado novo, atualiza o gráfico
-                    if (registro && registro.horario != dados.labels[dados.labels.length - 1]) {
-                        if (dados.labels.length >= 7) {
-                            dados.labels.shift(); 
-                            dados.datasets[0].data.shift();
-                        }
+                                obterDadosKpis(idCarga);
+                                obterDesviosTabela(idCarga);
+                            }
 
-                        dados.labels.push(registro.horario);
-                        dados.datasets[0].data.push(Number(registro.temperatura));
-                        meuGrafico.update();
-
-                        obterDadosKpis(idCarga);
-                        obterDesviosTabela(idCarga);
+                            // Continua o loop de tempo real
+                            proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
+                        });
+                    } else {
+                        proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
                     }
-
-                    // Continua o loop de tempo real
+                })
+                .catch(function (error) {
+                    console.error(`Erro no tempo real: ${error.message}`);
                     proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
                 });
-            } else {
-                proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
-            }
-        })
-        .catch(function (error) {
-            console.error(`Erro no tempo real: ${error.message}`);
-            proximaAtualizacao = setTimeout(() => atualizarGrafico(idCarga, dados), 2000);
-        });
-    }
+        }
 
-    function obterDadosKpis(idCarga) {
-        fetch(`/cargas/kpis/${idCarga}`, { cache: 'no-store' })
-        .then(res => res.json())
-        .then(kpi => {
+        function obterDadosKpis(idCarga) {
+            fetch(`/cargas/kpis/${idCarga}`, { cache: 'no-store' })
+                .then(res => res.json())
+                .then(kpi => {
 
-            var kpiStatusFundo = document.getElementById("kpi_status");
-            
-            if (kpi.statusTexto == "Alerta") {
-                kpiStatusFundo.style.backgroundColor = "#e5f071"; // muda o fundo da kpi de status para amarelo
-            } else if (kpi.statusTexto == "Crítico") {
-                kpiStatusFundo.style.backgroundColor = "#f07171"; // muda o fundo da kpi de status para vermelho
-            } else {
-                kpiStatusFundo.style.backgroundColor = "#71f086"; // muda o fundo da kpi de status para verde
-            }
+                    var kpiStatusFundo = document.getElementById("kpi_status");
 
-            document.getElementById("kpi_status_texto").innerText = kpi.statusTexto || "Sem dados";
-            document.getElementById("kpi_lote").innerText = kpi.lote || "N/A";
-            document.getElementById("kpi_placa").innerText = kpi.placa || "N/A";
-            document.getElementById("kpi_data").innerText = kpi.dataInicio || "N/A";
-            document.getElementById("kpi_status_icone").className = kpi.statusClasseIcone;
-        }).catch(err => console.error("Erro ao buscar KPIs:", err));
-    }
+                    if (kpi.statusTexto == "Alerta") {
+                        kpiStatusFundo.style.backgroundColor = "#e5f071"; // muda o fundo da kpi de status para amarelo
+                    } else if (kpi.statusTexto == "Crítico") {
+                        kpiStatusFundo.style.backgroundColor = "#f07171"; // muda o fundo da kpi de status para vermelho
+                    } else {
+                        kpiStatusFundo.style.backgroundColor = "#71f086"; // muda o fundo da kpi de status para verde
+                    }
 
-    function obterDesviosTabela(idCarga) {
-        fetch(`/cargas/desvios/${idCarga}`, { cache: 'no-store' })
-        .then(res => res.json())
-        .then(desvios => {
-            var corpoTabela = document.getElementById("tabela_desvios_corpo");
-            corpoTabela.innerHTML = ""; 
+                    document.getElementById("kpi_status_texto").innerText = kpi.statusTexto || "Sem dados";
+                    document.getElementById("kpi_lote").innerText = kpi.lote || "N/A";
+                    document.getElementById("kpi_placa").innerText = kpi.placa || "N/A";
+                    document.getElementById("kpi_data").innerText = kpi.dataInicio || "N/A";
+                    document.getElementById("kpi_status_icone").className = kpi.statusClasseIcone;
+                }).catch(err => console.error("Erro ao buscar KPIs:", err));
+        }
 
-            if(desvios.length == 0) {
-                corpoTabela.innerHTML = `<tr><td colspan="3" style="text-align:center;">Nenhum desvio detectado</td></tr>`;
-                return;
-            }
+        function obterDesviosTabela(idCarga) {
+            fetch(`/cargas/desvios/${idCarga}`, { cache: 'no-store' })
+                .then(res => res.json())
+                .then(desvios => {
+                    var corpoTabela = document.getElementById("tabela_desvios_corpo");
+                    corpoTabela.innerHTML = "";
 
-            desvios.forEach(item => {
-                const statusText = item.descricao || item.status || "";
-                let corEstilo = "";
+                    if (desvios.length == 0) {
+                        corpoTabela.innerHTML = `<tr><td colspan="3" style="text-align:center;">Nenhum desvio detectado</td></tr>`;
+                        return;
+                    }
 
-                if (statusText.toLowerCase().includes('crítico')) {
-                    corEstilo = "color: #dc3545; font-weight: bold;"; // Vermelho
-                } else if (statusText.toLowerCase().includes('alerta')) {
-                    corEstilo = "color: #ffc107; font-weight: bold;"; // Amarelo
-                }
+                    desvios.forEach(item => {
+                        const statusText = item.descricao || item.status || "";
+                        let corEstilo = "";
 
-                corpoTabela.innerHTML += `
+                        if (statusText.toLowerCase().includes('crítico')) {
+                            corEstilo = "color: #dc3545; font-weight: bold;"; // Vermelho
+                        } else if (statusText.toLowerCase().includes('alerta')) {
+                            corEstilo = "color: #ffc107; font-weight: bold;"; // Amarelo
+                        }
+
+                        corpoTabela.innerHTML += `
                     <tr>
                         <td>${item.data_formatada || item.data}</td>
                         <td>${item.temperatura || item.valor}°C</td>
                         <td style="${corEstilo}">${statusText}</td>
                     </tr>
                 `;
-            });
-        }).catch(err => console.error("Erro ao buscar tabela de desvios:", err));
-    }
-</script>
+                    });
+                }).catch(err => console.error("Erro ao buscar tabela de desvios:", err));
+        }
+
+        function filtrarTabela() {
+            const idCarga = document.getElementById("select_carga").value;
+            const periodo = document.getElementById("select_periodo").value;
+            const data = document.getElementById("input_data_desvio").value;
+
+            fetch("/dashboardCarga/filtrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idCarga,
+                    periodo,
+                    data
+                })
+            })
+                .then(res => res.json())
+                .then(dados => {
+
+                    var corpoTabela = document.getElementById("tabela_desvios_corpo");
+                    corpoTabela.innerHTML = "";
+
+                    if (dados.length == 0) {
+                        corpoTabela.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align:center;">
+                        Nenhum desvio encontrado
+                    </td>
+                </tr>
+            `;
+                        return;
+                    }
+
+                    dados.forEach(item => {
+
+                        const statusText = item.descricao || "";
+                        let corEstilo = "";
+
+                        if (statusText.toLowerCase().includes("crítico")) {
+                            corEstilo = "color: #dc3545; font-weight: bold;";
+                        } else if (statusText.toLowerCase().includes("alerta")) {
+                            corEstilo = "color: #ffc107; font-weight: bold;";
+                        }
+
+                        corpoTabela.innerHTML += `
+                <tr>
+                    <td>${item.data_formatada}</td>
+                    <td>${item.temperatura}°C</td>
+                    <td style="${corEstilo}">
+                        ${statusText}
+                    </td>
+                </tr>
+            `;
+                    });
+
+                })
+                .catch(err => {
+                    console.error("Erro ao filtrar desvios:", err);
+                });
+        }
+    </script>
 </body>
+
 </html>

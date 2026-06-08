@@ -73,6 +73,25 @@ function obterDadoTempoReal(idCarga) {
     console.log("Executando a instrução SQL Tempo Real: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function filtrarTabela(idCarga, filtro) {
+
+    var instrucaoSql = `
+        SELECT 
+            DATE_FORMAT(a.dt_alerta, '%d/%m %H:%i') AS data_formatada,
+            r.temperatura,
+            a.descricao
+        FROM alerta a
+        JOIN registro r
+            ON a.fk_registro = r.id_registro
+        WHERE a.fk_carga = ${idCarga}
+        ${filtro}
+        ORDER BY a.dt_alerta DESC;
+    `;
+
+    console.log(instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     listarCargas,
@@ -80,4 +99,5 @@ module.exports = {
     obterDadosGrafico,
     obterTabelaDesvios,
     obterDadoTempoReal,
+    filtrarTabela
 };

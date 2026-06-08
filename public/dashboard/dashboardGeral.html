@@ -254,7 +254,7 @@
                     }
 
                     corpoTabela.innerHTML += `
-        <tr>
+        <tr onclick="abrirDashboardCarga('${item.codigo_Carga}')" style="cursor: pointer;">
             <td>${item.codigo_Carga}</td>
             <td>${item.veiculo_placa}</td>
             <td>${item.tipo_veiculo}</td>
@@ -315,7 +315,7 @@
                     }
 
                     corpoTabela.innerHTML += `
-                    <tr>
+                    <tr onclick="abrirDashboardCarga('${item.codigo_Carga}')" style="cursor: pointer;">
                         <td>${item.codigo_Carga}</td>
                         <td>${item.veiculo_placa}</td>
                         <td>${item.tipo_veiculo}</td>
@@ -338,6 +338,10 @@
             });
     }
 
+
+function abrirDashboardCarga(codigoCarga) {
+    window.location.href = `dashboardCarga.html?carga=${codigoCarga}`;
+}
 
 
 </script>
